@@ -1,4 +1,4 @@
-import logoImg from '@assets/images/logo.webp';
+import logoImg from '@assets/images/andchill-logo.png';
 import { useRegionStore } from '@stores/region';
 import styled from 'styled-components';
 import RegionSelectButton from './components/language-select-button';
