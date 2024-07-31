@@ -26,3 +26,11 @@ export const useTopRatedMovieListsQuery = () => {
   });
   return query;
 };
+
+export const useUpcomingMovieListsQuery = () => {
+  const query = useQuery<TMovieListsFetchRes, Error>({
+    queryKey: [QUERY_KEY.topRatedMovieLists],
+    queryFn: async () => await movieListsRequest.fetchUpcomingMovieLists(),
+  });
+  return query;
+};

@@ -21,7 +21,16 @@ const movieListsRequest = {
 
   fetchTopRatedMovieLists: async () => {
     try {
-      const { data } = await axios.get(`movie/top_rated?region=US&language=ko`);
+      const { data } = await axios.get(`movie/top_rated?region=KR&language=ko`);
+      return data;
+    } catch (error) {
+      return error;
+    }
+  },
+
+  fetchUpcomingMovieLists: async () => {
+    try {
+      const { data } = await axios.get(`movie/upcoming?region=KR&language=ko`);
       return data;
     } catch (error) {
       return error;
