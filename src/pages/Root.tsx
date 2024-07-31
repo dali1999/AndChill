@@ -27,7 +27,6 @@ const Root = () => {
 export default Root;
 
 const S = {
-  Main: styled.main`
-    min-width: 298px;
-  `,
+  Container: styled.div``,
+  Main: styled.main``,
 };
