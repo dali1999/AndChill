@@ -1,16 +1,21 @@
 import { TMovieListsItem } from '@api/movie-lists/movie-lists-request.type';
 import UpcomingMovieListSkeleton from '@components/skeleton/upcoming-movie-list-skeleton';
 import { useUpcomingMovieListsQuery } from '@hooks/react-query/use-query-movie-lists';
+import { useRegionStore } from '@stores/region';
 import styled from 'styled-components';
 import UpcomingMovieItem from './upcoming-movie-item';
 
 const UpcomingMovieList = () => {
-  const { data: upcomingMovieData, isLoading } = useUpcomingMovieListsQuery();
+  const region = useRegionStore((state) => state.region);
+  const language = 'ko';
+  const { data: upcomingMovieData, isLoading } = useUpcomingMovieListsQuery(region, language);
   return (
     <S.Container>
       <S.SectionTitle>📆 개봉 예정인 영화들</S.SectionTitle>
       {isLoading ? (
-        <UpcomingMovieListSkeleton />
+        <UpcomingMovieListSkeleton text="Loading..." />
+      ) : upcomingMovieData?.total_results === 0 ? (
+        <UpcomingMovieListSkeleton text="개봉 예정인 영화가 없습니다" />
       ) : (
         <S.UpcomingMovieList>
           {upcomingMovieData?.results.map((movie: TMovieListsItem) => (
@@ -35,7 +40,6 @@ const S = {
   UpcomingMovieList: styled.ul`
     width: 100%;
     overflow-x: auto;
-    /* white-space: nowrap; */
     display: flex;
     gap: 40px;
 
@@ -43,4 +47,6 @@ const S = {
       display: none;
     }
   `,
+
+  NoDataContainer: styled.div``,
 };

@@ -1,7 +1,11 @@
 import styled from 'styled-components';
 
-const UpcomingMovieListSkeleton = () => {
-  return <S.Skeleton>로딩중...</S.Skeleton>;
+interface TUpcomingMovieListSkeletonProps {
+  text: string;
+}
+
+const UpcomingMovieListSkeleton = ({ text }: TUpcomingMovieListSkeletonProps) => {
+  return <S.Skeleton>{text}</S.Skeleton>;
 };
 export default UpcomingMovieListSkeleton;
 

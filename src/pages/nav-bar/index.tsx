@@ -1,8 +1,15 @@
 import logoImg from '@assets/images/logo.webp';
+import { useRegionStore } from '@stores/region';
 import styled from 'styled-components';
+import RegionSelectButton from './components/language-select-button';
 import { NAV_MENU } from './utils/nav-menu-list';
 
 const NavBar = () => {
+  const { setRegion } = useRegionStore((state) => ({
+    region: state.region,
+    setRegion: state.setRegion,
+  }));
+
   return (
     <S.Container>
       <S.LogoImg src={logoImg} alt="로고 이미지" />
@@ -16,7 +23,7 @@ const NavBar = () => {
         })}
       </S.MenuLists>
       <S.SearchBar type="text" placeholder="영화 또는 TV 프로그램 검색" />
-      <S.CountrySelectButton>국가</S.CountrySelectButton>
+      <RegionSelectButton setRegion={setRegion} />
     </S.Container>
   );
 };
@@ -55,12 +62,5 @@ const S = {
     width: 250px;
     margin: 0 10px;
     flex-grow: 1;
-  `,
-
-  CountrySelectButton: styled.button`
-    background-color: var(--dark02);
-    border-radius: 5px;
-    padding: 7px 10px;
-    flex-shrink: 0;
   `,
 };

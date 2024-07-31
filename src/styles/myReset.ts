@@ -33,6 +33,7 @@ const myReset = css`
     position: relative;
     background-color: #050c17;
     color: white;
+    height: 100vh;
   }
 
   ol,
