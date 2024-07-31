@@ -1,4 +1,4 @@
-import logoImg from '@assets/logo.webp';
+import logoImg from '@assets/images/logo.webp';
 import styled from 'styled-components';
 import { NAV_MENU } from './utils/nav-menu-list';
 

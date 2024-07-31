@@ -1,26 +1,52 @@
 import { TMovieListsItem } from '@api/movie-lists/movie-lists-request.type';
+import fireIcon from '@assets/icons/fire.svg';
 import { getImage } from '@utils/get-image';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+import { calculateLeftDays } from '../utils/calculate-left-days';
 
 interface TUpcomingMovieItemProps {
   data: TMovieListsItem;
 }
 
 const UpcomingMovieItem = ({ data }: TUpcomingMovieItemProps) => {
+  const daysLeft = calculateLeftDays(data.release_date);
+
   return (
-    <S.Container>
-      <S.MovieImage src={getImage(data.backdrop_path)} />
-      <S.UpcomingLabel>{Math.round(data.popularity)}만큼 기대중</S.UpcomingLabel>
-      <S.MovieReleaseDate>{data.release_date}</S.MovieReleaseDate>
-      <S.MovieTitle>{data.title}</S.MovieTitle>
-    </S.Container>
+    <li>
+      <S.Container>
+        <S.MovieImage src={getImage(data.backdrop_path)} />
+        <S.UpcomingLabel>{Math.round(data.popularity)}만큼 기대중</S.UpcomingLabel>
+        <S.MovieReleaseDate>{data.release_date}</S.MovieReleaseDate>
+        <S.MovieTitle>{data.title}</S.MovieTitle>
+        {daysLeft <= 105 && daysLeft >= 0 && (
+          <>
+            <S.ReleaseDateBar></S.ReleaseDateBar>
+            <S.ProgressBar $percentage={100 - daysLeft}>
+              <S.FireIcon src={fireIcon} alt="불 아이콘" />
+              <S.DdayLabel>D-{daysLeft}</S.DdayLabel>
+            </S.ProgressBar>
+          </>
+        )}
+      </S.Container>
+    </li>
   );
 };
 export default UpcomingMovieItem;
 
+const animateWidth = keyframes`
+  from {
+    width: 0;
+  }
+  to {
+    width: var(--percentage);
+  }
+`;
+
 const S = {
-  Container: styled.li`
+  Container: styled.div`
     position: relative;
+    overflow: hidden;
+    border-radius: 20px;
   `,
 
   UpcomingLabel: styled.p`
@@ -29,7 +55,7 @@ const S = {
     right: 0;
     background-color: var(--white);
     color: black;
-    border-radius: 0 20px 0 20px;
+    border-radius: 0 0 0 20px;
     width: 150px;
     height: 44px;
     display: flex;
@@ -56,9 +82,51 @@ const S = {
 
   MovieTitle: styled.p`
     position: absolute;
-    bottom: 40px;
+    bottom: 55px;
     left: 30px;
     font-weight: 600;
     font-size: 22px;
+  `,
+
+  ReleaseDateBar: styled.div`
+    position: absolute;
+    bottom: 8px;
+    width: 100%;
+    height: 6px;
+    border: 1px solid var(--dark02);
+    background-color: var(--dark01);
+  `,
+
+  ProgressBar: styled.div<{ $percentage: number }>`
+    --percentage: ${({ $percentage }) => `${$percentage - 5}%`};
+    position: absolute;
+    bottom: 8px;
+    width: var(--percentage);
+    height: 6px;
+    animation: ${animateWidth} 2s cubic-bezier(0.3, 0, 0.2, 1);
+    background: linear-gradient(270deg, #fe0e0e 17.19%, #eec42b 75.52%, #e7c02d 99.99%) no-repeat;
+  `,
+
+  FireIcon: styled.img`
+    position: absolute;
+    width: 15px;
+    height: 25px;
+    top: -17px;
+    right: -10px;
+  `,
+
+  DdayLabel: styled.div`
+    background-color: var(--dark02);
+    position: absolute;
+    font-size: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    padding: 3px 0;
+    width: 35px;
+    border: 1px solid var(--dark01);
+    top: -40px;
+    right: -20px;
   `,
 };
