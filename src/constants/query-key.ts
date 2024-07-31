@@ -1,4 +1,8 @@
 export const QUERY_KEY = {
+  //configuration
+  regionConfig: 'regionConfig',
+  languageConfig: 'languageConfig',
+
   // movie
   movieDetails: 'movieDetails',
   movieImages: 'movieImages',
