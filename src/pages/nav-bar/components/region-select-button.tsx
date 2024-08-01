@@ -65,12 +65,13 @@ const S = {
     cursor: pointer;
     background-color: var(--dark02);
     border-radius: 5px;
-    padding: 5px 10px;
+    padding: 8px 10px;
     flex-shrink: 0;
   `,
 
   SelectedRegionIcon: styled.img`
     width: 25px;
+    border-radius: 2px;
   `,
 
   RegionList: styled.ul`
@@ -86,8 +87,14 @@ const S = {
     padding: 10px;
     height: 325px;
     overflow-x: hidden;
+    box-shadow: rgba(0, 0, 0, 0.7) 0px 5px 20px;
     &::-webkit-scrollbar {
-      display: none;
+      width: 10px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: var(--gray01);
+      border-radius: 10px;
+      height: 130px;
     }
   `,
 
@@ -96,9 +103,7 @@ const S = {
     display: flex;
     align-items: center;
     gap: 10px;
-    width: 200px;
-    &:hover {
-    }
+    width: 150px;
   `,
 
   FlagIconSkeleton: styled.div`
