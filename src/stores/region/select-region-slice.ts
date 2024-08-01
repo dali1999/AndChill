@@ -8,7 +8,7 @@ export interface RegionState {
 }
 
 export const selectRegionSlice: StateCreator<RegionState> = (set) => ({
-  region: '',
+  region: 'KR',
   setRegion: (region: string) => set({ region }),
-  initGroupId: () => set(() => ({ region: '' })),
+  initGroupId: () => set(() => ({ region: 'KR' })),
 });
