@@ -1,4 +1,3 @@
-import logoImg from '@assets/images/andchill-logo.png';
 import { useRegionStore } from '@stores/region';
 import styled from 'styled-components';
 import RegionSelectButton from './components/region-select-button';
@@ -12,7 +11,7 @@ const NavBar = () => {
 
   return (
     <S.Container>
-      <S.LogoImg src={logoImg} alt="로고 이미지" />
+      <S.LogoImg src="/andchill-logo.png" alt="로고 이미지" />
       <S.MenuLists>
         {NAV_MENU.map((menu) => {
           return (
@@ -35,7 +34,8 @@ const S = {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 10%;
+    padding: 0px 10%;
+    height: 90px;
   `,
 
   MenuLists: styled.ul`
@@ -52,6 +52,7 @@ const S = {
 
   LogoImg: styled.img`
     width: 130px;
+    height: 50px;
     flex-shrink: 0;
   `,
 
