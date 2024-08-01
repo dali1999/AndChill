@@ -60,7 +60,7 @@ const S = {
     width: 200px;
     aspect-ratio: 1/1.5;
     border-radius: 7px;
-    transition: transform 0.4s ease;
+    transition: transform 0.4s ease-in-out;
   `,
 
   Dummy: styled.div`
@@ -73,7 +73,7 @@ const S = {
     top: 0;
     width: 200px;
     aspect-ratio: 1/1.5;
-    transition: 0.2s ease-out;
+    transition: 0.4s ease-in-out;
 
     &:hover {
       background-color: rgba(0, 0, 0, 0.8);
@@ -81,7 +81,7 @@ const S = {
       div:nth-child(1) {
         padding: 15px;
         position: absolute;
-        animation: ${scrollCredits} 15s linear infinite;
+        animation: ${scrollCredits} 10s linear infinite;
       }
     }
   `,

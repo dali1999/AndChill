@@ -41,7 +41,6 @@ const S = {
     display: flex;
     gap: 40px;
     animation: ${fadeIn} 0.5s ease-in;
-
     &::-webkit-scrollbar {
       display: none;
     }

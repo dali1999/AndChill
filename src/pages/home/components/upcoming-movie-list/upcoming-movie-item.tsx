@@ -1,9 +1,9 @@
 import { TMovieListsItem } from '@api/movie-lists/movie-lists-request.type';
 import fireIcon from '@assets/icons/fire.svg';
+import { calculateLeftDays } from '@pages/home/utils/calculate-left-days';
 import { getImage } from '@utils/get-image';
 import { useNavigate } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
-import { calculateLeftDays } from '../../utils/calculate-left-days';
 
 interface TUpcomingMovieItemProps {
   data: TMovieListsItem;
@@ -12,11 +12,12 @@ interface TUpcomingMovieItemProps {
 const UpcomingMovieItem = ({ data }: TUpcomingMovieItemProps) => {
   const navigate = useNavigate();
   const daysLeft = calculateLeftDays(data.release_date);
+  const backDropImageUrl = data.backdrop_path ? getImage('w780', data.backdrop_path) : '/andchill-logo.png';
 
   return (
     <li onClick={() => navigate(`/${data.id}`)}>
       <S.Container>
-        <S.MovieImage src={getImage('w780', data.backdrop_path)} className="scale-on-hover" />
+        <S.MovieImage src={backDropImageUrl} className="scale-on-hover" />
         <S.UpcomingLabel>{Math.round(data.popularity)}만큼 기대중</S.UpcomingLabel>
         <S.MovieReleaseDate>{data.release_date}</S.MovieReleaseDate>
         <S.MovieTitle>{data.title}</S.MovieTitle>
@@ -29,6 +30,7 @@ const UpcomingMovieItem = ({ data }: TUpcomingMovieItemProps) => {
             </S.ProgressBar>
           </>
         )}
+        {daysLeft < 0 && <S.RereleaseLabel>재개봉작</S.RereleaseLabel>}
       </S.Container>
     </li>
   );
@@ -50,6 +52,7 @@ const S = {
     position: relative;
     overflow: hidden;
     border-radius: 20px;
+    background-color: var(--dark01);
     &:hover .scale-on-hover {
       transform: scale(1.1);
     }
@@ -60,7 +63,6 @@ const S = {
     top: 0;
     right: 0;
     background-color: var(--white);
-    color: black;
     border-radius: 0 0 0 20px;
     width: 150px;
     height: 44px;
@@ -72,7 +74,7 @@ const S = {
   `,
 
   MovieImage: styled.img`
-    opacity: 0.5;
+    opacity: 0.4;
     width: 360px;
     height: 180px;
     border-radius: 20px;
@@ -81,7 +83,7 @@ const S = {
 
   MovieReleaseDate: styled.p`
     position: absolute;
-    color: var(--gray01);
+    color: var(--gray02);
     font-size: 17px;
     top: 22px;
     left: 30px;
@@ -135,5 +137,20 @@ const S = {
     border: 1px solid var(--dark01);
     top: -40px;
     right: -20px;
+  `,
+
+  RereleaseLabel: styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--yellow01);
+    color: var(--dark04);
+    font-weight: 600;
+    font-size: 15px;
+    padding: 4px 8px;
+    position: absolute;
+    bottom: 15px;
+    right: 20px;
+    border-radius: 7px;
   `,
 };
