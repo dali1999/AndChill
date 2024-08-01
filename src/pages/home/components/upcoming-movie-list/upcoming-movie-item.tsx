@@ -3,7 +3,7 @@ import fireIcon from '@assets/icons/fire.svg';
 import { getImage } from '@utils/get-image';
 import { useNavigate } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
-import { calculateLeftDays } from '../utils/calculate-left-days';
+import { calculateLeftDays } from '../../utils/calculate-left-days';
 
 interface TUpcomingMovieItemProps {
   data: TMovieListsItem;
