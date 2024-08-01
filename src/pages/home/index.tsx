@@ -11,7 +11,5 @@ const Home = () => {
 export default Home;
 
 const S = {
-  Container: styled.div`
-    padding: 0 10%;
-  `,
+  Container: styled.div``,
 };

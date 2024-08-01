@@ -1,16 +1,19 @@
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import RegionSelectButton from './components/region-select-button';
 import { NAV_MENU } from './constants/nav-menu-list';
 
 const NavBar = () => {
+  const navigate = useNavigate();
+
   return (
     <S.Container>
-      <S.LogoImg src="/andchill-logo.png" alt="로고 이미지" />
+      <S.LogoImg src="/andchill-logo.png" alt="로고 이미지" onClick={() => navigate('/')} />
       <S.MenuLists>
         {NAV_MENU.map((menu) => {
           return (
-            <S.MenuItem key={menu.title}>
-              <a href={menu.page}>{menu.title}</a>
+            <S.MenuItem key={menu.title} onClick={() => navigate(menu.page)}>
+              {menu.title}
             </S.MenuItem>
           );
         })}
@@ -28,7 +31,6 @@ const S = {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0px 10%;
     height: 90px;
   `,
 
@@ -42,12 +44,15 @@ const S = {
     flex-shrink: 0;
   `,
 
-  MenuItem: styled.li``,
+  MenuItem: styled.li`
+    cursor: pointer;
+  `,
 
   LogoImg: styled.img`
     width: 130px;
     height: 50px;
     flex-shrink: 0;
+    cursor: pointer;
   `,
 
   SearchBar: styled.input`

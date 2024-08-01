@@ -4,14 +4,18 @@ import { useUpcomingMovieListsQuery } from '@hooks/react-query/use-query-movie-l
 import { useRegionStore } from '@stores/region';
 import styled from 'styled-components';
 import UpcomingMovieItem from './upcoming-movie-item';
+import { getFlagEmoji } from '../utils/get-flag-emoji';
 
 const UpcomingMovieList = () => {
   const region = useRegionStore((state) => state.region);
   const language = 'ko';
   const { data: upcomingMovieData, isLoading } = useUpcomingMovieListsQuery(region, language);
+
+  const flagEmoji = getFlagEmoji(region);
+
   return (
     <S.Container>
-      <S.SectionTitle>📆 개봉 예정</S.SectionTitle>
+      <S.SectionTitle>{flagEmoji} 개봉 예정 영화</S.SectionTitle>
       {isLoading ? (
         <UpcomingMovieListSkeleton />
       ) : upcomingMovieData?.total_results === 0 ? (

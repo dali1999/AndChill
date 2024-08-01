@@ -6,7 +6,6 @@ interface TUpcomingMovieListSkeletonProps {
 }
 
 const UpcomingMovieListSkeleton = ({ text }: TUpcomingMovieListSkeletonProps) => {
-  console.log(text);
   return (
     <S.Skeleton>
       {text ? (

@@ -34,6 +34,7 @@ const myReset = css`
     background-color: #101322;
     color: white;
     height: 100vh;
+    padding: 0 5%;
   }
 
   ol,
