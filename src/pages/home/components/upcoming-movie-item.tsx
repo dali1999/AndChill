@@ -1,6 +1,7 @@
 import { TMovieListsItem } from '@api/movie-lists/movie-lists-request.type';
 import fireIcon from '@assets/icons/fire.svg';
 import { getImage } from '@utils/get-image';
+import { useNavigate } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import { calculateLeftDays } from '../utils/calculate-left-days';
 
@@ -9,12 +10,13 @@ interface TUpcomingMovieItemProps {
 }
 
 const UpcomingMovieItem = ({ data }: TUpcomingMovieItemProps) => {
+  const navigate = useNavigate();
   const daysLeft = calculateLeftDays(data.release_date);
 
   return (
-    <li>
+    <li onClick={() => navigate(`/${data.id}`)}>
       <S.Container>
-        <S.MovieImage src={getImage(data.backdrop_path)} />
+        <S.MovieImage src={getImage(data.backdrop_path)} className="scale-on-hover" />
         <S.UpcomingLabel>{Math.round(data.popularity)}만큼 기대중</S.UpcomingLabel>
         <S.MovieReleaseDate>{data.release_date}</S.MovieReleaseDate>
         <S.MovieTitle>{data.title}</S.MovieTitle>
@@ -44,9 +46,13 @@ const animateWidth = keyframes`
 
 const S = {
   Container: styled.div`
+    cursor: pointer;
     position: relative;
     overflow: hidden;
     border-radius: 20px;
+    &:hover .scale-on-hover {
+      transform: scale(1.1);
+    }
   `,
 
   UpcomingLabel: styled.p`
@@ -66,10 +72,11 @@ const S = {
   `,
 
   MovieImage: styled.img`
-    opacity: 0.4;
+    opacity: 0.5;
     width: 360px;
     height: 180px;
     border-radius: 20px;
+    transition: transform 0.4s ease;
   `,
 
   MovieReleaseDate: styled.p`

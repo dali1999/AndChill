@@ -1,21 +1,15 @@
 import NavBar from '@pages/nav-bar';
 import GlobalStyle from '@styles/global';
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Root = () => {
-  const location = useLocation();
-
-  const nonSubSectionArray = ['/'];
-  const isSubSection = nonSubSectionArray.includes(location.pathname);
-
   return (
     <>
-      {isSubSection && (
-        <>
-          <NavBar />
-        </>
-      )}
+      <>
+        <NavBar />
+      </>
+
       <GlobalStyle />
       <S.Main>
         <Outlet />
