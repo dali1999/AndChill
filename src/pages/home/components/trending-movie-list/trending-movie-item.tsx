@@ -15,12 +15,10 @@ const TrendingMovieItem = ({ data }: TTrendingMovieItemProps) => {
   const genreList = genreListData?.genres;
   const mappedGenres = getGenreById(data, genreList);
 
-  console.log(typeof mappedGenres);
-
   return (
     <li onClick={() => navigate(`/${data.id}`)}>
       <S.Container>
-        <S.MovieImage src={getImage(data.poster_path)} className="scale-on-hover" />
+        <S.MovieImage src={getImage('w780', data.poster_path)} className="scale-on-hover" />
         <S.Dummy>
           <div>
             <S.MovieGenreList>
