@@ -1,14 +1,8 @@
-import { useRegionStore } from '@stores/region';
 import styled from 'styled-components';
 import RegionSelectButton from './components/region-select-button';
 import { NAV_MENU } from './constants/nav-menu-list';
 
 const NavBar = () => {
-  const { setRegion } = useRegionStore((state) => ({
-    region: state.region,
-    setRegion: state.setRegion,
-  }));
-
   return (
     <S.Container>
       <S.LogoImg src="/andchill-logo.png" alt="로고 이미지" />
@@ -22,7 +16,7 @@ const NavBar = () => {
         })}
       </S.MenuLists>
       <S.SearchBar type="text" placeholder="영화 또는 TV 프로그램 검색" />
-      <RegionSelectButton setRegion={setRegion} />
+      <RegionSelectButton />
     </S.Container>
   );
 };

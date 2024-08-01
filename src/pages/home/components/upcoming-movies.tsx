@@ -11,9 +11,9 @@ const UpcomingMovieList = () => {
   const { data: upcomingMovieData, isLoading } = useUpcomingMovieListsQuery(region, language);
   return (
     <S.Container>
-      <S.SectionTitle>📆 개봉 예정인 영화들</S.SectionTitle>
+      <S.SectionTitle>📆 개봉 예정</S.SectionTitle>
       {isLoading ? (
-        <UpcomingMovieListSkeleton text="Loading..." />
+        <UpcomingMovieListSkeleton />
       ) : upcomingMovieData?.total_results === 0 ? (
         <UpcomingMovieListSkeleton text="개봉 예정인 영화가 없습니다" />
       ) : (
