@@ -31,7 +31,7 @@ const myReset = css`
   body {
     font-weight: 400;
     position: relative;
-    background-color: #050c17;
+    background-color: #101322;
     color: white;
     height: 100vh;
   }

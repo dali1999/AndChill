@@ -1,7 +1,7 @@
 import logoImg from '@assets/images/andchill-logo.png';
 import { useRegionStore } from '@stores/region';
 import styled from 'styled-components';
-import RegionSelectButton from './components/language-select-button';
+import RegionSelectButton from './components/region-select-button';
 import { NAV_MENU } from './utils/nav-menu-list';
 
 const NavBar = () => {
