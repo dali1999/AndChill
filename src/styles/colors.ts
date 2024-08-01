@@ -20,6 +20,9 @@ const colors = css`
     --blue04: #a6c4d5;
     --blue05: #132f5c;
 
+    //point yellow
+    --yellow01: #efc229;
+
     //gray
     --gray01: #9e9e9e;
     --gray02: #bdbdbd;

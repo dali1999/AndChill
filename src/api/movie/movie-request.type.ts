@@ -1,3 +1,5 @@
+import { TGenre } from "@api/genre/genre-request.type";
+
 export interface TMovieDetailsFetchRes {
   adult: boolean;
   backdrop_path: string;
@@ -34,10 +36,7 @@ interface TCollection {
   backdrop_path: string;
 }
 
-interface TGenre {
-  id: number;
-  name: string;
-}
+
 
 interface TProductionCompany {
   id: number;

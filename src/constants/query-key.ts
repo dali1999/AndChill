@@ -21,4 +21,7 @@ export const QUERY_KEY = {
 
   // trending
   trendingMovieList: 'trendingMovieList',
+
+  //genre
+  genreList: 'genreList',
 } as const;

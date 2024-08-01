@@ -1,7 +1,6 @@
 import { TMovieListsItem } from '@api/movie-lists/movie-lists-request.type';
 import UpcomingMovieListSkeleton from '@components/skeleton/upcoming-movie-list-skeleton';
 import { useTrendingMovieListQuery } from '@hooks/react-query/use-query-trending';
-import UpcomingMovieItem from '@pages/home/components/upcoming-movie-list/upcoming-movie-item';
 import styled from 'styled-components';
 import TrendingMovieItem from './trending-movie-item';
 
