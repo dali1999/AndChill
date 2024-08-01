@@ -12,10 +12,13 @@ export const QUERY_KEY = {
   movieSites: 'movieSites',
 
   // movie lists
-  nowPlayingMovieLists: 'nowPlayingMovieLists',
-  popularMovieLists: 'popularMovieLists',
-  topRatedMovieLists: 'topRatedMovieLists',
+  nowPlayingMovieList: 'nowPlayingMovieList',
+  popularMovieList: 'popularMovieList',
+  topRatedMovieList: 'topRatedMovieList',
 
   // movie search
   movieSearchResults: 'movieSearchResults',
+
+  // trending
+  trendingMovieList: 'trendingMovieList',
 } as const;

@@ -42,7 +42,6 @@ const S = {
   `,
 
   UpcomingMovieList: styled.ul`
-    width: 100%;
     overflow-x: auto;
     display: flex;
     gap: 40px;
