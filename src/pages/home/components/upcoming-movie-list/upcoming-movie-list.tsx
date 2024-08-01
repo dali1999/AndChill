@@ -4,6 +4,7 @@ import { useUpcomingMovieListsQuery } from '@hooks/react-query/use-query-movie-l
 import UpcomingMovieItem from '@pages/home/components/upcoming-movie-list/upcoming-movie-item';
 import { getFlagEmoji } from '@pages/home/utils/get-flag-emoji';
 import { useRegionStore } from '@stores/region';
+import { fadeIn } from '@styles/animations';
 import styled from 'styled-components';
 
 const UpcomingMovieList = () => {
@@ -45,6 +46,7 @@ const S = {
     overflow-x: auto;
     display: flex;
     gap: 40px;
+    animation: ${fadeIn} 0.5s ease-in;
 
     &::-webkit-scrollbar {
       display: none;

@@ -1,6 +1,7 @@
 import { TMovieListsItem } from '@api/movie-lists/movie-lists-request.type';
 import UpcomingMovieListSkeleton from '@components/skeleton/upcoming-movie-list-skeleton';
 import { useTrendingMovieListQuery } from '@hooks/react-query/use-query-trending';
+import { fadeIn } from '@styles/animations';
 import styled from 'styled-components';
 import TrendingMovieItem from './trending-movie-item';
 
@@ -39,6 +40,7 @@ const S = {
     overflow-x: auto;
     display: flex;
     gap: 40px;
+    animation: ${fadeIn} 0.5s ease-in;
 
     &::-webkit-scrollbar {
       display: none;
