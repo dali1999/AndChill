@@ -1,9 +1,9 @@
 import { SetStateAction, useState } from 'react';
 import { TRegionConfigItem } from '@api/configuration/config-request.type';
+import { NOT_SUPPORTED_REGIONS } from '@pages/nav-bar/constants/not-supported-regions';
+import { filteredRegionsBySearchQuery } from '@pages/nav-bar/utils/filterd-regions-by-search-query';
 import { useRegionStore } from '@stores/region';
 import styled from 'styled-components';
-import { NOT_SUPPORTED_REGIONS } from '../constants/not-supported-regions';
-import { filteredRegionsBySearchQuery } from '../utils/filterd-regions-by-search-query';
 
 interface TRegionSelectModalProps {
   regionData: TRegionConfigItem[];
