@@ -102,8 +102,7 @@ const S = {
     bottom: 8px;
     width: 100%;
     height: 6px;
-    border: 1px solid var(--dark02);
-    background-color: var(--dark01);
+    background-color: #704a00;
   `,
 
   ProgressBar: styled.div<{ $percentage: number }>`
