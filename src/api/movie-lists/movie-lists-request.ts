@@ -2,7 +2,7 @@ import axios from '@api/axios';
 import { getRegionAndLanguageUrl } from '@utils/get-region-and-language-url';
 
 const movieListsRequest = {
-  fetchNowPlayingMovieLists: async (region: string, language: string) => {
+  fetchNowPlayingMovieList: async (region: string, language: string) => {
     try {
       const { data } = await axios.get(`movie/now_playing?${getRegionAndLanguageUrl(region, language)}`);
       return data;
@@ -11,7 +11,7 @@ const movieListsRequest = {
     }
   },
 
-  fetchPopularMovieLists: async (region: string, language: string) => {
+  fetchPopularMovieList: async (region: string, language: string) => {
     try {
       const { data } = await axios.get(`movie/popular?${getRegionAndLanguageUrl(region, language)}`);
       return data;
@@ -20,7 +20,7 @@ const movieListsRequest = {
     }
   },
 
-  fetchTopRatedMovieLists: async (region: string, language: string) => {
+  fetchTopRatedMovieList: async (region: string, language: string) => {
     try {
       const { data } = await axios.get(`movie/top_rated?${getRegionAndLanguageUrl(region, language)}`);
       return data;
@@ -29,7 +29,7 @@ const movieListsRequest = {
     }
   },
 
-  fetchUpcomingMovieLists: async (region: string, language: string) => {
+  fetchUpcomingMovieList: async (region: string, language: string) => {
     try {
       const { data } = await axios.get(`movie/upcoming?${getRegionAndLanguageUrl(region, language)}`);
       return data;

@@ -1,6 +1,6 @@
 import { TMovieListsItem } from '@api/movie-lists/movie-lists-request.type';
 import UpcomingMovieListSkeleton from '@components/skeleton/upcoming-movie-list-skeleton';
-import { useUpcomingMovieListsQuery } from '@hooks/react-query/use-query-movie-lists';
+import { useUpcomingMovieListQuery } from '@hooks/react-query/use-query-movie-lists';
 import UpcomingMovieItem from '@pages/home/components/upcoming-movie-list/upcoming-movie-item';
 import { getFlagEmoji } from '@pages/home/utils/get-flag-emoji';
 import { useRegionStore } from '@stores/region';
@@ -10,7 +10,7 @@ import styled from 'styled-components';
 const UpcomingMovieList = () => {
   const region = useRegionStore((state) => state.region);
   const language = 'ko';
-  const { data: upcomingMovieData, isLoading } = useUpcomingMovieListsQuery(region, language);
+  const { data: upcomingMovieData, isLoading } = useUpcomingMovieListQuery(region, language);
 
   const flagEmoji = getFlagEmoji(region);
 
