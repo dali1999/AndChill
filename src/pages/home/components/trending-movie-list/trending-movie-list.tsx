@@ -1,9 +1,9 @@
 import { TMovieListsItem } from '@api/movie-lists/movie-lists-request.type';
 import UpcomingMovieListSkeleton from '@components/skeleton/upcoming-movie-list-skeleton';
 import { useTrendingMovieListQuery } from '@hooks/react-query/use-query-trending';
+import TrendingMovieItem from '@pages/home/components/trending-movie-list/trending-movie-item';
 import { fadeIn } from '@styles/animations';
 import styled from 'styled-components';
-import TrendingMovieItem from './trending-movie-item';
 
 const TrendingMovieList = () => {
   const { data: trendingMovieData, isLoading } = useTrendingMovieListQuery();

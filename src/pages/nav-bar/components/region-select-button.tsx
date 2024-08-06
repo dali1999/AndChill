@@ -2,10 +2,10 @@
 /* eslint-disable no-unused-vars */
 import { useState } from 'react';
 import { useRegionConfigQuery } from '@hooks/react-query/use-query-config';
+import RegionSelectModal from '@pages/nav-bar/components/region-select-modal';
+import { addFlagIcons } from '@pages/nav-bar/utils/add-flag-icons';
 import { useRegionStore } from '@stores/region';
 import styled from 'styled-components';
-import RegionSelectModal from './region-select-modal';
-import { addFlagIcons } from '../utils/add-flag-icons';
 
 const RegionSelectButton = () => {
   const [isOpen, setIsOpen] = useState(false);

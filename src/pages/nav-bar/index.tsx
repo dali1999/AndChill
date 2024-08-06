@@ -1,7 +1,7 @@
+import RegionSelectButton from '@pages/nav-bar/components/region-select-button';
+import { NAV_MENU } from '@pages/nav-bar/constants/nav-menu-list';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import RegionSelectButton from './components/region-select-button';
-import { NAV_MENU } from './constants/nav-menu-list';
 
 const NavBar = () => {
   const navigate = useNavigate();

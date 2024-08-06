@@ -1,6 +1,6 @@
-import { persist } from 'zustand/middleware';
+import { RegionState, selectRegionSlice } from '@stores/region/select-region-slice';
 import { create } from 'zustand';
-import { RegionState, selectRegionSlice } from './select-region-slice';
+import { persist } from 'zustand/middleware';
 
 type SliceCreator = RegionState;
 
