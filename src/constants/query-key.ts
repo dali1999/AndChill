@@ -24,4 +24,7 @@ export const QUERY_KEY = {
 
   //genre
   genreList: 'genreList',
+
+  //discover
+  movieDiscoveredResults: 'movieDiscoveredResults',
 } as const;
