@@ -1,31 +1,32 @@
-import { TMovieListsItem } from '@api/movie-lists/movie-lists-request.type';
+import { TMovieListsFetchRes, TMovieListsItem } from '@api/movie-lists/movie-lists-request.type';
 import UpcomingMovieListSkeleton from '@components/skeleton/upcoming-movie-list-skeleton';
-import { useTrendingMovieListQuery } from '@hooks/react-query/use-query-trending';
 import TrendingMovieItem from '@pages/home/components/trending-movie-list/trending-movie-item';
 import { fadeIn } from '@styles/animations';
 import styled from 'styled-components';
 
-const TrendingMovieList = () => {
-  const { data: trendingMovieData, isLoading } = useTrendingMovieListQuery();
+interface TMovieListProps {
+  title: string;
+  data: TMovieListsFetchRes | undefined;
+  isLoading: boolean;
+}
 
+const MovieList = ({ title, data, isLoading }: TMovieListProps) => {
   return (
     <S.Container>
-      <S.SectionTitle>이번 주 🌎 트렌드</S.SectionTitle>
+      <S.SectionTitle>{title}</S.SectionTitle>
       {isLoading ? (
         <UpcomingMovieListSkeleton />
-      ) : trendingMovieData?.total_results === 0 ? (
+      ) : data?.total_results === 0 ? (
         <UpcomingMovieListSkeleton text="영화 정보가 없습니다" />
       ) : (
         <S.TrendingMovieList>
-          {trendingMovieData?.results.map((movie: TMovieListsItem) => (
-            <TrendingMovieItem data={movie} key={movie.id} />
-          ))}
+          {data?.results.map((movie: TMovieListsItem) => <TrendingMovieItem data={movie} key={movie.id} />)}
         </S.TrendingMovieList>
       )}
     </S.Container>
   );
 };
-export default TrendingMovieList;
+export default MovieList;
 
 const S = {
   Container: styled.section`
