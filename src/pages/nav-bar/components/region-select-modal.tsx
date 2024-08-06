@@ -79,7 +79,7 @@ const S = {
     display: flex;
     flex-wrap: wrap; // 2열 만들기
     gap: 20px;
-    height: 325px;
+    max-height: 325px;
     background-color: var(--dark03);
     overflow-x: hidden;
     &::-webkit-scrollbar {
