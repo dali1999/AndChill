@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { TMovieListsItem } from '@api/movie-lists/movie-lists-request.type';
 import { useGenreListQuery } from '@hooks/react-query/use-query-genre';
 import { getGenreById } from '@utils/get-genre-by-id';
@@ -14,21 +15,28 @@ const TrendingMovieItem = ({ data }: TTrendingMovieItemProps) => {
   const { data: genreListData } = useGenreListQuery();
   const genreList = genreListData?.genres;
   const mappedGenres = getGenreById(data, genreList);
+  const [hovered, setHovered] = useState(false);
 
   return (
-    <li onClick={() => navigate(`/${data.id}`)}>
+    <li
+      onClick={() => navigate(`/${data.id}`)}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
       <S.Container>
         <S.MovieImage src={getImage('w780', data.poster_path)} className="scale-on-hover" />
         <S.Dummy>
-          <div>
-            <S.MovieGenreList>
-              {mappedGenres.map((genre) => {
-                return <S.MovieGenreItem key={genre}>{genre}</S.MovieGenreItem>;
-              })}
-            </S.MovieGenreList>
-            <S.MovieTitle>{data.title}</S.MovieTitle>
-            <S.MovieOverView>{data.overview}</S.MovieOverView>
-          </div>
+          {hovered && (
+            <div>
+              <S.MovieGenreList>
+                {mappedGenres.map((genre) => {
+                  return <S.MovieGenreItem key={genre}>{genre}</S.MovieGenreItem>;
+                })}
+              </S.MovieGenreList>
+              <S.MovieTitle>{data.title}</S.MovieTitle>
+              <S.MovieOverView>{data.overview}</S.MovieOverView>
+            </div>
+          )}
         </S.Dummy>
       </S.Container>
     </li>
