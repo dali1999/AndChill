@@ -33,7 +33,7 @@ const myReset = css`
     position: relative;
     background-color: #101322;
     color: white;
-    height: 100vh;
+    height: 100%;
     padding: 0 5%;
   }
 
