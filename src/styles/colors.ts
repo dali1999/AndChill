@@ -9,10 +9,6 @@ const colors = css`
     --red01: #e74133;
     --red02: #f0cecd;
 
-    //yellow color
-    --yellow01: #fffa80;
-    --yellow02: #8c8b73;
-
     //point color
     --blue01: #3e82f1;
     --blue02: #d2e3ed;
@@ -22,6 +18,9 @@ const colors = css`
 
     //point yellow
     --yellow01: #efc229;
+
+    //point indigo
+    --indigo01: #101322;
 
     //gray
     --gray01: #9e9e9e;
