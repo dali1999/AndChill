@@ -6,11 +6,11 @@ import { getImage } from '@utils/get-image';
 import { useNavigate } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 
-interface TTrendingMovieItemProps {
+interface TMovieItemProps {
   data: TMovieListsItem;
 }
 
-const TrendingMovieItem = ({ data }: TTrendingMovieItemProps) => {
+const MovieItem = ({ data }: TMovieItemProps) => {
   const navigate = useNavigate();
   const { data: genreListData } = useGenreListQuery();
   const genreList = genreListData?.genres;
@@ -18,31 +18,29 @@ const TrendingMovieItem = ({ data }: TTrendingMovieItemProps) => {
   const [hovered, setHovered] = useState(false);
 
   return (
-    <li
+    <S.Container
       onClick={() => navigate(`/${data.id}`)}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <S.Container>
-        <S.MovieImage src={getImage('w780', data.poster_path)} className="scale-on-hover" />
-        <S.Dummy>
-          {hovered && (
-            <div>
-              <S.MovieGenreList>
-                {mappedGenres.map((genre) => {
-                  return <S.MovieGenreItem key={genre}>{genre}</S.MovieGenreItem>;
-                })}
-              </S.MovieGenreList>
-              <S.MovieTitle>{data.title}</S.MovieTitle>
-              <S.MovieOverView>{data.overview}</S.MovieOverView>
-            </div>
-          )}
-        </S.Dummy>
-      </S.Container>
-    </li>
+      <S.MovieImage src={getImage('w780', data.poster_path)} className="scale-on-hover" />
+      <S.Dummy>
+        {hovered && (
+          <div>
+            <S.MovieGenreList>
+              {mappedGenres.map((genre) => {
+                return <S.MovieGenreItem key={genre}>{genre}</S.MovieGenreItem>;
+              })}
+            </S.MovieGenreList>
+            <S.MovieTitle>{data.title}</S.MovieTitle>
+            <S.MovieOverView>{data.overview}</S.MovieOverView>
+          </div>
+        )}
+      </S.Dummy>
+    </S.Container>
   );
 };
-export default TrendingMovieItem;
+export default MovieItem;
 
 const scrollCredits = keyframes`
   0% {
@@ -55,6 +53,8 @@ const scrollCredits = keyframes`
 
 const S = {
   Container: styled.div`
+    width: 200px;
+    aspect-ratio: 1/1.5;
     cursor: pointer;
     position: relative;
     overflow: hidden;
@@ -65,8 +65,6 @@ const S = {
   `,
 
   MovieImage: styled.img`
-    width: 200px;
-    aspect-ratio: 1/1.5;
     border-radius: 7px;
     transition: transform 0.4s ease-in-out;
   `,
