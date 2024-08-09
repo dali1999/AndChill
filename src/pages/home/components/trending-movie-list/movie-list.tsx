@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { TMovieListsFetchRes, TMovieListsItem } from '@api/movie-lists/movie-lists-request.type';
+import leftRight from '@assets/icons/arrow-left.svg';
+import arrowRight from '@assets/icons/arrow-right.svg';
 import MovieListSkeleton from '@components/skeleton/movie-list-skeleton';
 import MovieItem from '@pages/home/components/trending-movie-list/movie-item';
 import { fadeIn } from '@styles/animations';
@@ -10,23 +12,21 @@ interface TMovieListProps {
   data: TMovieListsFetchRes | undefined;
   isLoading: boolean;
 }
+const PER_SLIDE = 2;
 
 const MovieList = ({ title, data, isLoading }: TMovieListProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const length = data?.results.length;
 
-  const perSlide = 5;
-  const perTrans = 100 / perSlide;
-
   const next = () => {
-    if (length && currentIndex < length - 5) {
-      setCurrentIndex((prevState) => prevState + 5);
+    if (length && currentIndex < length - PER_SLIDE) {
+      setCurrentIndex((prevState) => prevState + PER_SLIDE);
     }
   };
 
   const prev = () => {
     if (currentIndex > 0) {
-      setCurrentIndex((prevState) => prevState - 5);
+      setCurrentIndex((prevState) => prevState - PER_SLIDE);
     }
   };
 
@@ -39,7 +39,7 @@ const MovieList = ({ title, data, isLoading }: TMovieListProps) => {
         <MovieListSkeleton text="영화 정보가 없습니다" />
       ) : (
         <div style={{ overflow: 'hidden' }}>
-          <S.TrendingMovieList $curIndex={currentIndex} $perTrans={perTrans}>
+          <S.TrendingMovieList $curIndex={currentIndex}>
             {data?.results.map((movie: TMovieListsItem) => (
               <li key={movie.id}>
                 <MovieItem data={movie} />
@@ -49,10 +49,10 @@ const MovieList = ({ title, data, isLoading }: TMovieListProps) => {
         </div>
       )}
       <S.PrevButton onClick={prev} $curIndex={currentIndex}>
-        {'<'}
+        <img src={leftRight} />
       </S.PrevButton>
-      <S.NextButton onClick={next} $curIndex={currentIndex} $totalLength={length}>
-        {'>'}
+      <S.NextButton onClick={next} $curIndex={currentIndex} $totalLength={length} $perSlide={PER_SLIDE}>
+        <img src={arrowRight} />
       </S.NextButton>
     </S.Container>
   );
@@ -68,14 +68,13 @@ const Button = styled.button`
   align-items: center;
   position: absolute;
   z-index: 100;
-  top: 56%;
-  transform: translateY(-50%);
+  top: calc(30px + 32px + 20px);
   font-size: 30px;
   background-color: var(--indigo01);
 
   img {
-    width: 16px;
-    height: 16px;
+    width: 36px;
+    height: 36px;
   }
 
   &.swiper-button-disabled {
@@ -89,16 +88,17 @@ const S = {
     position: relative;
     padding: 30px 0;
     &:hover ${Button} {
-      opacity: 0.7;
-      transition: 0.2s ease-in-out;
+      opacity: 0.8;
+      transition: 0.4s ease-in-out;
     }
   `,
 
   SectionTitle: styled.h2`
     margin-bottom: 20px;
+    height: 32px;
   `,
 
-  TrendingMovieList: styled.ul<{ $curIndex: number; $perTrans: number }>`
+  TrendingMovieList: styled.ul<{ $curIndex: number }>`
     display: flex;
     justify-content: space-between;
     gap: 48px;
@@ -112,12 +112,12 @@ const S = {
   `,
 
   PrevButton: styled(Button)<{ $curIndex: number }>`
-    left: -20px;
+    left: -25px;
     visibility: ${(props) => props.$curIndex <= 0 && 'hidden'};
   `,
 
-  NextButton: styled(Button)<{ $curIndex: number; $totalLength: number | undefined }>`
-    right: -20px;
-    visibility: ${(props) => props.$totalLength && props.$curIndex >= props.$totalLength - 5 && 'hidden'};
+  NextButton: styled(Button)<{ $curIndex: number; $totalLength: number | undefined; $perSlide: number }>`
+    right: -25px;
+    visibility: ${(props) => props.$totalLength && props.$curIndex >= props.$totalLength - props.$perSlide && 'hidden'};
   `,
 };
