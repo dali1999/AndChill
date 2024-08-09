@@ -18,7 +18,7 @@ const UpcomingMovieItem = ({ data }: TUpcomingMovieItemProps) => {
     <li onClick={() => navigate(`/${data.id}`)}>
       <S.Container>
         <S.MovieImage src={backDropImageUrl} className="scale-on-hover" />
-        <S.UpcomingLabel>{Math.round(data.popularity)}만큼 기대중</S.UpcomingLabel>
+        <S.UpcomingLabel>{Math.round(data.popularity)} 만큼 기대중</S.UpcomingLabel>
         <S.MovieReleaseDate>{data.release_date}</S.MovieReleaseDate>
         <S.MovieTitle>{data.title}</S.MovieTitle>
         {daysLeft <= 105 && daysLeft >= 0 && (
