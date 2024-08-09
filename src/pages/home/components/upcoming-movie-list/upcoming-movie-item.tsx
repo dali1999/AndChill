@@ -48,6 +48,7 @@ const animateWidth = keyframes`
 
 const S = {
   Container: styled.div`
+    height: 180px;
     cursor: pointer;
     position: relative;
     overflow: hidden;
@@ -76,7 +77,7 @@ const S = {
   MovieImage: styled.img`
     opacity: 0.4;
     width: 360px;
-    height: 180px;
+
     border-radius: 20px;
     transition: transform 0.4s ease;
   `,

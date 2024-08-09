@@ -1,13 +1,15 @@
 import loadingIcon from '@assets/icons/loading.svg';
 import styled from 'styled-components';
 
-interface TUpcomingMovieListSkeletonProps {
+interface TMovieListSkeletonProps {
   text?: string;
+  height?: number;
 }
 
-const UpcomingMovieListSkeleton = ({ text }: TUpcomingMovieListSkeletonProps) => {
+// 포스터 높이 200px 기준으로 초기값 설정
+const MovieListSkeleton = ({ text, height = 300 }: TMovieListSkeletonProps) => {
   return (
-    <S.Skeleton>
+    <S.Container $height={height}>
       {text ? (
         <p>{text}</p>
       ) : (
@@ -15,14 +17,14 @@ const UpcomingMovieListSkeleton = ({ text }: TUpcomingMovieListSkeletonProps) =>
           <S.LoadingIcon src={loadingIcon} />
         </>
       )}
-    </S.Skeleton>
+    </S.Container>
   );
 };
-export default UpcomingMovieListSkeleton;
+export default MovieListSkeleton;
 
 const S = {
-  Skeleton: styled.div`
-    height: 180px;
+  Container: styled.div<{ $height: number }>`
+    height: ${(props) => `${props.$height}px`};
     margin: 20px 0 0;
     width: 100%;
     display: flex;

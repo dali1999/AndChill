@@ -1,5 +1,5 @@
 import { TMovieListsItem } from '@api/movie-lists/movie-lists-request.type';
-import UpcomingMovieListSkeleton from '@components/skeleton/upcoming-movie-list-skeleton';
+import MovieListSkeleton from '@components/skeleton/movie-list-skeleton';
 import { useUpcomingMovieListQuery } from '@hooks/react-query/use-query-movie-lists';
 import UpcomingMovieItem from '@pages/home/components/upcoming-movie-list/upcoming-movie-item';
 import { getFlagEmoji } from '@pages/home/utils/get-flag-emoji';
@@ -18,9 +18,9 @@ const UpcomingMovieList = () => {
     <S.Container>
       <S.SectionTitle>{flagEmoji} 개봉 예정 영화</S.SectionTitle>
       {isLoading ? (
-        <UpcomingMovieListSkeleton />
+        <MovieListSkeleton height={180} />
       ) : upcomingMovieData?.total_results === 0 ? (
-        <UpcomingMovieListSkeleton text="개봉 예정인 영화가 없습니다" />
+        <MovieListSkeleton text="개봉 예정인 영화가 없습니다" height={180} />
       ) : (
         <S.UpcomingMovieList>
           {upcomingMovieData?.results.map((movie: TMovieListsItem) => (

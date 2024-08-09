@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { TMovieListsFetchRes, TMovieListsItem } from '@api/movie-lists/movie-lists-request.type';
-import UpcomingMovieListSkeleton from '@components/skeleton/upcoming-movie-list-skeleton';
+import MovieListSkeleton from '@components/skeleton/movie-list-skeleton';
 import MovieItem from '@pages/home/components/trending-movie-list/movie-item';
 import { fadeIn } from '@styles/animations';
 import styled from 'styled-components';
@@ -34,9 +34,9 @@ const MovieList = ({ title, data, isLoading }: TMovieListProps) => {
     <S.Container>
       <S.SectionTitle>{title}</S.SectionTitle>
       {isLoading ? (
-        <UpcomingMovieListSkeleton />
+        <MovieListSkeleton />
       ) : data?.total_results === 0 ? (
-        <UpcomingMovieListSkeleton text="영화 정보가 없습니다" />
+        <MovieListSkeleton text="영화 정보가 없습니다" />
       ) : (
         <div style={{ overflow: 'hidden' }}>
           <S.TrendingMovieList $curIndex={currentIndex} $perTrans={perTrans}>
