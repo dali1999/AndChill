@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { TMovieListsItem } from '@api/movie-lists/movie-lists-request.type';
+import { IMAGE_SIZE } from '@constants/image-size';
 import { useGenreListQuery } from '@hooks/react-query/use-query-genre';
 import { getGenreById } from '@utils/get-genre-by-id';
 import { getImage } from '@utils/get-image';
@@ -23,7 +24,7 @@ const MovieItem = ({ data }: TMovieItemProps) => {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <S.MovieImage src={getImage('w780', data.poster_path)} className="scale-on-hover" />
+      <S.MovieImage src={getImage(IMAGE_SIZE.poster_sizes.size04, data.poster_path)} className="scale-on-hover" />
       <S.Dummy>
         {hovered && (
           <div>

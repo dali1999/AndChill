@@ -1,22 +1,44 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { TGenre } from '@api/genre/genre-request.type';
 import { TMovieListsFetchRes, TMovieListsItem } from '@api/movie-lists/movie-lists-request.type';
 import leftRight from '@assets/icons/arrow-left.svg';
 import arrowRight from '@assets/icons/arrow-right.svg';
 import MovieListSkeleton from '@components/skeleton/movie-list-skeleton';
+import { useMovieDiscoverResultsQuery } from '@hooks/react-query/use-query-discover';
+import { useGenreListQuery } from '@hooks/react-query/use-query-genre';
 import MovieItem from '@pages/home/components/trending-movie-list/movie-item';
+import { getRandomGenre } from '@pages/home/utils/get-random-genre';
 import { fadeIn } from '@styles/animations';
 import styled from 'styled-components';
 
 interface TMovieListProps {
-  title: string;
-  data: TMovieListsFetchRes | undefined;
-  isLoading: boolean;
+  title?: string;
+  trendingMovieData?: TMovieListsFetchRes;
+  isTrendingMovieLoading?: boolean;
 }
+
 const PER_SLIDE = 2;
 
-const MovieList = ({ title, data, isLoading }: TMovieListProps) => {
+const MovieList = ({ title, trendingMovieData, isTrendingMovieLoading }: TMovieListProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const length = data?.results.length;
+  const [randomGenre, setRandomGenre] = useState<TGenre | undefined>();
+
+  const { data: genreData } = useGenreListQuery();
+
+  useEffect(() => {
+    if (genreData?.genres) {
+      setRandomGenre(getRandomGenre(genreData.genres));
+    }
+  }, [genreData]);
+
+  const { data: randomMovieData, isLoading: isRandomMovieLoading } = useMovieDiscoverResultsQuery(
+    'vote_count.desc',
+    randomGenre?.id ?? 0,
+  );
+
+  const movieData = trendingMovieData || randomMovieData;
+  const isLoading = isTrendingMovieLoading || isRandomMovieLoading;
+  const length = movieData?.results.length || 0;
 
   const next = () => {
     if (length && currentIndex < length - PER_SLIDE) {
@@ -30,24 +52,27 @@ const MovieList = ({ title, data, isLoading }: TMovieListProps) => {
     }
   };
 
+  const renderMovieList = () => (
+    <S.MovieList $curIndex={currentIndex}>
+      {movieData?.results.map((movie: TMovieListsItem) => (
+        <li key={movie.id}>
+          <MovieItem data={movie} />
+        </li>
+      ))}
+    </S.MovieList>
+  );
+
   return (
     <S.Container>
-      <S.SectionTitle>{title}</S.SectionTitle>
+      <S.SectionTitle>{title || randomGenre?.name}</S.SectionTitle>
       {isLoading ? (
         <MovieListSkeleton />
-      ) : data?.total_results === 0 ? (
+      ) : length === 0 ? (
         <MovieListSkeleton text="영화 정보가 없습니다" />
       ) : (
-        <div style={{ overflow: 'hidden' }}>
-          <S.TrendingMovieList $curIndex={currentIndex}>
-            {data?.results.map((movie: TMovieListsItem) => (
-              <li key={movie.id}>
-                <MovieItem data={movie} />
-              </li>
-            ))}
-          </S.TrendingMovieList>
-        </div>
+        <S.MovieListWrapper>{renderMovieList()}</S.MovieListWrapper>
       )}
+
       <S.PrevButton onClick={prev} $curIndex={currentIndex}>
         <img src={leftRight} />
       </S.PrevButton>
@@ -57,6 +82,7 @@ const MovieList = ({ title, data, isLoading }: TMovieListProps) => {
     </S.Container>
   );
 };
+
 export default MovieList;
 
 const Button = styled.button`
@@ -94,20 +120,28 @@ const S = {
   `,
 
   SectionTitle: styled.h2`
-    margin-bottom: 20px;
     height: 32px;
   `,
 
-  TrendingMovieList: styled.ul<{ $curIndex: number }>`
+  MovieListWrapper: styled.div`
+    overflow: hidden;
+  `,
+
+  MovieList: styled.ul<{ $curIndex: number }>`
+    padding-top: 20px;
     display: flex;
-    justify-content: space-between;
-    gap: 48px;
+    gap: 38px;
     animation: ${fadeIn} 0.5s ease-in;
-    transform: ${(props) => `translateX(-${props.$curIndex * 248}px)`};
+    transform: ${({ $curIndex }) => `translateX(-${$curIndex * 238}px)`};
     transition: 0.4s ease-in-out;
 
     &::-webkit-scrollbar {
       display: none;
+    }
+
+    &:hover ${Button} {
+      opacity: 0.8;
+      transition: 0.4s ease-in-out;
     }
   `,
 

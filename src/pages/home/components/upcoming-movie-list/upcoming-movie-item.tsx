@@ -1,5 +1,6 @@
 import { TMovieListsItem } from '@api/movie-lists/movie-lists-request.type';
 import fireIcon from '@assets/icons/fire.svg';
+import { IMAGE_SIZE } from '@constants/image-size';
 import { calculateLeftDays } from '@pages/home/utils/calculate-left-days';
 import { getImage } from '@utils/get-image';
 import { useNavigate } from 'react-router-dom';
@@ -12,7 +13,9 @@ interface TUpcomingMovieItemProps {
 const UpcomingMovieItem = ({ data }: TUpcomingMovieItemProps) => {
   const navigate = useNavigate();
   const daysLeft = calculateLeftDays(data.release_date);
-  const backDropImageUrl = data.backdrop_path ? getImage('w780', data.backdrop_path) : '/andchill-logo.png';
+  const backDropImageUrl = data.backdrop_path
+    ? getImage(IMAGE_SIZE.backdrop_sizes.size01, data.backdrop_path)
+    : '/andchill-logo.png';
 
   return (
     <li onClick={() => navigate(`/${data.id}`)}>
