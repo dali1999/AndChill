@@ -1,4 +1,4 @@
-import { TGenre } from "@api/genre/genre-request.type";
+import { TGenre } from '@api/genre/genre-request.type';
 
 export interface TMovieDetailsFetchRes {
   adult: boolean;
@@ -36,8 +36,6 @@ interface TCollection {
   backdrop_path: string;
 }
 
-
-
 interface TProductionCompany {
   id: number;
   logo_path: string;
@@ -58,10 +56,10 @@ interface TSpokenLanguage {
 
 export interface TMovieSitesFetchRes {
   id: number;
-  results: TMovieSitesItem[];
+  results: { [countryCode: string]: TCountryResult };
 }
 
-interface TProvider {
+export interface TProvider {
   logo_path: string;
   provider_id: number;
   provider_name: string;
@@ -75,6 +73,37 @@ interface TCountryResult {
   flatrate?: TProvider[];
 }
 
-interface TMovieSitesItem {
-  [countryCode: string]: TCountryResult;
+export interface TMovieVideosFetchRes {
+  id: number;
+  results: TMovieVideo[];
+}
+
+interface TMovieVideo {
+  iso_639_1: string;
+  iso_3166_1: string;
+  name: string;
+  key: string;
+  site: string;
+  size: number;
+  type: string;
+  official: boolean;
+  published_at: string;
+  id: string;
+}
+
+export interface TMovieImagesFetchRes {
+  id: number;
+  backdrops: TMovieImage[];
+  logos: TMovieImage[];
+  posters: TMovieImage[];
+}
+
+interface TMovieImage {
+  aspect_ratio: number;
+  height: number;
+  width: number;
+  iso_639_1: string;
+  file_path: string;
+  vote_average: number;
+  vote_count: number;
 }

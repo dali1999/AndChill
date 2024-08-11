@@ -1,5 +1,10 @@
 import movieRequest from '@api/movie/movie-request';
-import { TMovieDetailsFetchRes, TMovieSitesFetchRes } from '@api/movie/movie-request.type';
+import {
+  TMovieDetailsFetchRes,
+  TMovieImagesFetchRes,
+  TMovieSitesFetchRes,
+  TMovieVideosFetchRes,
+} from '@api/movie/movie-request.type';
 import { TMovieListsFetchRes } from '@api/movie-lists/movie-lists-request.type';
 import { QUERY_KEY } from '@constants/query-key';
 import { useQuery } from '@tanstack/react-query';
@@ -13,9 +18,17 @@ export const useMovieDetailsQuery = (movieId: number) => {
 };
 
 export const useMovieImagesQuery = (movieId: number) => {
-  const query = useQuery({
+  const query = useQuery<TMovieImagesFetchRes, Error>({
     queryKey: [QUERY_KEY.movieImages, movieId],
     queryFn: async () => await movieRequest.fetchMovieImages(movieId),
+  });
+  return query;
+};
+
+export const useMovieVideosQuery = (movieId: number) => {
+  const query = useQuery<TMovieVideosFetchRes, Error>({
+    queryKey: [QUERY_KEY.movieVideos, movieId],
+    queryFn: async () => await movieRequest.fetchMovieVideos(movieId),
   });
   return query;
 };

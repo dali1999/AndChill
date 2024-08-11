@@ -6,6 +6,7 @@ export const QUERY_KEY = {
   // movie
   movieDetails: 'movieDetails',
   movieImages: 'movieImages',
+  movieVideos: 'movieVideos',
   movieRecommendations: 'movieRecommendations',
   movieReview: 'movieReview',
   similarMovies: 'similarMovies',

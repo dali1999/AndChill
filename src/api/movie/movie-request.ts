@@ -12,7 +12,16 @@ const movieRequest = {
 
   fetchMovieImages: async (movieId: number) => {
     try {
-      const { data } = await axios.get(`movie/${movieId}/images?language=ko`);
+      const { data } = await axios.get(`movie/${movieId}/images?language=en`);
+      return data;
+    } catch (error) {
+      return error;
+    }
+  },
+
+  fetchMovieVideos: async (movieId: number) => {
+    try {
+      const { data } = await axios.get(`movie/${movieId}/videos?language=en`);
       return data;
     } catch (error) {
       return error;
