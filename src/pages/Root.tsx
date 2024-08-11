@@ -21,6 +21,7 @@ export default Root;
 
 const S = {
   Container: styled.div``,
+  
   Main: styled.main`
     margin-bottom: 330px;
   `,

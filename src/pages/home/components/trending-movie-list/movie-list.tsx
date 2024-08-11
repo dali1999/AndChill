@@ -40,15 +40,15 @@ const MovieList = ({ title, trendingMovieData, isTrendingMovieLoading }: TMovieL
   const isLoading = isTrendingMovieLoading || isRandomMovieLoading;
   const length = movieData?.results.length || 0;
 
-  const next = () => {
-    if (length && currentIndex < length - PER_SLIDE) {
-      setCurrentIndex((prevState) => prevState + PER_SLIDE);
+  const handleNext = () => {
+    if (currentIndex < length - PER_SLIDE) {
+      setCurrentIndex((prev) => prev + PER_SLIDE);
     }
   };
 
-  const prev = () => {
+  const handlePrev = () => {
     if (currentIndex > 0) {
-      setCurrentIndex((prevState) => prevState - PER_SLIDE);
+      setCurrentIndex((prev) => prev - PER_SLIDE);
     }
   };
 
@@ -73,10 +73,10 @@ const MovieList = ({ title, trendingMovieData, isTrendingMovieLoading }: TMovieL
         <S.MovieListWrapper>{renderMovieList()}</S.MovieListWrapper>
       )}
 
-      <S.PrevButton onClick={prev} $curIndex={currentIndex}>
+      <S.PrevButton onClick={handlePrev} $curIndex={currentIndex}>
         <img src={leftRight} />
       </S.PrevButton>
-      <S.NextButton onClick={next} $curIndex={currentIndex} $totalLength={length} $perSlide={PER_SLIDE}>
+      <S.NextButton onClick={handleNext} $curIndex={currentIndex} $totalLength={length} $perSlide={PER_SLIDE}>
         <img src={arrowRight} />
       </S.NextButton>
     </S.Container>

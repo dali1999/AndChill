@@ -13,7 +13,7 @@ const S = {
     left: 0;
     width: 100%;
     height: 300px;
-    /* background-color: black; */
     border-top: 1px solid var(--dark03);
+    background-color: var(--indigo01);
   `,
 };

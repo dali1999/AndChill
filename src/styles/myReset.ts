@@ -27,14 +27,15 @@ const myReset = css`
   body {
     overflow-x: hidden;
   }
+  html {
+    background-color: var(--indigo01);
+  }
 
   body {
     font-weight: 400;
     position: relative;
-    background-color: var(--indigo01);
     color: white;
-    height: 100%;
-    padding: 0 5%;
+    /* background: linear-gradient(to bottom, rgb(227, 228, 190), rgb(25, 161, 148)); */
   }
 
   ol,

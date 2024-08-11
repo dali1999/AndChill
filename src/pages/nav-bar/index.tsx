@@ -32,6 +32,8 @@ const S = {
     justify-content: space-between;
     align-items: center;
     height: 90px;
+    background-color: var(--indigo01);
+    padding: 0 5%;
   `,
 
   MenuLists: styled.ul`
