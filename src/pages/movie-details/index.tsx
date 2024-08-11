@@ -1,47 +1,44 @@
-import React from 'react';
-import { useMovieDetailsQuery } from '@hooks/react-query/use-query-movie';
-import { getImage } from '@utils/get-image';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import MovieImages from './components/movie-images';
+import MovieInfo from './components/movie-info';
+import MovieVideos from './components/movie-videos';
 
-const MovieDetails: React.FC = () => {
-  const { movieId } = useParams<Record<string, string>>();
+const MovieDetails = () => {
+  const { movieId } = useParams() as { movieId: string };
   const movieIdNumber: number = Number(movieId);
-  const { data: movieDetailsData, isLoading, isError } = useMovieDetailsQuery(movieIdNumber);
-
-  const imageUrl = getImage('w780', movieDetailsData?.poster_path);
-  const collectionImageUrl = getImage('w780', movieDetailsData?.belongs_to_collection?.poster_path);
-
-  if (isLoading) return <div>Loading...</div>;
-  if (isError) return <div>Error...</div>;
 
   return (
-    <div>
-      {/* <h1>영화 정보</h1> */}
-      <h1>{movieDetailsData?.title}</h1>
-      <S.GenreList>{movieDetailsData?.genres.map((genre) => <li>{genre.name}</li>)}</S.GenreList>
-      <p>{movieDetailsData?.overview}</p>
-      <S.Image src={imageUrl} />
-      {movieDetailsData?.belongs_to_collection?.poster_path ? (
-        <S.Image src={collectionImageUrl} />
-      ) : (
-        <p>No Collection</p>
-      )}
-    </div>
+    <S.Container>
+      <MovieImages movieId={movieIdNumber} />
+      <S.MovieWrapper>
+        <MovieInfo movieId={movieIdNumber} />
+        <MovieVideos movieId={movieIdNumber} />
+      </S.MovieWrapper>
+    </S.Container>
   );
 };
 
 export default MovieDetails;
 
 const S = {
-  GenreList: styled.ul`
+  Container: styled.div`
+    position: relative;
+    margin-bottom: -30px;
     display: flex;
-    gap: 10px;
-    margin: 10px 0 30px 0;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 5%;
   `,
 
-  Image: styled.img`
-    width: 300px;
-    margin: 20px 0;
+  MovieWrapper: styled.div`
+    background-color: #171b2d;
+    padding: 40px;
+    border-radius: 20px 20px 0 0;
+    max-width: 1500px;
+    box-shadow: rgb(0, 0, 0) 0px 20px 80px -10px;
+    z-index: 1;
+    margin-top: 300px;
   `,
 };
