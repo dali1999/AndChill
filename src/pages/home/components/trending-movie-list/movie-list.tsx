@@ -87,7 +87,7 @@ export default MovieList;
 
 const Button = styled.button`
   opacity: 0;
-  width: 40px;
+  width: 60px;
   height: 300px;
   display: flex;
   justify-content: center;
@@ -96,7 +96,7 @@ const Button = styled.button`
   z-index: 100;
   top: calc(30px + 32px + 20px);
   font-size: 30px;
-  background-color: var(--indigo01);
+  transition: 0.4s ease-in-out;
 
   img {
     width: 36px;
@@ -115,7 +115,7 @@ const S = {
     padding: 30px 0;
     &:hover ${Button} {
       opacity: 0.8;
-      transition: 0.4s ease-in-out;
+      transition: 0.3s ease-in-out;
     }
   `,
 
@@ -141,17 +141,20 @@ const S = {
 
     &:hover ${Button} {
       opacity: 0.8;
-      transition: 0.4s ease-in-out;
     }
   `,
 
   PrevButton: styled(Button)<{ $curIndex: number }>`
     left: -25px;
     visibility: ${(props) => props.$curIndex <= 0 && 'hidden'};
+    background: linear-gradient(to right, var(--indigo01) 60%, rgba(75, 0, 130, 0) 100%);
+    padding-right: 30px;
   `,
 
   NextButton: styled(Button)<{ $curIndex: number; $totalLength: number | undefined; $perSlide: number }>`
     right: -25px;
     visibility: ${(props) => props.$totalLength && props.$curIndex >= props.$totalLength - props.$perSlide && 'hidden'};
+    background: linear-gradient(to left, var(--indigo01) 60%, rgba(75, 0, 130, 0) 100%);
+    padding-left: 30px;
   `,
 };

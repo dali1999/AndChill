@@ -13,14 +13,13 @@ interface TMovieImagesProps {
 }
 
 const PER_SLIDE = 1;
-// http://localhost:5173/475557
 
 const MovieImages = ({ movieId }: TMovieImagesProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [backgroundStyle, setBackgroundStyle] = useState('');
 
   const { data: movieImagesData, isLoading } = useMovieImagesQuery(movieId);
-  const movieImages = movieImagesData?.backdrops.length !== 0 ? movieImagesData?.posters : movieImagesData?.posters;
+  const movieImages = movieImagesData?.backdrops.length !== 0 ? movieImagesData?.backdrops : movieImagesData?.posters;
   const length = movieImages?.length || 0;
 
   const imageURL = getImage(IMAGE_SIZE.backdrop_sizes.size02, movieImages && movieImages[0].file_path);
@@ -86,7 +85,7 @@ export default MovieImages;
 
 const Button = styled.button`
   opacity: 0;
-  width: 50px;
+  width: 80px;
   height: 338px;
   display: flex;
   justify-content: center;
@@ -96,15 +95,11 @@ const Button = styled.button`
   top: 0;
   font-size: 30px;
   background-color: var(--indigo01);
+  transition: 0.4s ease-in-out;
 
   img {
     width: 36px;
     height: 36px;
-  }
-
-  &.swiper-button-disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
   }
 `;
 
@@ -121,7 +116,7 @@ const S = {
 
   MovieImageList: styled.ul<{ $curIndex: number }>`
     display: flex;
-    transform: ${({ $curIndex }) => `translateX(-${$curIndex * 600}px)`};
+    transform: ${({ $curIndex }) => `translateX(-${$curIndex * 720}px)`};
     transition: 0.4s ease-in-out;
     &::-webkit-scrollbar {
       display: none;
@@ -132,23 +127,25 @@ const S = {
     position: relative;
     &:hover ${Button} {
       opacity: 0.6;
-      transition: 0.4s ease-in-out;
     }
   `,
 
   BackdropImage: styled.img`
-    width: 600px;
-    aspect-ratio: 16 / 9;
+    width: 720px;
+    aspect-ratio: 2 / 1;
   `,
 
   PrevButton: styled(Button)<{ $curIndex: number }>`
     left: 0;
     visibility: ${(props) => props.$curIndex <= 0 && 'hidden'};
-    transition: 0.4s ease-in-out;
+    background: linear-gradient(to right, var(--indigo01) 40%, rgba(75, 0, 130, 0) 100%);
+    padding-right: 15px;
   `,
 
   NextButton: styled(Button)<{ $curIndex: number; $totalLength: number | undefined; $perSlide: number }>`
     right: 0;
     visibility: ${(props) => props.$totalLength && props.$curIndex >= props.$totalLength - props.$perSlide && 'hidden'};
+    background: linear-gradient(to left, var(--indigo01) 40%, rgba(75, 0, 130, 0) 100%);
+    padding-left: 15px;
   `,
 };
