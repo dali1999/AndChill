@@ -40,6 +40,17 @@ const S = {
 
   SectionTitle: styled.h2`
     margin-bottom: 20px;
+    height: 32px;
+    position: relative;
+    padding-left: 15px;
+    &::before {
+      content: '';
+      background-color: var(--yellow01);
+      width: 3px;
+      height: 100%;
+      position: absolute;
+      left: 0;
+    }
   `,
 
   UpcomingMovieList: styled.ul`

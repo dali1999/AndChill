@@ -121,6 +121,16 @@ const S = {
 
   SectionTitle: styled.h2`
     height: 32px;
+    position: relative;
+    padding-left: 15px;
+    &::before {
+      content: '';
+      background-color: var(--yellow01);
+      width: 3px;
+      height: 100%;
+      position: absolute;
+      left: 0;
+    }
   `,
 
   MovieListWrapper: styled.div`
