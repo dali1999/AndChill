@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import MovieImages from './components/movie-images';
 import MovieInfo from './components/movie-info';
+import MovieLogoImage from './components/movie-logo-image';
 import MovieVideos from './components/movie-videos';
 
 const MovieDetails = () => {
@@ -10,7 +10,8 @@ const MovieDetails = () => {
 
   return (
     <S.Container>
-      <MovieImages movieId={movieIdNumber} />
+      {/* <MovieImages movieId={movieIdNumber} /> */}
+      <MovieLogoImage movieId={movieIdNumber} />
       <S.MovieWrapper>
         <MovieInfo movieId={movieIdNumber} />
         <MovieVideos movieId={movieIdNumber} />
@@ -24,7 +25,7 @@ export default MovieDetails;
 const S = {
   Container: styled.div`
     position: relative;
-    margin-bottom: -30px;
+    margin-bottom: -30px; //footer 떄문에
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -39,6 +40,5 @@ const S = {
     max-width: 1500px;
     box-shadow: rgb(0, 0, 0) 0px 20px 80px -10px;
     z-index: 1;
-    margin-top: 300px;
   `,
 };

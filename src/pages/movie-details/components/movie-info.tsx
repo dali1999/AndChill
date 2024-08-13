@@ -1,5 +1,5 @@
 import { IMAGE_SIZE } from '@constants/image-size';
-import { useMovieDetailsQuery } from '@hooks/react-query/use-query-movie';
+import { useMovieDetailsQuery, useMovieImagesQuery } from '@hooks/react-query/use-query-movie';
 import { getImage } from '@utils/get-image';
 import styled from 'styled-components';
 import MovieSites from './movie-sites';

@@ -1,5 +1,7 @@
-import Vibrant from 'node-vibrant';
 import { Palette } from 'node-vibrant/lib/color';
+import Vibrant from 'node-vibrant';
+
+const OPACITY = 0.6;
 
 export const getImageColor = async (imageURL: string) => {
   let gradientStyle = '';
@@ -10,7 +12,7 @@ export const getImageColor = async (imageURL: string) => {
     const startColor = palette.LightVibrant ? palette.Muted.getRgb() : palette.Vibrant.getRgb();
     const endColor = palette.DarkVibrant ? palette.DarkVibrant.getRgb() : palette.Muted.getRgb();
 
-    gradientStyle = `linear-gradient(to bottom, rgb(${startColor.join(', ')}), rgb(${endColor.join(', ')}))`;
+    gradientStyle = `linear-gradient(to bottom, rgba(${startColor.join(', ')}, ${OPACITY}), rgba(${endColor.join(', ')}, ${OPACITY}))`;
   }
 
   return gradientStyle;
