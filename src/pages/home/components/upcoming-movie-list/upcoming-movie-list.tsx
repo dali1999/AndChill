@@ -13,6 +13,7 @@ const UpcomingMovieList = () => {
   const { data: upcomingMovieData, isLoading } = useUpcomingMovieListQuery(region, language);
 
   const flagEmoji = getFlagEmoji(region);
+  console.log(region);
 
   return (
     <S.Container>
@@ -20,7 +21,7 @@ const UpcomingMovieList = () => {
       {isLoading ? (
         <MovieListSkeleton height={180} />
       ) : upcomingMovieData?.total_results === 0 ? (
-        <MovieListSkeleton text="개봉 예정인 영화가 없습니다" height={180} />
+        <MovieListSkeleton text={`${region}에서 개봉 예정인 영화가 없습니다`} height={180} />
       ) : (
         <S.UpcomingMovieList>
           {upcomingMovieData?.results.map((movie: TMovieListsItem) => (
