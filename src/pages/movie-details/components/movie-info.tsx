@@ -1,5 +1,5 @@
 import { IMAGE_SIZE } from '@constants/image-size';
-import { useMovieDetailsQuery, useMovieImagesQuery } from '@hooks/react-query/use-query-movie';
+import { useMovieDetailsQuery } from '@hooks/react-query/use-query-movie';
 import { getImage } from '@utils/get-image';
 import styled from 'styled-components';
 import MovieSites from './movie-sites';
@@ -10,10 +10,6 @@ interface TMovieInfoProps {
 
 const MovieInfo = ({ movieId }: TMovieInfoProps) => {
   const { data: movieDetailsData, isLoading, isError } = useMovieDetailsQuery(movieId);
-  const { data: movieImagesData } = useMovieImagesQuery(movieId);
-  const logoURL = getImage(IMAGE_SIZE.logo_sizes.size04, movieImagesData?.logos[0].file_path);
-  // const logoAspectRatio = movieImagesData?.logos[0].aspect_ratio;
-
   const posterUrl = getImage(IMAGE_SIZE.poster_sizes.size04, movieDetailsData?.poster_path);
 
   if (isLoading) return <div>Loading...</div>;
@@ -23,7 +19,6 @@ const MovieInfo = ({ movieId }: TMovieInfoProps) => {
     <div>
       <S.TitleWrapper>
         <h1>{movieDetailsData?.title}</h1>
-        <S.MovieLogoImage src={logoURL} />
       </S.TitleWrapper>
       <S.GenreList>{movieDetailsData?.genres.map((genre) => <li key={genre.id}>{genre.name}</li>)}</S.GenreList>
       <p>{movieDetailsData?.overview}</p>

@@ -6,7 +6,7 @@ import arrowRight from '@assets/icons/arrow-right.svg';
 import MovieListSkeleton from '@components/skeleton/movie-list-skeleton';
 import { useMovieDiscoverResultsQuery } from '@hooks/react-query/use-query-discover';
 import { useGenreListQuery } from '@hooks/react-query/use-query-genre';
-import MovieItem from '@pages/home/components/trending-movie-list/movie-item';
+import MovieItem from '@pages/home/components/movie-list/movie-item';
 import { getRandomGenre } from '@pages/home/utils/get-random-genre';
 import { fadeIn } from '@styles/animations';
 import styled from 'styled-components';

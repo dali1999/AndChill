@@ -1,5 +1,5 @@
 import { useTrendingMovieListQuery } from '@hooks/react-query/use-query-trending';
-import MovieList from '@pages/home/components/trending-movie-list/movie-list';
+import MovieList from '@pages/home/components/movie-list/movie-list';
 import UpcomingMovieList from '@pages/home/components/upcoming-movie-list/upcoming-movie-list';
 import styled from 'styled-components';
 // original_title.desc
