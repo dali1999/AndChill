@@ -22,14 +22,14 @@ const MovieVideos = ({ movieId }: TMovieVideosProps) => {
 
   return (
     <S.Container>
-      <p>예고편</p>
+      {/* <p>예고편</p> */}
       <S.VideosList>
         {trailerVideos?.map((video) => (
           <li key={video.id}>
             <S.StyledVideo
               videoId={video.key}
               opts={videoOptions}
-              onEnd={(e: { target: { stopVideo: (arg0: number) => void; }; }) => {
+              onEnd={(e: { target: { stopVideo: (arg0: number) => void } }) => {
                 e.target.stopVideo(0);
               }}
             />
@@ -43,7 +43,9 @@ const MovieVideos = ({ movieId }: TMovieVideosProps) => {
 export default MovieVideos;
 
 const S = {
-  Container: styled.div``,
+  Container: styled.div`
+    padding: 0 40px;
+  `,
 
   VideosList: styled.ul`
     display: flex;

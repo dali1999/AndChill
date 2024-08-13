@@ -28,7 +28,9 @@ const MovieSites = ({ movieId }: TMovieSitesProps) => {
 export default MovieSites;
 
 const S = {
-  Container: styled.div``,
+  Container: styled.div`
+    padding: 0 40px;
+  `,
 
   MovieSitesList: styled.ul`
     display: flex;
