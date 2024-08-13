@@ -13,16 +13,21 @@ interface TMovieImagesProps {
 
 const MovieLogoImage = ({ movieId }: TMovieImagesProps) => {
   const [backgroundStyle, setBackgroundStyle] = useState('');
+  const [scrollY, setScrollY] = useState(0);
 
   const { data: movieImagesData, isLoading } = useMovieImagesQuery(movieId);
   const movieImage = movieImagesData?.logos.length !== 0 ? movieImagesData?.logos[0] : movieImagesData?.posters[0];
 
-  const colorImageURL = getImage(IMAGE_SIZE.backdrop_sizes.size02, movieImagesData?.backdrops[0].file_path);
+  const colorImageURL = getImage(IMAGE_SIZE.backdrop_sizes.size02, movieImagesData?.backdrops[0]?.file_path);
   const aspectRatio = movieImage?.aspect_ratio as number;
 
   const fetchImageColor = async (url: string) => {
     const gradient = await getImageColor(url);
     setBackgroundStyle(gradient);
+  };
+
+  const handleScroll = () => {
+    setScrollY(window.scrollY);
   };
 
   useEffect(() => {
@@ -38,16 +43,26 @@ const MovieLogoImage = ({ movieId }: TMovieImagesProps) => {
     };
   }, [backgroundStyle, colorImageURL, movieImage]);
 
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   return (
-    <S.Container>
+    <S.Container style={{ transform: `translateY(${scrollY * 0.6}px)` }}>
       <S.ImageWrapper>
         {isLoading ? (
           <p>로딩중</p>
         ) : (
-          <S.LogoImage
-            src={getImage(IMAGE_SIZE.backdrop_sizes.size02, movieImage?.file_path)}
-            $aspectRatio={aspectRatio}
-          />
+          movieImage && (
+            <S.LogoImage
+              src={getImage(IMAGE_SIZE.logo_sizes.size05, movieImage?.file_path)}
+              $aspectRatio={aspectRatio}
+            />
+          )
         )}
       </S.ImageWrapper>
     </S.Container>
@@ -59,7 +74,7 @@ export default MovieLogoImage;
 const S = {
   Container: styled.div`
     width: 100%;
-    /* height: 250px; */
+    z-index: 0;
     display: flex;
     align-items: center;
     justify-content: center;
