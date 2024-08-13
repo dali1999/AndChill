@@ -35,7 +35,6 @@ const myReset = css`
     font-weight: 400;
     position: relative;
     color: white;
-    /* background: linear-gradient(to bottom, rgb(227, 228, 190), rgb(25, 161, 148)); */
   }
 
   ol,

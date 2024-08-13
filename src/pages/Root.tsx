@@ -6,22 +6,24 @@ import styled from 'styled-components';
 
 const Root = () => {
   return (
-    <>
+    <S.Container>
       <GlobalStyle />
       <NavBar />
       <S.Main>
         <Outlet />
       </S.Main>
       <Footer />
-    </>
+    </S.Container>
   );
 };
 
 export default Root;
 
 const S = {
-  Container: styled.div``,
-  
+  Container: styled.div`
+    margin-top: 70px;
+  `,
+
   Main: styled.main`
     margin-bottom: 330px;
   `,
