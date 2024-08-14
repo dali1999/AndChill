@@ -13,11 +13,10 @@ const UpcomingMovieList = () => {
   const { data: upcomingMovieData, isLoading } = useUpcomingMovieListQuery(region, language);
 
   const flagEmoji = getFlagEmoji(region);
-  console.log(region);
 
   return (
     <S.Container>
-      <S.SectionTitle>{flagEmoji} 개봉 예정 영화</S.SectionTitle>
+      <S.SectionTitle>{flagEmoji} 개봉 예정</S.SectionTitle>
       {isLoading ? (
         <MovieListSkeleton height={180} />
       ) : upcomingMovieData?.total_results === 0 ? (

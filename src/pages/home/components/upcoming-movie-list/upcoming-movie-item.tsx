@@ -80,7 +80,6 @@ const S = {
   MovieImage: styled.img`
     opacity: 0.4;
     width: 360px;
-
     border-radius: 20px;
     transition: transform 0.4s ease;
   `,
