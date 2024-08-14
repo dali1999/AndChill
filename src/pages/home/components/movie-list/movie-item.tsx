@@ -25,7 +25,7 @@ const MovieItem = ({ data }: TMovieItemProps) => {
       onMouseLeave={() => setHovered(false)}
     >
       <S.MovieImage src={getImage(IMAGE_SIZE.poster_sizes.size04, data.poster_path)} className="scale-on-hover" />
-      <S.Dummy>
+      <S.MovieLightInfo>
         {hovered && (
           <div>
             <S.MovieGenreList>
@@ -37,7 +37,7 @@ const MovieItem = ({ data }: TMovieItemProps) => {
             <S.MovieOverView>{data.overview}</S.MovieOverView>
           </div>
         )}
-      </S.Dummy>
+      </S.MovieLightInfo>
     </S.Container>
   );
 };
@@ -70,7 +70,7 @@ const S = {
     transition: transform 0.4s ease-in-out;
   `,
 
-  Dummy: styled.div`
+  MovieLightInfo: styled.div`
     color: white;
     position: absolute;
     display: flex;
@@ -85,7 +85,7 @@ const S = {
     &:hover {
       background-color: rgba(0, 0, 0, 0.8);
       opacity: 1;
-      div:nth-child(1) {
+      div {
         padding: 15px;
         position: absolute;
         animation: ${scrollCredits} 10s linear infinite;

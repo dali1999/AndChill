@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 import { IMAGE_SIZE } from '@constants/image-size';
-import { useMovieDetailsQuery, useMovieImagesQuery } from '@hooks/react-query/use-query-movie';
+import { useMovieDetailsQuery } from '@hooks/react-query/use-query-movie';
 import { getImage } from '@utils/get-image';
 import styled from 'styled-components';
-import MovieSites from './movie-sites';
 
 interface TMovieInfoProps {
   movieId: number;
@@ -45,7 +44,6 @@ const MovieInfo = ({ movieId }: TMovieInfoProps) => {
         <S.GenreList>
           {movieDetailsData?.genres.map((genre) => <S.GenreItem key={genre.id}>{genre.name}</S.GenreItem>)}
           <p>• {formattedRuntime}</p>
-          <p>• {movieDetailsData?.runtime}</p>
         </S.GenreList>
 
         <S.Overview>

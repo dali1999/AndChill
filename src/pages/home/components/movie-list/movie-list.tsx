@@ -104,11 +104,6 @@ const Button = styled.button`
     width: 36px;
     height: 36px;
   }
-
-  &.swiper-button-disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
 `;
 
 const S = {
