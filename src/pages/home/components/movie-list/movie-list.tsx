@@ -21,7 +21,9 @@ const PER_SLIDE = 2;
 
 const MovieList = ({ title, trendingMovieData, isTrendingMovieLoading }: TMovieListProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [randomGenre, setRandomGenre] = useState<TGenre | undefined>();
+  const [randomGenre, setRandomGenre] = useState<TGenre[] | undefined>();
+  const genreIdsStr = randomGenre?.map((genre) => genre.id).join();
+  const genreNamesStr = randomGenre?.map((genre) => genre.name).join(' • ');
 
   const { data: genreData } = useGenreListQuery();
 
@@ -33,7 +35,7 @@ const MovieList = ({ title, trendingMovieData, isTrendingMovieLoading }: TMovieL
 
   const { data: randomMovieData, isLoading: isRandomMovieLoading } = useMovieDiscoverResultsQuery(
     'vote_count.desc',
-    randomGenre?.id ?? 0,
+    genreIdsStr,
   );
 
   const movieData = trendingMovieData || randomMovieData;
@@ -64,7 +66,7 @@ const MovieList = ({ title, trendingMovieData, isTrendingMovieLoading }: TMovieL
 
   return (
     <S.Container>
-      <S.SectionTitle>{title || randomGenre?.name}</S.SectionTitle>
+      <S.SectionTitle>{title || genreNamesStr}</S.SectionTitle>
       {isLoading ? (
         <MovieListSkeleton />
       ) : length === 0 ? (

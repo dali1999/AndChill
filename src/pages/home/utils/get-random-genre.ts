@@ -1,8 +1,14 @@
 import { TGenre } from '@api/genre/genre-request.type';
 
-export const getRandomGenre = (genres: TGenre[] | undefined): TGenre | undefined => {
+export const getRandomGenre = (genres: TGenre[] | undefined): TGenre[] | undefined => {
   if (genres) {
-    const randomIndex = Math.floor(Math.random() * genres.length);
-    return genres[randomIndex];
+    const firstIdx = Math.floor(Math.random() * genres.length);
+
+    let secondIdx: number;
+    do {
+      secondIdx = Math.floor(Math.random() * genres.length);
+    } while (secondIdx === firstIdx);
+
+    return [genres[firstIdx], genres[secondIdx]];
   }
 };
