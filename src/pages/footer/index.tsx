@@ -16,6 +16,7 @@ export default Footer;
 
 const S = {
   Container: styled.div`
+    z-index: 100;
     position: absolute;
     bottom: 0;
     left: 0;
