@@ -1,62 +1,50 @@
 import { useEffect, useState } from 'react';
+import { TMovieDetailsFetchRes } from '@api/movie/movie-request.type';
 import { IMAGE_SIZE } from '@constants/image-size';
-import { useMovieDetailsQuery } from '@hooks/react-query/use-query-movie';
+import { claculateRuntime } from '@pages/movie-details/utils/calculate-runtime';
 import { getImage } from '@utils/get-image';
 import styled from 'styled-components';
 
 interface TMovieInfoProps {
-  movieId: number;
+  data: TMovieDetailsFetchRes;
 }
 
-const MovieInfo = ({ movieId }: TMovieInfoProps) => {
-  const [formattedRuntime, setFormattedRuntime] = useState('');
-  const { data: movieDetailsData, isLoading, isError } = useMovieDetailsQuery(movieId);
-  const posterUrl = getImage(IMAGE_SIZE.poster_sizes.size04, movieDetailsData?.poster_path);
-  const backdropUrl = getImage(IMAGE_SIZE.backdrop_sizes.size03, movieDetailsData?.backdrop_path);
-
-  const claculateRuntime = (runtime: number | undefined) => {
-    if (runtime) {
-      const hour = Math.floor(runtime / 60);
-      const min = runtime % 60;
-      setFormattedRuntime(`${hour}시간 ${min}분`);
-    }
-  };
+const MovieInfo = ({ data }: TMovieInfoProps) => {
+  const [formattedRuntime, setFormattedRuntime] = useState<string | undefined>('');
+  const { runtime, title, release_date, vote_average, genres, tagline, overview } = data;
+  const posterURL = getImage(IMAGE_SIZE.poster_sizes.size04, data?.poster_path);
+  const backdropURL = getImage(IMAGE_SIZE.backdrop_sizes.size03, data?.backdrop_path);
 
   useEffect(() => {
-    claculateRuntime(movieDetailsData?.runtime);
-  }, [movieDetailsData?.runtime]);
-
-  if (isLoading) return <div>Loading...</div>;
-  if (isError) return <div>Error...</div>;
+    setFormattedRuntime(claculateRuntime(runtime));
+  }, [runtime]);
 
   return (
-    <S.Container $backdropUrl={backdropUrl}>
-      <S.PosterImage src={posterUrl} />
+    <S.Container $backdropURL={backdropURL}>
+      <S.PosterImage src={posterURL} />
       <S.MovieInfoWrapper>
         <S.Title>
-          <h1>{movieDetailsData?.title}</h1>
-          <span>({movieDetailsData?.release_date.slice(0, 4)})</span>
+          <h1>{title}</h1>
+          <span>({release_date.slice(0, 4)})</span>
         </S.Title>
 
-        <div>{movieDetailsData?.vote_average}</div>
-        {/* <S.CircularRate></S.CircularRate> */}
-
         <S.GenreList>
-          {movieDetailsData?.genres.map((genre) => <S.GenreItem key={genre.id}>{genre.name}</S.GenreItem>)}
+          {genres.map((genre) => (
+            <S.GenreItem key={genre.id}>{genre.name}</S.GenreItem>
+          ))}
           <p>• {formattedRuntime}</p>
         </S.GenreList>
 
-        <S.Overview>
-          <p>{movieDetailsData?.tagline}</p>
-          <p>{movieDetailsData?.overview}</p>
-        </S.Overview>
+        <p>{vote_average}</p>
+        <S.Rate>
+          <S.RatePercent $voteAverage={vote_average}></S.RatePercent>
+        </S.Rate>
 
-        {/* <p>평점: {movieDetailsData?.vote_average}</p>
-        <p>제작비: {movieDetailsData?.budget}</p>
-        <p>수익: {movieDetailsData?.revenue}</p>
-        <p>원어: {movieDetailsData?.original_language}</p>
-        <p>원어: {movieDetailsData?.status}</p> */}
-        {/* <MovieSites movieId={movieId} /> */}
+        <S.Overview>
+          <p>{tagline}</p>
+          <p>{overview}</p>
+        </S.Overview>
+        
       </S.MovieInfoWrapper>
     </S.Container>
   );
@@ -65,23 +53,23 @@ const MovieInfo = ({ movieId }: TMovieInfoProps) => {
 export default MovieInfo;
 
 const S = {
-  Container: styled.div<{ $backdropUrl: string }>`
+  Container: styled.div<{ $backdropURL: string }>`
     position: relative;
     display: flex;
     gap: 30px;
     z-index: 1;
-    padding: 40px;
+    margin-bottom: 40px;
 
     &::before {
       content: '';
-      background-image: url(${({ $backdropUrl }) => $backdropUrl});
+      background-image: url(${({ $backdropURL }) => $backdropURL});
       background-repeat: no-repeat;
       background-size: cover;
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
+      top: -40px;
+      left: -40px;
+      right: -40px;
+      bottom: -40px;
       opacity: 0.1;
       z-index: -1;
     }
@@ -104,12 +92,23 @@ const S = {
     }
   `,
 
-  CircularRate: styled.div`
-    height: 90px;
-    width: 90px;
-    border-radius: 90px;
-    background: linear-gradient(90deg, blue 50%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0)),
-      linear-gradient(480deg, blue 50%, red 50%, red);
+  Rate: styled.div`
+    position: relative;
+    width: 40px;
+    height: 50px;
+    border-radius: 7px;
+    background-color: var(--dark03);
+    margin: 8px 0 20px;
+    overflow: hidden;
+  `,
+
+  RatePercent: styled.div<{ $voteAverage: number }>`
+    --percentage: ${({ $voteAverage }) => `${$voteAverage * 10}%`};
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: var(--percentage);
+    background-color: var(--yellow01);
   `,
 
   GenreList: styled.ul`

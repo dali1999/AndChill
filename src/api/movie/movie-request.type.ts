@@ -66,9 +66,10 @@ export interface TProvider {
   display_priority: number;
 }
 
-interface TCountryResult {
-  link: string;
+export interface TCountryResult {
+  // link: string;
   buy?: TProvider[];
+  free?: TProvider[];
   rent?: TProvider[];
   flatrate?: TProvider[];
 }
