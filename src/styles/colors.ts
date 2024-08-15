@@ -21,6 +21,11 @@ const colors = css`
 
     //point indigo
     --indigo01: #101322;
+    --indigo02: #171b2d;
+    --indigo03: #232539;
+    --indigo04: #2c2e45;
+    --indigo05: #363750;
+    --indigo06: #40405b;
 
     //gray
     --gray01: #9e9e9e;
