@@ -1,26 +1,29 @@
-import { useMovieSitesQuery } from '@hooks/react-query/use-query-movie';
+import { TCountryResult, TMovieSitesFetchRes } from '@api/movie/movie-request.type';
 import { useRegionStore } from '@stores/region';
 import styled from 'styled-components';
 import MovieSitesList from './movie-sites-list';
 
 interface TMovieSitesProps {
-  movieId: number;
+  data: TMovieSitesFetchRes;
 }
 
-const MovieSites = ({ movieId }: TMovieSitesProps) => {
+const RENDER_DATA: { key: keyof TCountryResult; title: string }[] = [
+  { key: 'buy', title: '구매' },
+  { key: 'free', title: '무료' },
+  { key: 'flatrate', title: '구독' },
+  { key: 'rent', title: '대여' },
+];
+
+const MovieSites = ({ data }: TMovieSitesProps) => {
   const region = useRegionStore((state) => state.region);
-  const { data: movieSitesData, isLoading, isError } = useMovieSitesQuery(movieId);
-
-  const krData = movieSitesData?.results[region];
-
-  if (isLoading) return <div>Loading...</div>;
-  if (isError) return <div>Error...</div>;
+  const sitesRegionData = data?.results[region];
 
   return (
     <S.Container>
-      <MovieSitesList data={krData?.buy} title="구매" />
-      <MovieSitesList data={krData?.flatrate} title="구독" />
-      <MovieSitesList data={krData?.rent} title="대여" />
+      <S.Title>지금 보러 가기</S.Title>
+      {RENDER_DATA.map(({ key, title }) =>
+        sitesRegionData?.[key] ? <MovieSitesList key={key} data={sitesRegionData[key]} title={title} /> : null,
+      )}
     </S.Container>
   );
 };
@@ -29,28 +32,8 @@ export default MovieSites;
 
 const S = {
   Container: styled.div`
-    padding: 0 40px;
+    padding: 20px;
   `,
 
-  MovieSitesList: styled.ul`
-    display: flex;
-    gap: 30px;
-    margin: 10px 0 20px;
-  `,
-
-  MovieSitesItem: styled.li`
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  `,
-
-  ProviderLogo: styled.img`
-    width: 35px;
-    height: 35px;
-    border-radius: 3px;
-  `,
-
-  ProviderName: styled.p`
-    font-size: 13px;
-  `,
+  Title: styled.h2``,
 };

@@ -4,19 +4,19 @@ import { getImage } from '@utils/get-image';
 import styled from 'styled-components';
 
 interface TMovieSitesListProps {
-  data: TProvider[] | undefined;
+  data: TProvider[];
   title: string;
 }
 
 const MovieSitesList = ({ data, title }: TMovieSitesListProps) => {
   return (
     <S.Container>
-      <h3>{title}</h3>
+      <S.Title>{title}</S.Title>
       <S.MovieSitesList>
-        {data?.map((item) => (
+        {data.map((item) => (
           <S.MovieSitesItem key={item.provider_id}>
             <S.ProviderLogo src={getImage(IMAGE_SIZE.logo_sizes.original, item.logo_path)} />
-            <S.ProviderName>{item.provider_name}</S.ProviderName>
+            {/* <S.ProviderName>{item.provider_name}</S.ProviderName> */}
           </S.MovieSitesItem>
         ))}
       </S.MovieSitesList>
@@ -27,12 +27,26 @@ const MovieSitesList = ({ data, title }: TMovieSitesListProps) => {
 export default MovieSitesList;
 
 const S = {
-  Container: styled.div``,
+  Container: styled.div`
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    border-bottom: 1px solid var(--indigo06);
+    padding: 20px 0;
+  `,
+
+  Title: styled.h4`
+    /* margin-bottom: 10px; */
+  `,
 
   MovieSitesList: styled.ul`
     display: flex;
-    gap: 30px;
-    margin: 10px 0 20px;
+    flex-wrap: wrap;
+    gap: 20px;
+    overflow-x: auto;
+    &::-webkit-scrollbar {
+      display: none;
+    }
   `,
 
   MovieSitesItem: styled.li`
@@ -42,9 +56,9 @@ const S = {
   `,
 
   ProviderLogo: styled.img`
-    width: 35px;
-    height: 35px;
-    border-radius: 3px;
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
   `,
 
   ProviderName: styled.p`

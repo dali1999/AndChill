@@ -1,28 +1,27 @@
 /* eslint-disable no-unused-vars */
-import { useMovieVideosQuery } from '@hooks/react-query/use-query-movie';
+import { TMovieVideosFetchRes } from '@api/movie/movie-request.type';
 import YouTube from 'react-youtube';
 import styled from 'styled-components';
 
 interface TMovieVideosProps {
-  movieId: number;
+  data: TMovieVideosFetchRes;
 }
 
-const MovieVideos = ({ movieId }: TMovieVideosProps) => {
-  const { data: movieVideosData } = useMovieVideosQuery(movieId);
+const MovieVideos = ({ data }: TMovieVideosProps) => {
   const videoOptions = {
-    width: '432',
-    height: '243',
+    width: '352',
+    height: '198',
     playerVars: {
       autoplay: 0,
       rel: 0,
     },
   };
 
-  const trailerVideos = movieVideosData?.results.filter((video) => video.type === 'Trailer');
+  const trailerVideos = data?.results.filter((video) => video.type === 'Trailer');
 
   return (
     <S.Container>
-      {/* <p>예고편</p> */}
+      <S.Title>예고편</S.Title>
       <S.VideosList>
         {trailerVideos?.map((video) => (
           <li key={video.id}>
@@ -44,15 +43,21 @@ export default MovieVideos;
 
 const S = {
   Container: styled.div`
-    padding: 0 40px;
+    padding: 20px;
+  `,
+
+  Title: styled.h2`
+    margin-bottom: 20px;
   `,
 
   VideosList: styled.ul`
     display: flex;
-    justify-content: center;
     gap: 10px;
-    margin-bottom: 20px;
     flex-wrap: wrap;
+    overflow-x: auto;
+    &::-webkit-scrollbar {
+      display: none;
+    }
   `,
 
   StyledVideo: styled(YouTube)``,
