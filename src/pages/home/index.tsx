@@ -1,5 +1,5 @@
 import { useTrendingMovieListQuery } from '@hooks/react-query/use-query-trending';
-import MovieList from '@pages/home/components/movie-list/movie-list';
+import MovieListSection from '@pages/home/components/movie-list/movie-list-section';
 import UpcomingMovieList from '@pages/home/components/upcoming-movie-list/upcoming-movie-list';
 import styled from 'styled-components';
 
@@ -9,14 +9,14 @@ const Home = () => {
   return (
     <S.Container>
       <UpcomingMovieList />
-      <MovieList
+      <MovieListSection
         title="이번 주 🌎 트렌드"
         trendingMovieData={trendingMovieData}
         isTrendingMovieLoading={isTrendingLoading}
       />
-      <MovieList />
-      <MovieList />
-      <MovieList />
+      <MovieListSection />
+      <MovieListSection />
+      <MovieListSection />
     </S.Container>
   );
 };
