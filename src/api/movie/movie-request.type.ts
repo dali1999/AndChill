@@ -36,7 +36,7 @@ interface TCollection {
   backdrop_path: string;
 }
 
-interface TProductionCompany {
+export interface TProductionCompany {
   id: number;
   logo_path: string;
   name: string;

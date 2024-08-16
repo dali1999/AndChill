@@ -1,5 +1,6 @@
 import { TMovieDetailsFetchRes } from '@api/movie/movie-request.type';
 import styled from 'styled-components';
+import MovieProductionCompanyItem from './movie-production-company-item';
 import { formatCurrency } from '../utils/calculate-currency';
 
 interface TMovieSecondaryProps {
@@ -10,28 +11,36 @@ const MovieSecondaryInfo = ({ data }: TMovieSecondaryProps) => {
   const { budget, revenue, original_language, status } = data;
   const movieBudget = budget === 0 ? '-' : formatCurrency(budget);
   const movieRevenue = revenue === 0 ? '-' : formatCurrency(revenue);
+  const productionCompaniesData = data.production_companies;
 
   return (
     <S.Container>
       <S.InfoItem>
-        <p>제작비</p>
-        <p>{movieBudget}</p>
+        <S.InfoTitle>제작비</S.InfoTitle>
+        <S.InfoContent>{movieBudget}</S.InfoContent>
       </S.InfoItem>
 
       <S.InfoItem>
-        <p>수익</p>
-        <p>{movieRevenue}</p>
+        <S.InfoTitle>수익</S.InfoTitle>
+        <S.InfoContent>{movieRevenue}</S.InfoContent>
       </S.InfoItem>
 
       <S.InfoItem>
-        <p>원어</p>
-        <p>{original_language}</p>
+        <S.InfoTitle>원어</S.InfoTitle>
+        <S.InfoContent>{original_language}</S.InfoContent>
       </S.InfoItem>
 
       <S.InfoItem>
-        <p>상태</p>
-        <p>{status}</p>
+        <S.InfoTitle>상태</S.InfoTitle>
+        <S.InfoContent>{status}</S.InfoContent>
       </S.InfoItem>
+
+      <S.ProductionCompanyList>
+        <S.InfoTitle>제작사</S.InfoTitle>
+        {productionCompaniesData.map((comnpany) => (
+          <MovieProductionCompanyItem key={comnpany.id} companyData={comnpany} />
+        ))}
+      </S.ProductionCompanyList>
     </S.Container>
   );
 };
@@ -49,18 +58,22 @@ const S = {
   InfoItem: styled.li`
     border-bottom: 1px solid var(--indigo06);
     padding: 20px 0;
-    p {
-    }
-    & p:nth-child(1) {
-      font-size: 16px;
-      margin-bottom: 10px;
-      font-weight: 600;
-      color: var(--gray03);
-    }
-    & p:nth-child(2) {
-      font-size: 14px;
-      font-weight: 100;
-      color: var(--gray01);
-    }
+  `,
+
+  InfoTitle: styled.p`
+    font-size: 16px;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: var(--gray03);
+  `,
+
+  InfoContent: styled.p`
+    font-size: 14px;
+    font-weight: 100;
+    color: var(--gray01);
+  `,
+
+  ProductionCompanyList: styled.ul`
+    padding: 20px 0;
   `,
 };
