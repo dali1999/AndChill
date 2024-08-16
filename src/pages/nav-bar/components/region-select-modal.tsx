@@ -62,17 +62,20 @@ const S = {
     right: 0;
     border-radius: 5px;
     overflow: hidden;
-    background-color: var(--dark03);
-    z-index: 9999;
+    background-color: var(--indigo04);
+    z-index: 100;
     box-shadow: rgba(0, 0, 0, 0.7) 0px 5px 20px;
   `,
 
   SearchBar: styled.input`
     margin: 10px 10px 5px;
-    background-color: var(--dark01);
+    background-color: var(--indigo02);
     border-radius: 5px;
     padding: 10px;
     width: 340px;
+    &::placeholder {
+      color: var(--gray02);
+    }
   `,
 
   RegionInfoContainer: styled.ul`
@@ -80,7 +83,6 @@ const S = {
     flex-wrap: wrap; // 2열 만들기
     gap: 20px;
     max-height: 325px;
-    background-color: var(--dark03);
     overflow-x: hidden;
     &::-webkit-scrollbar {
       width: 10px;

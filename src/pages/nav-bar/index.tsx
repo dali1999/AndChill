@@ -47,7 +47,7 @@ const S = {
     justify-content: center;
     align-items: center;
     gap: 20px;
-    width: 120px;
+    /* width: 120px; */
     flex-shrink: 0;
   `,
 
@@ -64,10 +64,14 @@ const S = {
 
   SearchBar: styled.input`
     background-color: var(--dark01);
+    background-color: var(--indigo03);
     border-radius: 5px;
     padding: 10px;
-    width: 250px;
     margin: 0 10px;
     flex-grow: 1;
+
+    &::placeholder {
+      color: var(--gray02);
+    }
   `,
 };
