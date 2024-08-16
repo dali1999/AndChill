@@ -3,6 +3,7 @@ import { TGenre } from '@api/genre/genre-request.type';
 import { TMovieListsFetchRes, TMovieListsItem } from '@api/movie-lists/movie-lists-request.type';
 import leftRight from '@assets/icons/arrow-left.svg';
 import arrowRight from '@assets/icons/arrow-right.svg';
+import CarouselButton, { Button } from '@components/carousel/carousel-button';
 import MovieListSkeleton from '@components/skeleton/movie-list-skeleton';
 import { useMovieDiscoverResultsQuery } from '@hooks/react-query/use-query-discover';
 import { useGenreListQuery } from '@hooks/react-query/use-query-genre';
@@ -42,18 +43,6 @@ const MovieList = ({ title, trendingMovieData, isTrendingMovieLoading }: TMovieL
   const isLoading = isTrendingMovieLoading || isRandomMovieLoading;
   const length = movieData?.results.length || 0;
 
-  const handleNext = () => {
-    if (currentIndex < length - PER_SLIDE) {
-      setCurrentIndex((prev) => prev + PER_SLIDE);
-    }
-  };
-
-  const handlePrev = () => {
-    if (currentIndex > 0) {
-      setCurrentIndex((prev) => prev - PER_SLIDE);
-    }
-  };
-
   const renderMovieList = () => (
     <S.MovieList $curIndex={currentIndex}>
       {movieData?.results.map((movie: TMovieListsItem) => (
@@ -75,36 +64,21 @@ const MovieList = ({ title, trendingMovieData, isTrendingMovieLoading }: TMovieL
         <S.MovieListWrapper>{renderMovieList()}</S.MovieListWrapper>
       )}
 
-      <S.PrevButton onClick={handlePrev} $curIndex={currentIndex}>
-        <img src={leftRight} />
-      </S.PrevButton>
-      <S.NextButton onClick={handleNext} $curIndex={currentIndex} $totalLength={length} $perSlide={PER_SLIDE}>
-        <img src={arrowRight} />
-      </S.NextButton>
+      <CarouselButton
+        length={length}
+        currentIndex={currentIndex}
+        setCurrentIndex={setCurrentIndex}
+        perSlide={2}
+        positionTop={30 + 32 + 20}
+        positionLR={-25}
+        width={60}
+        height={300}
+      />
     </S.Container>
   );
 };
 
 export default MovieList;
-
-const Button = styled.button`
-  opacity: 0;
-  width: 60px;
-  height: 300px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  z-index: 100;
-  top: calc(30px + 32px + 20px);
-  font-size: 30px;
-  transition: 0.4s ease-in-out;
-
-  img {
-    width: 36px;
-    height: 36px;
-  }
-`;
 
 const S = {
   Container: styled.section`
@@ -112,7 +86,6 @@ const S = {
     padding: 30px 0;
     &:hover ${Button} {
       opacity: 0.8;
-      transition: 0.3s ease-in-out;
     }
   `,
 
@@ -140,28 +113,10 @@ const S = {
     gap: 38px;
     animation: ${fadeIn} 0.5s ease-in;
     transform: ${({ $curIndex }) => `translateX(-${$curIndex * 238}px)`};
-    transition: 0.4s ease-in-out;
+    transition: 0.3s ease-in-out;
 
     &::-webkit-scrollbar {
       display: none;
     }
-
-    &:hover ${Button} {
-      opacity: 0.8;
-    }
-  `,
-
-  PrevButton: styled(Button)<{ $curIndex: number }>`
-    left: -25px;
-    visibility: ${(props) => props.$curIndex <= 0 && 'hidden'};
-    background: linear-gradient(to right, var(--indigo01) 60%, rgba(75, 0, 130, 0) 100%);
-    padding-right: 30px;
-  `,
-
-  NextButton: styled(Button)<{ $curIndex: number; $totalLength: number | undefined; $perSlide: number }>`
-    right: -25px;
-    visibility: ${(props) => props.$totalLength && props.$curIndex >= props.$totalLength - props.$perSlide && 'hidden'};
-    background: linear-gradient(to left, var(--indigo01) 60%, rgba(75, 0, 130, 0) 100%);
-    padding-left: 30px;
   `,
 };
