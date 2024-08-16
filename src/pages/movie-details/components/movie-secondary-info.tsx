@@ -40,11 +40,10 @@ export default MovieSecondaryInfo;
 const S = {
   Container: styled.ul`
     margin-left: 20px;
-    /* padding: 20px 40px; */
-    /* border: 1px solid red; */
-    /* background-color: var(--indigo04); */
-    /* border-radius: 10px; */
-    width: 220px;
+    padding: 20px;
+    background-color: var(--indigo01);
+    border-radius: 0px 0 0 0;
+    width: 200px;
   `,
 
   InfoItem: styled.li`
@@ -53,13 +52,15 @@ const S = {
     p {
     }
     & p:nth-child(1) {
-      font-size: 17px;
-      color: var(--gray02);
+      font-size: 16px;
       margin-bottom: 10px;
+      font-weight: 600;
+      color: var(--gray03);
     }
     & p:nth-child(2) {
       font-size: 14px;
-      font-weight: 400;
+      font-weight: 100;
+      color: var(--gray01);
     }
   `,
 };
