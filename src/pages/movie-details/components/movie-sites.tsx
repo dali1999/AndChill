@@ -32,7 +32,7 @@ export default MovieSites;
 
 const S = {
   Container: styled.div`
-    padding: 20px;
+    padding: 20px 0;
   `,
 
   Title: styled.h2``,
