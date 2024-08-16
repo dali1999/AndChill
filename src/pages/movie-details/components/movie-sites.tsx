@@ -46,7 +46,6 @@ const S = {
   Title: styled.h2``,
 
   NoSitesText: styled.p`
-    padding: 25px 0;
     font-size: 14px;
     color: var(--gray02);
   `,

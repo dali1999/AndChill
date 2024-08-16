@@ -26,7 +26,13 @@ const MovieItem = ({ data }: TMovieItemProps) => {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <S.MovieImage src={getImage(IMAGE_SIZE.poster_sizes.size04, data.poster_path)} className="scale-on-hover" />
+      {data.poster_path ? (
+        <S.MovieImage src={getImage(IMAGE_SIZE.poster_sizes.size04, data.poster_path)} className="scale-on-hover" />
+      ) : (
+        <S.DummyImageWrapper>
+          <S.DummyImage src="/andchill-logo-300.png" className="scale-on-hover" />
+        </S.DummyImageWrapper>
+      )}
       <S.MovieLightInfo>
         {hovered && (
           <div>
@@ -70,6 +76,21 @@ const S = {
   MovieImage: styled.img`
     border-radius: 7px;
     transition: transform 0.4s ease-in-out;
+    background-color: var(--indigo05);
+  `,
+
+  DummyImageWrapper: styled.div`
+    background-color: var(--indigo04);
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  `,
+
+  DummyImage: styled.img`
+    transition: transform 0.4s ease-in-out;
+    opacity: 0.3;
+    height: 80px;
   `,
 
   MovieLightInfo: styled.div`

@@ -23,39 +23,43 @@ const MovieVideos = ({ data }: TMovieVideosProps) => {
   };
 
   const trailerVideos = data?.results.filter((video) => video.type === 'Trailer');
-  const length = trailerVideos.length;
+  const videoDataLength = trailerVideos.length;
 
   return (
     <MovieDetailsSectionTemplate title="예고편">
-      <S.VideoListWrapper>
-        <S.VideosList $curIndex={currentIndex}>
-          {trailerVideos?.map((video) => (
-            <S.VideoListItem key={video.id}>
-              <S.VideoWrapper>
-                <S.StyledVideo
-                  videoId={video.key}
-                  opts={videoOptions}
-                  onEnd={(e: { target: { stopVideo: (arg0: number) => void } }) => {
-                    e.target.stopVideo(0);
-                  }}
-                />
-              </S.VideoWrapper>
-            </S.VideoListItem>
-          ))}
-        </S.VideosList>
+      {videoDataLength !== 0 ? (
+        <S.VideoListWrapper>
+          <S.VideosList $curIndex={currentIndex}>
+            {trailerVideos?.map((video) => (
+              <S.VideoListItem key={video.id}>
+                <S.VideoWrapper>
+                  <S.StyledVideo
+                    videoId={video.key}
+                    opts={videoOptions}
+                    onEnd={(e: { target: { stopVideo: (arg0: number) => void } }) => {
+                      e.target.stopVideo(0);
+                    }}
+                  />
+                </S.VideoWrapper>
+              </S.VideoListItem>
+            ))}
+          </S.VideosList>
 
-        <CarouselButton
-          length={length}
-          currentIndex={currentIndex}
-          setCurrentIndex={setCurrentIndex}
-          perSlide={1}
-          positionTop={0}
-          positionLR={-10}
-          width={40}
-          height={198}
-          backgroundColor="var(--indigo02)"
-        />
-      </S.VideoListWrapper>
+          <CarouselButton
+            length={videoDataLength}
+            currentIndex={currentIndex}
+            setCurrentIndex={setCurrentIndex}
+            perSlide={1}
+            positionTop={0}
+            positionLR={-10}
+            width={40}
+            height={198}
+            backgroundColor="var(--indigo02)"
+          />
+        </S.VideoListWrapper>
+      ) : (
+        <S.NoVideoText>영상이 없습니다</S.NoVideoText>
+      )}
     </MovieDetailsSectionTemplate>
   );
 };
@@ -99,4 +103,9 @@ const S = {
   `,
 
   StyledVideo: styled(YouTube)``,
+
+  NoVideoText: styled.p`
+    font-size: 14px;
+    color: var(--gray02);
+  `,
 };

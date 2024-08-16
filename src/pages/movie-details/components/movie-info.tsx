@@ -12,7 +12,9 @@ interface TMovieInfoProps {
 const MovieInfo = ({ data }: TMovieInfoProps) => {
   const [formattedRuntime, setFormattedRuntime] = useState<string | undefined>('');
   const { runtime, title, release_date, vote_average, genres, tagline, overview } = data;
-  const posterURL = getImage(IMAGE_SIZE.poster_sizes.size04, data?.poster_path);
+  const posterURL = data.poster_path
+    ? getImage(IMAGE_SIZE.poster_sizes.size04, data?.poster_path)
+    : '/andchill-logo-800.png';
   const backdropURL = getImage(IMAGE_SIZE.backdrop_sizes.size03, data?.backdrop_path);
 
   useEffect(() => {
@@ -20,8 +22,14 @@ const MovieInfo = ({ data }: TMovieInfoProps) => {
   }, [runtime]);
 
   return (
-    <S.Container $backdropURL={backdropURL}>
-      <S.PosterImage src={posterURL} />
+    <S.Container $backdropURL={backdropURL} $isImageExist={!!data.backdrop_path}>
+      {data.poster_path ? (
+        <S.PosterImage src={posterURL} />
+      ) : (
+        <S.DummyImageWrapper>
+          <S.DummyImage src={posterURL} />
+        </S.DummyImageWrapper>
+      )}
       <S.MovieInfoWrapper>
         <S.Title>
           <h1>{title}</h1>
@@ -42,7 +50,7 @@ const MovieInfo = ({ data }: TMovieInfoProps) => {
 
         <S.Overview>
           <p>{tagline}</p>
-          <p>{overview}</p>
+          {overview ? <p>{overview}</p> : <S.NoOverviewText>영화 내용에 관한 정보가 없습니다</S.NoOverviewText>}
         </S.Overview>
       </S.MovieInfoWrapper>
     </S.Container>
@@ -52,12 +60,13 @@ const MovieInfo = ({ data }: TMovieInfoProps) => {
 export default MovieInfo;
 
 const S = {
-  Container: styled.div<{ $backdropURL: string }>`
+  Container: styled.div<{ $backdropURL: string; $isImageExist: boolean }>`
     position: relative;
     padding: 40px;
     display: flex;
-    gap: 30px;
+    gap: 40px;
     z-index: 1;
+    border-bottom: ${({ $isImageExist }) => !$isImageExist && `2px solid var(--indigo04)`};
 
     &::before {
       content: '';
@@ -74,7 +83,31 @@ const S = {
     }
   `,
 
-  MovieInfoWrapper: styled.div``,
+  PosterImage: styled.img`
+    width: 330px;
+    border-radius: 6px;
+  `,
+
+  DummyImageWrapper: styled.div`
+    background-color: var(--indigo04);
+    width: 330px;
+    height: 472px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+  `,
+
+  DummyImage: styled.img`
+    opacity: 0.2;
+    width: 280px;
+    height: 120px;
+  `,
+
+  MovieInfoWrapper: styled.div`
+    width: 100%;
+    height: 100%;
+  `,
 
   Title: styled.div`
     margin-bottom: 20px;
@@ -130,16 +163,24 @@ const S = {
     font-size: 16px;
     line-height: 26px;
     color: var(--gray03);
+    width: 100%;
+
     & p:first-child {
       margin-bottom: 10px;
       font-weight: 600;
       font-size: 20px;
       color: var(--gray01);
     }
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   `,
 
-  PosterImage: styled.img`
-    width: 330px;
-    border-radius: 5px;
+  NoOverviewText: styled.p`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 180px;
   `,
 };

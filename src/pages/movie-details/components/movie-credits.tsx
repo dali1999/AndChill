@@ -103,14 +103,14 @@ const S = {
     border-radius: 40px;
     width: 70px;
     height: 110px;
-    background-color: var(--indigo05);
+    background-color: var(--indigo04);
     display: flex;
     align-items: center;
     justify-content: center;
   `,
 
   DummyImage: styled.img`
-    opacity: 0.5;
+    opacity: 0.3;
     width: 40px;
     height: 31px;
   `,
