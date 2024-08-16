@@ -1,5 +1,6 @@
 import movieRequest from '@api/movie/movie-request';
 import {
+  TMovieCreditsFetchRes,
   TMovieDetailsFetchRes,
   TMovieImagesFetchRes,
   TMovieSitesFetchRes,
@@ -61,6 +62,14 @@ export const useMovieSitesQuery = (movieId: number) => {
   const query = useQuery<TMovieSitesFetchRes, Error>({
     queryKey: [QUERY_KEY.movieSites, movieId],
     queryFn: async () => await movieRequest.fetchMovieSites(movieId),
+  });
+  return query;
+};
+
+export const useMovieCreditsQuery = (movieId: number) => {
+  const query = useQuery<TMovieCreditsFetchRes, Error>({
+    queryKey: [QUERY_KEY.movieCredits, movieId],
+    queryFn: async () => await movieRequest.fetchMovieCredits(movieId),
   });
   return query;
 };

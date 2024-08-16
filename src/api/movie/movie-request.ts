@@ -63,6 +63,15 @@ const movieRequest = {
       return error;
     }
   },
+
+  fetchMovieCredits: async (movieId: number) => {
+    try {
+      const { data } = await axios.get(`movie/${movieId}/credits?language=ko`);
+      return data;
+    } catch (error) {
+      return error;
+    }
+  },
 } as const;
 
 export default movieRequest;

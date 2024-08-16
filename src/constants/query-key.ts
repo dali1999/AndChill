@@ -11,6 +11,7 @@ export const QUERY_KEY = {
   movieReview: 'movieReview',
   similarMovies: 'similarMovies',
   movieSites: 'movieSites',
+  movieCredits: 'movieCredits',
 
   // movie lists
   nowPlayingMovieList: 'nowPlayingMovieList',
