@@ -1,3 +1,4 @@
+import { skeleton, skeletonAnimation } from '@styles/skeleton';
 import styled from 'styled-components';
 
 const MovieDetailsSkeleton = () => {
@@ -19,7 +20,18 @@ const S = {
     max-width: 1500px;
     height: 1200px;
     box-shadow: rgb(0, 0, 0) 0px 20px 80px -10px;
-    margin-top: 300px;
+    margin-top: 170px;
+
+    ${skeleton}
+    &::before {
+      ${skeletonAnimation}
+    }
   `,
-  DummyContent: styled.div``,
+  DummyContent: styled.div`
+    width: 100%;
+    ${skeleton}
+    &::before {
+      ${skeletonAnimation}
+    }
+  `,
 };
