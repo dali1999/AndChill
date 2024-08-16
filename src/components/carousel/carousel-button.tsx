@@ -88,7 +88,7 @@ export const Button = styled.button<{ $positionTop: number; $width: number; $hei
     height: 30px;
   }
 `;
-// ${(props) => props.$bgColor}
+
 const S = {
   PrevButton: styled(Button)<{ $curIndex: number; $positionLR: number; $bgColor: string }>`
     left: ${(props) => props.$positionLR}px;

@@ -34,7 +34,7 @@ const myReset = css`
   body {
     font-weight: 400;
     position: relative;
-    color: white;
+    color: var(--lightWhite);
   }
 
   ol,

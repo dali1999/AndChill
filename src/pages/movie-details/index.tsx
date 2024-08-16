@@ -97,7 +97,6 @@ const S = {
     border-radius: 20px 20px 0 0;
     max-width: 1500px;
     box-shadow: rgb(0, 0, 0) 0px 20px 80px -10px;
-    padding: 40px;
     width: 100%;
   `,
 
@@ -108,6 +107,7 @@ const S = {
   BottomLeftSection: styled.div`
     flex: 1;
     overflow: hidden;
+    padding: 40px;
   `,
 
   BottomRightSection: styled.div`

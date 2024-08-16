@@ -113,9 +113,5 @@ const S = {
     animation: ${fadeIn} 0.5s ease-in;
     transform: ${({ $curIndex }) => `translateX(-${$curIndex * 238}px)`};
     transition: 0.3s ease-in-out;
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
   `,
 };

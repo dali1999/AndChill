@@ -44,7 +44,6 @@ const MovieInfo = ({ data }: TMovieInfoProps) => {
           <p>{tagline}</p>
           <p>{overview}</p>
         </S.Overview>
-        
       </S.MovieInfoWrapper>
     </S.Container>
   );
@@ -55,10 +54,10 @@ export default MovieInfo;
 const S = {
   Container: styled.div<{ $backdropURL: string }>`
     position: relative;
+    padding: 40px;
     display: flex;
     gap: 30px;
     z-index: 1;
-    margin-bottom: 40px;
 
     &::before {
       content: '';
@@ -66,10 +65,10 @@ const S = {
       background-repeat: no-repeat;
       background-size: cover;
       position: absolute;
-      top: -40px;
-      left: -40px;
-      right: -40px;
-      bottom: -40px;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
       opacity: 0.1;
       z-index: -1;
     }
