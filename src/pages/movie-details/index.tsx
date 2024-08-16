@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import MovieDetailsSkeleton from '@components/skeleton/movie-details-skeleton';
 import { IMAGE_SIZE } from '@constants/image-size';
 import {
+  useMovieCreditsQuery,
   useMovieDetailsQuery,
   useMovieImagesQuery,
   useMovieSitesQuery,
@@ -16,20 +17,24 @@ import { getImage } from '@utils/get-image';
 import { getImageColor } from '@utils/get-image-color';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import MovieCredits from './components/movie-credits';
 
 const MovieDetails = () => {
   const [backgroundColor, setBackgroundColor] = useState('');
   const { movieId } = useParams() as { movieId: string };
   const movieIdNumber = Number(movieId);
+
   const { data: movieImagesData, isFetching: isImageDataLoading } = useMovieImagesQuery(movieIdNumber);
   const { data: movieDetailsData, isFetching: isDetailsDataLoading } = useMovieDetailsQuery(movieIdNumber);
   const { data: movieSitesData, isFetching: isSiteDataLoading } = useMovieSitesQuery(movieIdNumber);
   const { data: movieVideosData, isFetching: isVideoDataLoading } = useMovieVideosQuery(movieIdNumber);
+  const { data: movieCreditsData, isFetching: isCreditsDataLoading } = useMovieCreditsQuery(movieIdNumber);
+
   const movieImage = movieImagesData?.logos.length !== 0 ? movieImagesData?.logos[0] : movieImagesData?.posters[0];
   const colorImageURL = getImage(IMAGE_SIZE.backdrop_sizes.size02, movieImagesData?.backdrops[0]?.file_path);
 
-  const isFetching = isDetailsDataLoading || isImageDataLoading || isSiteDataLoading || isVideoDataLoading;
-  console.log(isFetching);
+  const isFetching =
+    isDetailsDataLoading || isImageDataLoading || isSiteDataLoading || isVideoDataLoading || isCreditsDataLoading;
 
   const fetchImageColor = async (url: string) => {
     const gradient = await getImageColor(url);
@@ -57,6 +62,7 @@ const MovieDetails = () => {
             {movieDetailsData && <MovieInfo data={movieDetailsData} />}
             <S.BottomSection>
               <S.BottomLeftSection>
+                {movieCreditsData && <MovieCredits data={movieCreditsData} />}
                 {movieSitesData && <MovieSites data={movieSitesData} />}
                 {movieVideosData && <MovieVideos data={movieVideosData} />}
               </S.BottomLeftSection>
@@ -98,12 +104,13 @@ const S = {
   BottomSection: styled.div`
     display: flex;
   `,
+
   BottomLeftSection: styled.div`
     flex: 1;
+    overflow: hidden;
   `,
 
   BottomRightSection: styled.div`
-    border: 1px solid yellow;
     display: flex;
   `,
 };
