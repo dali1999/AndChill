@@ -21,8 +21,13 @@ const movieRequest = {
 
   fetchMovieVideos: async (movieId: number) => {
     try {
-      const { data } = await axios.get(`movie/${movieId}/videos?language=en`);
-      return data;
+      const { data } = await axios.get(`movie/${movieId}/videos?language=ko`);
+      if (data.results.length === 0) {
+        const { data } = await axios.get(`movie/${movieId}/videos?language=en`);
+        return data;
+      } else {
+        return data;
+      }
     } catch (error) {
       return error;
     }
