@@ -82,9 +82,10 @@ export const Button = styled.button<{ $positionTop: number; $width: number; $hei
   top: calc(${(props) => props.$positionTop}px);
   font-size: 30px;
   transition: 0.4s ease-in-out;
+  clip-path: inset(-50px -50px -50px -50px);
   img {
-    width: 36px;
-    height: 36px;
+    width: 30px;
+    height: 30px;
   }
 `;
 // ${(props) => props.$bgColor}

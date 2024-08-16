@@ -46,7 +46,7 @@ const MovieCredits = ({ data }: TMovieCreditsProps) => {
         setCurrentIndex={setCurrentIndex}
         perSlide={2}
         positionTop={40 + 30}
-        positionLR={0}
+        positionLR={-10}
         width={40}
         height={110}
         backgroundColor="var(--indigo02)"

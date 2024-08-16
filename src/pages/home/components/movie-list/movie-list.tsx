@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
 import { TGenre } from '@api/genre/genre-request.type';
 import { TMovieListsFetchRes, TMovieListsItem } from '@api/movie-lists/movie-lists-request.type';
-import leftRight from '@assets/icons/arrow-left.svg';
-import arrowRight from '@assets/icons/arrow-right.svg';
 import CarouselButton, { Button } from '@components/carousel/carousel-button';
 import MovieListSkeleton from '@components/skeleton/movie-list-skeleton';
 import { useMovieDiscoverResultsQuery } from '@hooks/react-query/use-query-discover';
@@ -17,8 +15,6 @@ interface TMovieListProps {
   trendingMovieData?: TMovieListsFetchRes;
   isTrendingMovieLoading?: boolean;
 }
-
-const PER_SLIDE = 2;
 
 const MovieList = ({ title, trendingMovieData, isTrendingMovieLoading }: TMovieListProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -61,19 +57,21 @@ const MovieList = ({ title, trendingMovieData, isTrendingMovieLoading }: TMovieL
       ) : length === 0 ? (
         <MovieListSkeleton text="영화 정보가 없습니다" />
       ) : (
-        <S.MovieListWrapper>{renderMovieList()}</S.MovieListWrapper>
+        <S.MovieListWrapper>
+          {renderMovieList()}{' '}
+          <CarouselButton
+            length={length}
+            currentIndex={currentIndex}
+            setCurrentIndex={setCurrentIndex}
+            perSlide={2}
+            positionTop={20}
+            positionLR={-22}
+            width={60}
+            height={300}
+            backgroundColor="var(--indigo01)"
+          />
+        </S.MovieListWrapper>
       )}
-
-      <CarouselButton
-        length={length}
-        currentIndex={currentIndex}
-        setCurrentIndex={setCurrentIndex}
-        perSlide={2}
-        positionTop={30 + 32 + 20}
-        positionLR={-25}
-        width={60}
-        height={300}
-      />
     </S.Container>
   );
 };
@@ -84,9 +82,6 @@ const S = {
   Container: styled.section`
     position: relative;
     padding: 30px 0;
-    &:hover ${Button} {
-      opacity: 0.8;
-    }
   `,
 
   SectionTitle: styled.h2`
@@ -104,7 +99,11 @@ const S = {
   `,
 
   MovieListWrapper: styled.div`
+    position: relative;
     overflow: hidden;
+    &:hover ${Button} {
+      opacity: 0.8;
+    }
   `,
 
   MovieList: styled.ul<{ $curIndex: number }>`
