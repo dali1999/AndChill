@@ -4,7 +4,7 @@ import arrowRight from '@assets/icons/arrow-right.svg';
 import styled from 'styled-components';
 
 interface TCarouselButtonProps {
-  length: number;
+  length: number | undefined;
   currentIndex: number;
   setCurrentIndex: Dispatch<SetStateAction<number>>;
   perSlide: number;
@@ -27,7 +27,7 @@ const CarouselButton = ({
   backgroundColor,
 }: TCarouselButtonProps) => {
   const handleNext = () => {
-    if (currentIndex < length - perSlide) {
+    if (length && currentIndex < length - perSlide) {
       setCurrentIndex((prev) => prev + perSlide);
     }
   };

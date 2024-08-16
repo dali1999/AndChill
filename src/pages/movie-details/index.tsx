@@ -7,6 +7,7 @@ import {
   useMovieImagesQuery,
   useMovieSitesQuery,
   useMovieVideosQuery,
+  useSimilarMoviesQuery,
 } from '@hooks/react-query/use-query-movie';
 import MovieInfo from '@pages/movie-details/components/movie-info';
 import MovieLogoImage from '@pages/movie-details/components/movie-logo-image';
@@ -18,6 +19,7 @@ import { getImageColor } from '@utils/get-image-color';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import MovieCredits from './components/movie-credits';
+import MovieSimilar from './components/movie-similar';
 
 const MovieDetails = () => {
   const [backgroundColor, setBackgroundColor] = useState('');
@@ -29,12 +31,18 @@ const MovieDetails = () => {
   const { data: movieSitesData, isFetching: isSiteDataLoading } = useMovieSitesQuery(movieIdNumber);
   const { data: movieVideosData, isFetching: isVideoDataLoading } = useMovieVideosQuery(movieIdNumber);
   const { data: movieCreditsData, isFetching: isCreditsDataLoading } = useMovieCreditsQuery(movieIdNumber);
+  const { data: similarMoviesData, isFetching: isSimilarMoviesDataLoading } = useSimilarMoviesQuery(movieIdNumber);
 
   const movieImage = movieImagesData?.logos.length !== 0 ? movieImagesData?.logos[0] : movieImagesData?.posters[0];
   const colorImageURL = getImage(IMAGE_SIZE.backdrop_sizes.size02, movieImagesData?.backdrops[0]?.file_path);
 
   const isFetching =
-    isDetailsDataLoading || isImageDataLoading || isSiteDataLoading || isVideoDataLoading || isCreditsDataLoading;
+    isDetailsDataLoading ||
+    isImageDataLoading ||
+    isSiteDataLoading ||
+    isVideoDataLoading ||
+    isCreditsDataLoading ||
+    isSimilarMoviesDataLoading;
 
   const fetchImageColor = async (url: string) => {
     const gradient = await getImageColor(url);
@@ -65,6 +73,7 @@ const MovieDetails = () => {
                 {movieCreditsData && <MovieCredits data={movieCreditsData} />}
                 {movieSitesData && <MovieSites data={movieSitesData} />}
                 {movieVideosData && <MovieVideos data={movieVideosData} />}
+                {similarMoviesData && <MovieSimilar data={similarMoviesData} />}
               </S.BottomLeftSection>
               {movieDetailsData && <MovieSecondaryDetails data={movieDetailsData} />}
             </S.BottomSection>
