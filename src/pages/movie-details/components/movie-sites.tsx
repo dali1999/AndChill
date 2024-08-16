@@ -17,12 +17,15 @@ const RENDER_DATA: { key: keyof TCountryResult; title: string }[] = [
 const MovieSites = ({ data }: TMovieSitesProps) => {
   const region = useRegionStore((state) => state.region);
   const sitesRegionData = data?.results[region];
-
   return (
     <S.Container>
       <S.Title>지금 보러 가기</S.Title>
-      {RENDER_DATA.map(({ key, title }) =>
-        sitesRegionData?.[key] ? <MovieSitesList key={key} data={sitesRegionData[key]} title={title} /> : null,
+      {sitesRegionData ? (
+        RENDER_DATA.map(({ key, title }) =>
+          sitesRegionData?.[key] ? <MovieSitesList key={key} data={sitesRegionData[key]} title={title} /> : null,
+        )
+      ) : (
+        <S.NoSitesText>현재 시청할 수 있는 곳이 없습니다</S.NoSitesText>
       )}
     </S.Container>
   );
@@ -36,4 +39,10 @@ const S = {
   `,
 
   Title: styled.h2``,
+
+  NoSitesText: styled.p`
+    padding: 25px 0;
+    font-size: 14px;
+    color: var(--gray02);
+  `,
 };
