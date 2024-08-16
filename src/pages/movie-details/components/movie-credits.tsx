@@ -4,6 +4,7 @@ import CarouselButton, { Button } from '@components/carousel/carousel-button';
 import { IMAGE_SIZE } from '@constants/image-size';
 import { getImage } from '@utils/get-image';
 import styled from 'styled-components';
+import MovieDetailsSectionTemplate from './movie-details-section-template';
 
 interface TMovieCreditsProps {
   data: TMovieCreditsFetchRes;
@@ -15,8 +16,7 @@ const MovieCredits = ({ data }: TMovieCreditsProps) => {
   const castsData = data.cast;
   const length = castsData.length || 0;
   return (
-    <S.Container>
-      <S.Title>출연진</S.Title>
+    <MovieDetailsSectionTemplate title="출연진">
       <S.CastListWrapper>
         <S.CastList $curIndex={currentIndex}>
           {castsData.map((cast) => (
@@ -38,42 +38,32 @@ const MovieCredits = ({ data }: TMovieCreditsProps) => {
             </S.CastItem>
           ))}
         </S.CastList>
-      </S.CastListWrapper>
 
-      <CarouselButton
-        length={length}
-        currentIndex={currentIndex}
-        setCurrentIndex={setCurrentIndex}
-        perSlide={2}
-        positionTop={40 + 30}
-        positionLR={-10}
-        width={40}
-        height={110}
-        backgroundColor="var(--indigo02)"
-      />
-    </S.Container>
+        <CarouselButton
+          length={length}
+          currentIndex={currentIndex}
+          setCurrentIndex={setCurrentIndex}
+          perSlide={2}
+          positionTop={0}
+          positionLR={-10}
+          width={40}
+          height={110}
+          backgroundColor="var(--indigo02)"
+        />
+      </S.CastListWrapper>
+    </MovieDetailsSectionTemplate>
   );
 };
 
 export default MovieCredits;
 
 const S = {
-  Container: styled.div`
-    padding: 20px 0;
+  CastListWrapper: styled.div`
     position: relative;
-
+    overflow: hidden;
     &:hover ${Button} {
       opacity: 0.8;
     }
-  `,
-
-  Title: styled.h2`
-    margin-bottom: 20px;
-    height: 30px;
-  `,
-
-  CastListWrapper: styled.div`
-    overflow: hidden;
   `,
 
   CastList: styled.ul<{ $curIndex: number }>`
@@ -81,7 +71,6 @@ const S = {
     gap: 20px;
     transform: ${({ $curIndex }) => `translateX(-${$curIndex * (190 + 20)}px)`};
     transition: 0.3s ease-in-out;
-    width: 100%;
   `,
 
   CastItem: styled.li`

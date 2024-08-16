@@ -1,6 +1,8 @@
 import { TCountryResult, TMovieSitesFetchRes } from '@api/movie/movie-request.type';
+import { getFlagEmoji } from '@pages/home/utils/get-flag-emoji';
 import { useRegionStore } from '@stores/region';
 import styled from 'styled-components';
+import MovieDetailsSectionTemplate from './movie-details-section-template';
 import MovieSitesList from './movie-sites-list';
 
 interface TMovieSitesProps {
@@ -16,18 +18,21 @@ const RENDER_DATA: { key: keyof TCountryResult; title: string }[] = [
 
 const MovieSites = ({ data }: TMovieSitesProps) => {
   const region = useRegionStore((state) => state.region);
+  const flagEmoji = getFlagEmoji(region);
+
   const sitesRegionData = data?.results[region];
   return (
-    <S.Container>
-      <S.Title>지금 보러 가기</S.Title>
-      {sitesRegionData ? (
-        RENDER_DATA.map(({ key, title }) =>
-          sitesRegionData?.[key] ? <MovieSitesList key={key} data={sitesRegionData[key]} title={title} /> : null,
-        )
-      ) : (
-        <S.NoSitesText>현재 시청할 수 있는 곳이 없습니다</S.NoSitesText>
-      )}
-    </S.Container>
+    <MovieDetailsSectionTemplate title="지금 보러 가기">
+      <>
+        {sitesRegionData ? (
+          RENDER_DATA.map(({ key, title }) =>
+            sitesRegionData?.[key] ? <MovieSitesList key={key} data={sitesRegionData[key]} title={title} /> : null,
+          )
+        ) : (
+          <S.NoSitesText>현재 {flagEmoji}에서 시청할 수 있는 곳이 없습니다</S.NoSitesText>
+        )}
+      </>
+    </MovieDetailsSectionTemplate>
   );
 };
 
@@ -35,7 +40,7 @@ export default MovieSites;
 
 const S = {
   Container: styled.div`
-    padding: 20px 0;
+    padding: 0 0 60px;
   `,
 
   Title: styled.h2``,

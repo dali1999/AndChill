@@ -86,7 +86,7 @@ interface TMovieVideo {
   key: string;
   site: string;
   size: number;
-  type: string;
+  type: 'Trailer' | 'Teaser' | 'Clip' | 'Featurette';
   official: boolean;
   published_at: string;
   id: string;
