@@ -1,9 +1,14 @@
 import axios from '@api/axios';
 
 const genreRequest = {
-  fetchGenreList: async () => {
+  fetchGenreList: async (language: string) => {
     try {
-      const { data } = await axios.get(`genre/movie/list?language=ko`);
+      const { data } = await axios.get(`genre/movie/list?language=${language}`);
+      if (!data.genres[0].name) {
+        const { data } = await axios.get(`genre/movie/list?language=en`);
+        return data;
+      }
+
       return data;
     } catch (error) {
       return error;

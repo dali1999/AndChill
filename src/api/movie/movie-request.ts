@@ -1,9 +1,9 @@
 import axios from '@api/axios';
 
 const movieRequest = {
-  fetchMovieDetails: async (movieId: number) => {
+  fetchMovieDetails: async (movieId: number, language: string) => {
     try {
-      const { data } = await axios.get(`movie/${movieId}?language=ko`);
+      const { data } = await axios.get(`movie/${movieId}?language=${language}`);
       return data;
     } catch (error) {
       return error;
@@ -19,9 +19,9 @@ const movieRequest = {
     }
   },
 
-  fetchMovieVideos: async (movieId: number) => {
+  fetchMovieVideos: async (movieId: number, language: string) => {
     try {
-      const { data } = await axios.get(`movie/${movieId}/videos?language=ko`);
+      const { data } = await axios.get(`movie/${movieId}/videos?language=${language}`);
       if (data.results.length === 0) {
         const { data } = await axios.get(`movie/${movieId}/videos?language=en`);
         return data;
@@ -33,9 +33,9 @@ const movieRequest = {
     }
   },
 
-  fetchMovieRecommendations: async (movieId: number) => {
+  fetchMovieRecommendations: async (movieId: number, language: string) => {
     try {
-      const { data } = await axios.get(`movie/${movieId}/recommendations?language=ko`);
+      const { data } = await axios.get(`movie/${movieId}/recommendations?language=${language}`);
       return data;
     } catch (error) {
       return error;
@@ -51,27 +51,27 @@ const movieRequest = {
     }
   },
 
-  fetchSimilarMovies: async (movieId: number) => {
+  fetchSimilarMovies: async (movieId: number, language: string) => {
     try {
-      const { data } = await axios.get(`movie/${movieId}/similar?language=ko`);
+      const { data } = await axios.get(`movie/${movieId}/similar?language=${language}`);
       return data;
     } catch (error) {
       return error;
     }
   },
 
-  fetchMovieSites: async (movieId: number) => {
+  fetchMovieSites: async (movieId: number, language: string) => {
     try {
-      const { data } = await axios.get(`movie/${movieId}/watch/providers?language=ko`);
+      const { data } = await axios.get(`movie/${movieId}/watch/providers?language=${language}`);
       return data;
     } catch (error) {
       return error;
     }
   },
 
-  fetchMovieCredits: async (movieId: number) => {
+  fetchMovieCredits: async (movieId: number, language: string) => {
     try {
-      const { data } = await axios.get(`movie/${movieId}/credits?language=ko`);
+      const { data } = await axios.get(`movie/${movieId}/credits?language=${language}`);
       return data;
     } catch (error) {
       return error;

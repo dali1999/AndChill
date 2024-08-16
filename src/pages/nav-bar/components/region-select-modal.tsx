@@ -3,6 +3,7 @@ import { TRegionConfigItem } from '@api/configuration/config-request.type';
 import { NOT_SUPPORTED_REGIONS } from '@pages/nav-bar/constants/not-supported-regions';
 import { filteredRegionsBySearchQuery } from '@pages/nav-bar/utils/filterd-regions-by-search-query';
 import { useRegionStore } from '@stores/region';
+import { getLanguageByCountry } from '@utils/get-region-language';
 import styled from 'styled-components';
 
 interface TRegionSelectModalProps {
@@ -18,8 +19,7 @@ const RegionSelectModal = ({ regionData, handleSetIsOpen }: TRegionSelectModalPr
   }));
 
   const handleRegionItemClick = (regionCode: string) => {
-    setRegion(regionCode);
-    location.reload();
+    setRegion(regionCode, getLanguageByCountry(regionCode));
   };
 
   const handleRegionSearchChange = (e: { currentTarget: { value: SetStateAction<string> } }) => {

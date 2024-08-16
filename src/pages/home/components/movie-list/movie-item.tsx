@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { TMovieListsItem } from '@api/movie-lists/movie-lists-request.type';
 import { IMAGE_SIZE } from '@constants/image-size';
 import { useGenreListQuery } from '@hooks/react-query/use-query-genre';
+import { useRegionStore } from '@stores/region';
 import { getGenreById } from '@utils/get-genre-by-id';
 import { getImage } from '@utils/get-image';
 import { useNavigate } from 'react-router-dom';
@@ -12,8 +13,9 @@ interface TMovieItemProps {
 }
 
 const MovieItem = ({ data }: TMovieItemProps) => {
+  const lang = useRegionStore((state) => state.language);
   const navigate = useNavigate();
-  const { data: genreListData } = useGenreListQuery();
+  const { data: genreListData } = useGenreListQuery(lang);
   const genreList = genreListData?.genres;
   const mappedGenres = getGenreById(data, genreList);
   const [hovered, setHovered] = useState(false);

@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { TMovieListsItem } from '@api/movie-lists/movie-lists-request.type';
 import MovieListSkeleton from '@components/skeleton/movie-list-skeleton';
 import { useUpcomingMovieListQuery } from '@hooks/react-query/use-query-movie-lists';
@@ -8,11 +9,13 @@ import { fadeIn } from '@styles/animations';
 import styled from 'styled-components';
 
 const UpcomingMovieList = () => {
-  const region = useRegionStore((state) => state.region);
-  const language = 'ko';
-  const { data: upcomingMovieData, isLoading } = useUpcomingMovieListQuery(region, language);
-
+  const { region, lang } = useRegionStore((state) => ({ region: state.region, lang: state.language }));
+  const { data: upcomingMovieData, isLoading, refetch } = useUpcomingMovieListQuery(region, lang);
   const flagEmoji = getFlagEmoji(region);
+
+  useEffect(() => {
+    refetch();
+  }, [region, refetch]);
 
   return (
     <S.Container>

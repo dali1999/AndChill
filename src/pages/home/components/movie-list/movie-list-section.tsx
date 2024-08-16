@@ -5,6 +5,7 @@ import MovieListSkeleton from '@components/skeleton/movie-list-skeleton';
 import { useMovieDiscoverResultsQuery } from '@hooks/react-query/use-query-discover';
 import { useGenreListQuery } from '@hooks/react-query/use-query-genre';
 import { getRandomGenre } from '@pages/home/utils/get-random-genre';
+import { useRegionStore } from '@stores/region';
 import styled from 'styled-components';
 import MovieList from './movie-list';
 
@@ -19,7 +20,8 @@ const MovieListSection = ({ title, trendingMovieData, isTrendingMovieLoading }: 
   const genreIdsStr = randomGenre?.map((genre) => genre.id).join();
   const genreNamesStr = randomGenre?.map((genre) => genre.name).join(' • ');
 
-  const { data: genreData } = useGenreListQuery();
+  const { lang } = useRegionStore((state) => ({ lang: state.language }));
+  const { data: genreData } = useGenreListQuery(lang);
 
   useEffect(() => {
     if (genreData?.genres) {
@@ -30,6 +32,7 @@ const MovieListSection = ({ title, trendingMovieData, isTrendingMovieLoading }: 
   const { data: randomMovieData, isLoading: isRandomMovieLoading } = useMovieDiscoverResultsQuery(
     'vote_count.desc',
     genreIdsStr,
+    lang,
   );
 
   const movieData = trendingMovieData || randomMovieData;

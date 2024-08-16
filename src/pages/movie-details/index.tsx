@@ -14,6 +14,7 @@ import MovieLogoImage from '@pages/movie-details/components/movie-logo-image';
 import MovieSecondaryDetails from '@pages/movie-details/components/movie-secondary-info';
 import MovieSites from '@pages/movie-details/components/movie-sites';
 import MovieVideos from '@pages/movie-details/components/movie-videos';
+import { useRegionStore } from '@stores/region';
 import { getImage } from '@utils/get-image';
 import { getImageColor } from '@utils/get-image-color';
 import { useParams } from 'react-router-dom';
@@ -26,12 +27,17 @@ const MovieDetails = () => {
   const { movieId } = useParams() as { movieId: string };
   const movieIdNumber = Number(movieId);
 
+  const lang = useRegionStore((state) => state.language);
+
   const { data: movieImagesData, isFetching: isImageDataLoading } = useMovieImagesQuery(movieIdNumber);
-  const { data: movieDetailsData, isFetching: isDetailsDataLoading } = useMovieDetailsQuery(movieIdNumber);
-  const { data: movieSitesData, isFetching: isSiteDataLoading } = useMovieSitesQuery(movieIdNumber);
-  const { data: movieVideosData, isFetching: isVideoDataLoading } = useMovieVideosQuery(movieIdNumber);
-  const { data: movieCreditsData, isFetching: isCreditsDataLoading } = useMovieCreditsQuery(movieIdNumber);
-  const { data: similarMoviesData, isFetching: isSimilarMoviesDataLoading } = useSimilarMoviesQuery(movieIdNumber);
+  const { data: movieDetailsData, isFetching: isDetailsDataLoading } = useMovieDetailsQuery(movieIdNumber, lang);
+  const { data: movieSitesData, isFetching: isSiteDataLoading } = useMovieSitesQuery(movieIdNumber, lang);
+  const { data: movieVideosData, isFetching: isVideoDataLoading } = useMovieVideosQuery(movieIdNumber, lang);
+  const { data: movieCreditsData, isFetching: isCreditsDataLoading } = useMovieCreditsQuery(movieIdNumber, lang);
+  const { data: similarMoviesData, isFetching: isSimilarMoviesDataLoading } = useSimilarMoviesQuery(
+    movieIdNumber,
+    lang,
+  );
 
   const movieImage = movieImagesData?.logos.length !== 0 ? movieImagesData?.logos[0] : movieImagesData?.posters[0];
   const colorImageURL = getImage(IMAGE_SIZE.backdrop_sizes.size02, movieImagesData?.backdrops[0]?.file_path);

@@ -3,12 +3,14 @@ import { StateCreator } from 'zustand';
 
 export interface RegionState {
   region: string;
-  setRegion: (name: string) => void;
+  language: string;
+  setRegion: (region: string, language: string) => void;
   initGroupId: () => void;
 }
 
 export const selectRegionSlice: StateCreator<RegionState> = (set) => ({
   region: 'KR',
-  setRegion: (region: string) => set({ region }),
-  initGroupId: () => set(() => ({ region: 'KR' })),
+  language: 'ko',
+  setRegion: (region: string, language: string) => set({ region, language }),
+  initGroupId: () => set(() => ({ region: 'KR', language: 'ko' })),
 });

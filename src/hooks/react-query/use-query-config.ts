@@ -3,10 +3,10 @@ import { TLanguageConfigItem, TRegionConfigItem } from '@api/configuration/confi
 import { QUERY_KEY } from '@constants/query-key';
 import { useQuery } from '@tanstack/react-query';
 
-export const useRegionConfigQuery = () => {
+export const useRegionConfigQuery = (language: string) => {
   const query = useQuery<TRegionConfigItem[], Error>({
     queryKey: [QUERY_KEY.regionConfig],
-    queryFn: async () => await configurationRequest.fetchRegionConfig(),
+    queryFn: async () => await configurationRequest.fetchRegionConfig(language),
   });
   return query;
 };
