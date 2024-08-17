@@ -111,11 +111,11 @@ interface TMovieImage {
 
 export interface TMovieCreditsFetchRes {
   id: number;
-  cast: TMovieCredit[];
-  crew: TMovieCredit[];
+  cast: TMovieCast[];
+  crew: TMovieCrew[];
 }
 
-export interface TMovieCredit {
+export interface TMovieCast {
   adult: boolean;
   gender: number;
   id: number;
@@ -128,4 +128,18 @@ export interface TMovieCredit {
   character: string;
   credit_id: string;
   order: number;
+}
+
+export interface TMovieCrew {
+  adult: boolean;
+  gender: number;
+  id: number;
+  known_for_department: string;
+  name: string;
+  original_name: string;
+  popularity: number;
+  profile_path: string;
+  credit_id: string;
+  department: string;
+  job: string;
 }

@@ -20,6 +20,7 @@ import { getImageColor } from '@utils/get-image-color';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import MovieCredits from './components/movie-credits';
+import MovieImages from './components/movie-images';
 import MovieSimilar from './components/movie-similar';
 
 const MovieDetails = () => {
@@ -44,6 +45,7 @@ const MovieDetails = () => {
     IMAGE_SIZE.backdrop_sizes.size01,
     movieImagesData?.backdrops[0]?.file_path || movieImagesData?.posters[0]?.file_path,
   );
+  const directors = movieCreditsData?.crew.filter((people) => people.job === 'Director');
 
   const isFetching =
     isDetailsDataLoading ||
@@ -60,7 +62,7 @@ const MovieDetails = () => {
 
   useEffect(() => {
     if (movieImage?.file_path !== undefined) {
-      fetchImageColor(`${colorImageURL}`); //https://cors-anywhere.herokuapp.com/
+      fetchImageColor(`${colorImageURL}`);
     }
 
     return () => {
@@ -76,12 +78,13 @@ const MovieDetails = () => {
         <>
           {movieImagesData && <MovieLogoImage data={movieImagesData} />}
           <S.MovieDetails>
-            {movieDetailsData && <MovieInfo data={movieDetailsData} />}
+            {movieDetailsData && directors && <MovieInfo data={movieDetailsData} directors={directors} />}
             <S.BottomSection>
               <S.BottomLeftSection>
                 {movieCreditsData && <MovieCredits data={movieCreditsData} />}
                 {movieSitesData && <MovieSites data={movieSitesData} />}
                 {movieVideosData && <MovieVideos data={movieVideosData} />}
+                {movieImagesData && <MovieImages data={movieImagesData} />}
                 {similarMoviesData && <MovieSimilar data={similarMoviesData} />}
               </S.BottomLeftSection>
               {movieDetailsData && <MovieSecondaryDetails data={movieDetailsData} />}
@@ -125,7 +128,7 @@ const S = {
   BottomLeftSection: styled.div`
     flex: 1;
     overflow: hidden;
-    padding: 40px;
+    padding: 40px 20px 40px 40px;
   `,
 
   BottomRightSection: styled.div`

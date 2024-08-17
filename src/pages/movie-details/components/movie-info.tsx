@@ -1,15 +1,17 @@
 import { useEffect, useState } from 'react';
-import { TMovieDetailsFetchRes } from '@api/movie/movie-request.type';
+import { TMovieCrew, TMovieDetailsFetchRes } from '@api/movie/movie-request.type';
 import { IMAGE_SIZE } from '@constants/image-size';
 import { claculateRuntime } from '@pages/movie-details/utils/calculate-runtime';
 import { getImage } from '@utils/get-image';
 import styled from 'styled-components';
+import MovieRate from './movie-rate';
 
 interface TMovieInfoProps {
   data: TMovieDetailsFetchRes;
+  directors: TMovieCrew[];
 }
 
-const MovieInfo = ({ data }: TMovieInfoProps) => {
+const MovieInfo = ({ data, directors }: TMovieInfoProps) => {
   const [formattedRuntime, setFormattedRuntime] = useState<string | undefined>('');
   const { runtime, title, release_date, vote_average, genres, tagline, overview } = data;
   const posterURL = data.poster_path
@@ -43,15 +45,21 @@ const MovieInfo = ({ data }: TMovieInfoProps) => {
           <p>• {formattedRuntime}</p>
         </S.GenreList>
 
-        <p>{vote_average}</p>
-        <S.Rate>
-          <S.RatePercent $voteAverage={vote_average}></S.RatePercent>
-        </S.Rate>
+        <MovieRate rate={vote_average} />
 
         <S.Overview>
           <p>{tagline}</p>
           {overview ? <p>{overview}</p> : <S.NoOverviewText>영화 내용에 관한 정보가 없습니다</S.NoOverviewText>}
         </S.Overview>
+
+        <S.Directors>
+          {directors.map((director) => (
+            <li key={director.id}>
+              <S.DirectorName>{director.name}</S.DirectorName>
+              <S.DirectorJob>{director.job}</S.DirectorJob>
+            </li>
+          ))}
+        </S.Directors>
       </S.MovieInfoWrapper>
     </S.Container>
   );
@@ -124,25 +132,6 @@ const S = {
     }
   `,
 
-  Rate: styled.div`
-    position: relative;
-    width: 40px;
-    height: 50px;
-    border-radius: 7px;
-    background-color: var(--dark03);
-    margin: 8px 0 20px;
-    overflow: hidden;
-  `,
-
-  RatePercent: styled.div<{ $voteAverage: number }>`
-    --percentage: ${({ $voteAverage }) => `${$voteAverage * 10}%`};
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: var(--percentage);
-    background-color: var(--yellow01);
-  `,
-
   GenreList: styled.ul`
     display: flex;
     align-items: center;
@@ -182,5 +171,17 @@ const S = {
     align-items: center;
     justify-content: center;
     height: 180px;
+  `,
+
+  Directors: styled.ul`
+    margin-top: 40px;
+  `,
+  DirectorName: styled.p`
+    font-size: 18px;
+  `,
+  DirectorJob: styled.p`
+    margin-top: 4px;
+    font-size: 14px;
+    color: var(--gray01);
   `,
 };
