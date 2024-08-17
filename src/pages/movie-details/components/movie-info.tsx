@@ -13,7 +13,10 @@ interface TMovieInfoProps {
 
 const MovieInfo = ({ data, directors }: TMovieInfoProps) => {
   const [formattedRuntime, setFormattedRuntime] = useState<string | undefined>('');
-  const { runtime, title, release_date, vote_average, genres, tagline, overview, vote_count } = data;
+  const [hovered, setHovered] = useState(false);
+
+  const { runtime, title, release_date, vote_average, genres, tagline, overview, vote_count, belongs_to_collection } =
+    data;
   const posterURL = data.poster_path
     ? getImage(IMAGE_SIZE.poster_sizes.size04, data?.poster_path)
     : '/andchill-logo-800.png';
@@ -25,6 +28,8 @@ const MovieInfo = ({ data, directors }: TMovieInfoProps) => {
 
   return (
     <S.Container $backdropURL={backdropURL} $isImageExist={!!data.backdrop_path}>
+      {belongs_to_collection && <S.CollectionLabel>{belongs_to_collection.name}</S.CollectionLabel>}
+
       {data.poster_path ? (
         <S.PosterImage src={posterURL} />
       ) : (
@@ -87,7 +92,42 @@ const S = {
       right: 0;
       bottom: 0;
       opacity: 0.1;
+      border-radius: 20px 20px 0 0;
       z-index: -1;
+    }
+  `,
+
+  CollectionLabel: styled.div`
+    cursor: pointer;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 30px;
+    border-radius: 10px 3px 0 10px;
+    right: -14px;
+    top: 154px;
+    font-weight: 800;
+    font-size: 16px;
+    color: var(--dark04);
+    background-color: var(--yellow02);
+    height: 44px;
+    transition: 0.2s ease-in-out;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 10px 10px;
+
+    &:hover {
+      padding: 0 38px;
+    }
+
+    &:before {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 44px;
+      right: -0px;
+      border-width: 14px 14px 0px 0px;
+      border-style: solid;
+      border-color: var(--yellow03) transparent transparent;
     }
   `,
 
@@ -175,6 +215,8 @@ const S = {
 
   Directors: styled.ul`
     margin-top: 40px;
+    display: flex;
+    gap: 34px;
   `,
   DirectorName: styled.p`
     font-size: 18px;

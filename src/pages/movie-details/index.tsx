@@ -113,7 +113,6 @@ const S = {
 
   MovieDetails: styled.div`
     z-index: 1;
-    overflow: hidden;
     background-color: var(--indigo02);
     border-radius: 20px 20px 0 0;
     max-width: 1500px;

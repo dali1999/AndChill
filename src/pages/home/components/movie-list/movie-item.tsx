@@ -84,6 +84,7 @@ const S = {
   `,
 
   DummyImageWrapper: styled.div`
+    box-shadow: inset 0px 3px 33px rgba(0, 0, 0, 0.3);
     background-color: var(--indigo04);
     position: relative;
     height: 100%;

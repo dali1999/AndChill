@@ -11,7 +11,7 @@ const MovieListSkeleton = ({ text, height = 300 }: TMovieListSkeletonProps) => {
   return (
     <S.Container $height={height}>
       {text ? (
-        <p>{text}</p>
+        <S.NoDataText>{text}</S.NoDataText>
       ) : (
         <>
           <S.LoadingIcon src={loadingIcon} />
@@ -30,6 +30,11 @@ const S = {
     display: flex;
     justify-content: center;
     align-items: center;
+  `,
+
+  NoDataText: styled.p`
+    font-weight: 100;
+    color: var(--gray02);
   `,
 
   LoadingIcon: styled.img`
