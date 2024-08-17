@@ -13,20 +13,16 @@ const MovieProductionCompanyItem = ({ companyData }: TMovieProductionCompanyItem
   };
 
   return (
-    <>
-      {companyData.logo_path && (
-        <S.Container onClick={() => handleCompanyClick(companyData.id)}>
-          <S.CompanyLogoImageWrapper>
-            <S.CompanyLogoImage
-              src={getImage(IMAGE_SIZE.logo_sizes.size04, companyData.logo_path)}
-              className="scale-on-hover"
-              alt="제작사 로고 이미지"
-            />
-          </S.CompanyLogoImageWrapper>
-          <S.CompanyName>{companyData.name}</S.CompanyName>
-        </S.Container>
-      )}
-    </>
+    <S.Container onClick={() => handleCompanyClick(companyData.id)}>
+      <S.CompanyLogoImageWrapper>
+        <S.CompanyLogoImage
+          src={getImage(IMAGE_SIZE.logo_sizes.size04, companyData.logo_path)}
+          className="scale-on-hover"
+          alt="제작사 로고 이미지"
+        />
+      </S.CompanyLogoImageWrapper>
+      <S.CompanyName>{companyData.name}</S.CompanyName>
+    </S.Container>
   );
 };
 

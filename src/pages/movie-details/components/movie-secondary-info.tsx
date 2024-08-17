@@ -9,9 +9,10 @@ interface TMovieSecondaryProps {
 
 const MovieSecondaryInfo = ({ data }: TMovieSecondaryProps) => {
   const { budget, revenue, original_language, status } = data;
-  const movieBudget = budget === 0 ? '-' : formatCurrency(budget);
-  const movieRevenue = revenue === 0 ? '-' : formatCurrency(revenue);
-  const productionCompaniesData = data.production_companies;
+  const movieBudget = budget === 0 ? '—' : formatCurrency(budget);
+  const movieRevenue = revenue === 0 ? '—' : formatCurrency(revenue);
+  // 로고 있는 제작사들만 필터링
+  const productionCompaniesData = data.production_companies.filter((company) => company.logo_path !== null);
 
   return (
     <S.Container>
@@ -37,9 +38,13 @@ const MovieSecondaryInfo = ({ data }: TMovieSecondaryProps) => {
 
       <S.ProductionCompanyList>
         <S.InfoTitle>제작사</S.InfoTitle>
-        {productionCompaniesData.map((comnpany) => (
-          <MovieProductionCompanyItem key={comnpany.id} companyData={comnpany} />
-        ))}
+        {productionCompaniesData.length === 0 ? (
+          <S.InfoContent>—</S.InfoContent>
+        ) : (
+          productionCompaniesData.map((comnpany) => (
+            <MovieProductionCompanyItem key={comnpany.id} companyData={comnpany} />
+          ))
+        )}
       </S.ProductionCompanyList>
     </S.Container>
   );
@@ -52,7 +57,7 @@ const S = {
     padding: 20px;
     background-color: var(--indigo01);
     border-radius: 0px 0 0 0;
-    width: 200px;
+    width: 220px;
   `,
 
   InfoItem: styled.li`
@@ -70,7 +75,7 @@ const S = {
   InfoContent: styled.p`
     font-size: 14px;
     font-weight: 100;
-    color: var(--gray01);
+    color: var(--gray02);
   `,
 
   ProductionCompanyList: styled.ul`

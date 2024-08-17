@@ -40,7 +40,10 @@ const MovieDetails = () => {
   );
 
   const movieImage = movieImagesData?.logos.length !== 0 ? movieImagesData?.logos[0] : movieImagesData?.posters[0];
-  const colorImageURL = getImage(IMAGE_SIZE.backdrop_sizes.size02, movieImagesData?.backdrops[0]?.file_path);
+  const colorImageURL = getImage(
+    IMAGE_SIZE.backdrop_sizes.size01,
+    movieImagesData?.backdrops[0]?.file_path || movieImagesData?.posters[0]?.file_path,
+  );
 
   const isFetching =
     isDetailsDataLoading ||

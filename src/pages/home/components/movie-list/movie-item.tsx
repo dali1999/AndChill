@@ -69,7 +69,7 @@ const S = {
     overflow: hidden;
     border-radius: 7px;
     &:hover .scale-on-hover {
-      transform: scale(1.1);
+      transform: scale(1.08);
     }
   `,
 
