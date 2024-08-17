@@ -30,7 +30,7 @@ const Shuffle = () => {
     setRowAnimation(false);
     setStackAnimation(false);
     setPage(Math.floor(Math.random() * 500) + 1);
-    setTimeout(() => setAnimate(false), 2000);
+    setTimeout(() => setAnimate(false), 1380);
   };
 
   const handleRow = () => {
@@ -46,9 +46,9 @@ const Shuffle = () => {
   return (
     <S.Container>
       <S.ButtonWrapper>
-        <S.Btn onClick={handleShuffle}>카드 셔플</S.Btn>
-        <S.Btn onClick={handleRow}>카드 정렬</S.Btn>
-        <S.Btn onClick={handleStack}>카드 스택</S.Btn>
+        <S.Btn onClick={handleShuffle}>Shuffle</S.Btn>
+        <S.Btn onClick={handleRow}>Spread</S.Btn>
+        <S.Btn onClick={handleStack}>Gather</S.Btn>
       </S.ButtonWrapper>
 
       {page &&
@@ -109,8 +109,8 @@ const S = {
   `,
 
   Btn: styled.div`
-    padding: 10px 0;
-    width: 100px;
+    padding: 10px 20px;
+    /* width: 100px; */
     border-radius: 5px;
     display: flex;
     align-items: center;
@@ -149,6 +149,9 @@ const S = {
       cursor: pointer;
       cursor: pointer;
       transform: rotateY(180deg);
+      box-shadow:
+        rgba(0, 0, 0, 0.2) 0px 10px 18px,
+        rgba(0, 0, 0, 0.2) 0px 15px 12px;
     }
 
     /* Front face */
@@ -224,27 +227,27 @@ const S = {
     /* Shuffle animation */
     &.animate.box1 {
       transform-origin: 150% 0%;
-      animation: ${shuffle1} 3s forwards;
+      animation: ${shuffle1} 2s forwards;
     }
     &.animate.box2 {
       transform-origin: 150% 0%;
-      animation: ${shuffle2} 3s forwards;
+      animation: ${shuffle2} 2s forwards;
     }
     &.animate.box3 {
       transform-origin: 150% 0%;
-      animation: ${shuffle3} 3s forwards;
+      animation: ${shuffle3} 2s forwards;
     }
     &.animate.box4 {
       transform-origin: 150% 0%;
-      animation: ${shuffle4} 3s forwards;
+      animation: ${shuffle4} 2s forwards;
     }
     &.animate.box5 {
       transform-origin: 150% 0%;
-      animation: ${shuffle5} 3s forwards;
+      animation: ${shuffle5} 2s forwards;
     }
     &.animate.box6 {
       transform-origin: 150% 0%;
-      animation: ${shuffle6} 3s forwards;
+      animation: ${shuffle6} 2s forwards;
     }
 
     /* Row animation */
