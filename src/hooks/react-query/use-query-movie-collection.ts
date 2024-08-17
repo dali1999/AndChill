@@ -4,7 +4,7 @@ import { TMovieCollectionFetchRes } from '@api/movie-collection/movie-collection
 import { QUERY_KEY } from '@constants/query-key';
 import { useQuery } from '@tanstack/react-query';
 
-export const useMovieDetailsQuery = (collectionId: number, language: string) => {
+export const useMovieCollectionQuery = (collectionId: number, language: string) => {
   const query = useQuery<TMovieCollectionFetchRes, Error>({
     queryKey: [QUERY_KEY.movieCollection, collectionId, language],
     queryFn: async () => await movieCollectionRequest.fetchMovieCollection(collectionId, language),
@@ -12,7 +12,7 @@ export const useMovieDetailsQuery = (collectionId: number, language: string) => 
   return query;
 };
 
-export const useMovieImagesQuery = (collectionId: number, language: string) => {
+export const useMovieCollectionImagesQuery = (collectionId: number, language: string) => {
   const query = useQuery<TMovieImagesFetchRes, Error>({
     queryKey: [QUERY_KEY.movieCollectionImages, collectionId, language],
     queryFn: async () => await movieCollectionRequest.fetchMovieCollectionImages(collectionId, language),

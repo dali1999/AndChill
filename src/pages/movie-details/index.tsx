@@ -64,10 +64,6 @@ const MovieDetails = () => {
     if (movieImage?.file_path !== undefined) {
       fetchImageColor(`${colorImageURL}`);
     }
-
-    return () => {
-      setBackgroundColor('');
-    };
   }, [colorImageURL, movieImage?.file_path]);
 
   return (
@@ -78,7 +74,9 @@ const MovieDetails = () => {
         <>
           {movieImagesData && <MovieLogoImage data={movieImagesData} />}
           <S.MovieDetails>
-            {movieDetailsData && directors && <MovieInfo data={movieDetailsData} directors={directors} />}
+            {movieDetailsData && directors && (
+              <MovieInfo data={movieDetailsData} directors={directors} backgroundColor={backgroundColor} />
+            )}
             <S.BottomSection>
               <S.BottomLeftSection>
                 {movieCreditsData && <MovieCredits data={movieCreditsData} />}

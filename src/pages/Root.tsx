@@ -27,6 +27,6 @@ const S = {
   `,
 
   Main: styled.main`
-    margin-bottom: 330px;
+    margin-bottom: 300px;
   `,
 };

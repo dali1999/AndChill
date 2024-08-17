@@ -66,12 +66,16 @@ const scrollCredits = keyframes`
 
 const S = {
   Container: styled.div`
+    margin-bottom: 30px;
     width: 200px;
     aspect-ratio: 1/1.5;
     cursor: pointer;
     position: relative;
     overflow: hidden;
     border-radius: 7px;
+    box-shadow:
+      rgba(0, 0, 0, 0.3) 0px 10px 18px,
+      rgba(0, 0, 0, 0.2) 0px 15px 12px;
     &:hover .scale-on-hover {
       transform: scale(1.08);
     }

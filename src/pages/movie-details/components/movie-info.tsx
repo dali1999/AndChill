@@ -10,9 +10,10 @@ import MovieRate from './movie-rate';
 interface TMovieInfoProps {
   data: TMovieDetailsFetchRes;
   directors: TMovieCrew[];
+  backgroundColor: string;
 }
 
-const MovieInfo = ({ data, directors }: TMovieInfoProps) => {
+const MovieInfo = ({ data, directors, backgroundColor }: TMovieInfoProps) => {
   const [formattedRuntime, setFormattedRuntime] = useState<string | undefined>('');
   const navigate = useNavigate();
 
@@ -30,7 +31,13 @@ const MovieInfo = ({ data, directors }: TMovieInfoProps) => {
   return (
     <S.Container $backdropURL={backdropURL} $isImageExist={!!data.backdrop_path}>
       {belongs_to_collection && (
-        <S.CollectionLabel onClick={() => navigate(`/movie-collections/${belongs_to_collection.id}`)}>
+        <S.CollectionLabel
+          onClick={() =>
+            navigate(`/movie-collections/${belongs_to_collection.id}`, {
+              state: { backgroundColor },
+            })
+          }
+        >
           {belongs_to_collection.name}
         </S.CollectionLabel>
       )}
