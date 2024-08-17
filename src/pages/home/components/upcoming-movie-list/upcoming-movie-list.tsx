@@ -12,7 +12,7 @@ import styled from 'styled-components';
 const UpcomingMovieList = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const { region, lang } = useRegionStore((state) => ({ region: state.region, lang: state.language }));
-  const { data: upcomingMovieData, isLoading, refetch } = useUpcomingMovieListQuery(region, lang);
+  const { data: upcomingMovieData, isFetching, refetch } = useUpcomingMovieListQuery(region, lang);
   const flagEmoji = getFlagEmoji(region);
   const length = upcomingMovieData?.results.length;
 
@@ -23,7 +23,7 @@ const UpcomingMovieList = () => {
   return (
     <S.Container>
       <S.SectionTitle>{flagEmoji} 개봉 예정</S.SectionTitle>
-      {isLoading ? (
+      {isFetching ? (
         <MovieListSkeleton height={180} />
       ) : upcomingMovieData?.total_results === 0 ? (
         <MovieListSkeleton text={`${region}에서 개봉 예정인 영화가 없습니다`} height={180} />

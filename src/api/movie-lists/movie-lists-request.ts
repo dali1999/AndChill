@@ -1,10 +1,9 @@
 import axios from '@api/axios';
-import { getRegionAndLanguageUrl } from '@utils/get-region-and-language-url';
 
 const movieListsRequest = {
   fetchNowPlayingMovieList: async (region: string, language: string) => {
     try {
-      const { data } = await axios.get(`movie/now_playing?${getRegionAndLanguageUrl(region, language)}`);
+      const { data } = await axios.get(`movie/now_playing?region=${region}&language=${language}}`);
       return data;
     } catch (error) {
       return error;
@@ -13,7 +12,7 @@ const movieListsRequest = {
 
   fetchPopularMovieList: async (region: string, language: string) => {
     try {
-      const { data } = await axios.get(`movie/popular?${getRegionAndLanguageUrl(region, language)}`);
+      const { data } = await axios.get(`movie/popular?region=${region}&language=${language}}`);
       return data;
     } catch (error) {
       return error;
@@ -22,7 +21,7 @@ const movieListsRequest = {
 
   fetchTopRatedMovieList: async (region: string, language: string) => {
     try {
-      const { data } = await axios.get(`movie/top_rated?${getRegionAndLanguageUrl(region, language)}`);
+      const { data } = await axios.get(`movie/top_rated?region=${region}&language=${language}}`);
       return data;
     } catch (error) {
       return error;
@@ -31,7 +30,7 @@ const movieListsRequest = {
 
   fetchUpcomingMovieList: async (region: string, language: string) => {
     try {
-      const { data } = await axios.get(`movie/upcoming?${getRegionAndLanguageUrl(region, language)}`);
+      const { data } = await axios.get(`movie/upcoming?region=${region}&language=${language}`);
       return data;
     } catch (error) {
       return error;
