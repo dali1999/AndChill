@@ -1,5 +1,6 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { TMovieListsItem } from '@api/movie-lists/movie-lists-request.type';
+import CarouselButton, { Button } from '@components/carousel/carousel-button';
 import MovieListSkeleton from '@components/skeleton/movie-list-skeleton';
 import { useUpcomingMovieListQuery } from '@hooks/react-query/use-query-movie-lists';
 import UpcomingMovieItem from '@pages/home/components/upcoming-movie-list/upcoming-movie-item';
@@ -9,9 +10,11 @@ import { fadeIn } from '@styles/animations';
 import styled from 'styled-components';
 
 const UpcomingMovieList = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
   const { region, lang } = useRegionStore((state) => ({ region: state.region, lang: state.language }));
   const { data: upcomingMovieData, isLoading, refetch } = useUpcomingMovieListQuery(region, lang);
   const flagEmoji = getFlagEmoji(region);
+  const length = upcomingMovieData?.results.length;
 
   useEffect(() => {
     refetch();
@@ -25,11 +28,24 @@ const UpcomingMovieList = () => {
       ) : upcomingMovieData?.total_results === 0 ? (
         <MovieListSkeleton text={`${region}에서 개봉 예정인 영화가 없습니다`} height={180} />
       ) : (
-        <S.UpcomingMovieList>
-          {upcomingMovieData?.results.map((movie: TMovieListsItem) => (
-            <UpcomingMovieItem data={movie} key={movie.id} />
-          ))}
-        </S.UpcomingMovieList>
+        <S.UpcomingMovieListWrapper>
+          <S.UpcomingMovieList $curIndex={currentIndex}>
+            {upcomingMovieData?.results.map((movie: TMovieListsItem) => (
+              <UpcomingMovieItem data={movie} key={movie.id} />
+            ))}
+          </S.UpcomingMovieList>
+          <CarouselButton
+            length={length}
+            currentIndex={currentIndex}
+            setCurrentIndex={setCurrentIndex}
+            perSlide={2}
+            positionTop={0}
+            positionLR={-22}
+            width={60}
+            height={180}
+            backgroundColor="var(--indigo01)"
+          />
+        </S.UpcomingMovieListWrapper>
       )}
     </S.Container>
   );
@@ -56,15 +72,20 @@ const S = {
     }
   `,
 
-  UpcomingMovieList: styled.ul`
-    overflow-x: auto;
-    display: flex;
-    gap: 40px;
-    animation: ${fadeIn} 0.5s ease-in;
-
-    &::-webkit-scrollbar {
-      display: none;
+  UpcomingMovieListWrapper: styled.div`
+    position: relative;
+    overflow: hidden;
+    &:hover ${Button} {
+      opacity: 0.8;
     }
+  `,
+
+  UpcomingMovieList: styled.ul<{ $curIndex: number }>`
+    display: flex;
+    gap: 20px;
+    animation: ${fadeIn} 0.5s ease-in;
+    transform: ${({ $curIndex }) => `translateX(-${$curIndex * (360 + 20)}px)`};
+    transition: 0.3s ease-in-out;
   `,
 
   NoDataContainer: styled.div``,
