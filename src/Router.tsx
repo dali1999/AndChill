@@ -8,6 +8,7 @@ const Router = () => {
         <Route path="/" element={<Page.Root />}>
           <Route index element={<Page.Home />} />
           <Route path="movie-details/:movieId" element={<Page.MovieDetails />} />
+          <Route path="movie-collections/:collectionId" element={<Page.MovieCollection />} />
           <Route path="search-results/:searchQuery" element={<Page.SearchResults />} />
           {/* <Route path="login" element={<Page.Login />} />
           <Route path="group-home" element={<Page.GroupHome />} />

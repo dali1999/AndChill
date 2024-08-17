@@ -3,6 +3,7 @@ import { TMovieCrew, TMovieDetailsFetchRes } from '@api/movie/movie-request.type
 import { IMAGE_SIZE } from '@constants/image-size';
 import { claculateRuntime } from '@pages/movie-details/utils/calculate-runtime';
 import { getImage } from '@utils/get-image';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import MovieRate from './movie-rate';
 
@@ -13,7 +14,7 @@ interface TMovieInfoProps {
 
 const MovieInfo = ({ data, directors }: TMovieInfoProps) => {
   const [formattedRuntime, setFormattedRuntime] = useState<string | undefined>('');
-  const [hovered, setHovered] = useState(false);
+  const navigate = useNavigate();
 
   const { runtime, title, release_date, vote_average, genres, tagline, overview, vote_count, belongs_to_collection } =
     data;
@@ -28,7 +29,11 @@ const MovieInfo = ({ data, directors }: TMovieInfoProps) => {
 
   return (
     <S.Container $backdropURL={backdropURL} $isImageExist={!!data.backdrop_path}>
-      {belongs_to_collection && <S.CollectionLabel>{belongs_to_collection.name}</S.CollectionLabel>}
+      {belongs_to_collection && (
+        <S.CollectionLabel onClick={() => navigate(`/movie-collections/${belongs_to_collection.id}`)}>
+          {belongs_to_collection.name}
+        </S.CollectionLabel>
+      )}
 
       {data.poster_path ? (
         <S.PosterImage src={posterURL} />
