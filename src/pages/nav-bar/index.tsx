@@ -26,7 +26,7 @@ const NavBar = () => {
             </S.MenuItem>
           );
         })}
-        <S.MenuItem onClick={() => navigate('/')}>
+        <S.MenuItem onClick={() => navigate('/random-movie')}>
           <img src={cardsIcon} />
         </S.MenuItem>
       </S.MenuLists>

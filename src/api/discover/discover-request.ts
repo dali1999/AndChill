@@ -1,10 +1,10 @@
 import axios from '@api/axios';
 
 const discoverRequest = {
-  fetchMovieDiscoverResults: async (sortBy: string, genres?: string, language: string) => {
+  fetchMovieDiscoverResults: async (language: string, sortBy: string, genres?: string, page?: number) => {
     try {
       const { data } = await axios.get(
-        `https://api.themoviedb.org/3/discover/movie?language=${language}&page=1&sort_by=${sortBy}&watch_region=KR&with_genres=${genres}`,
+        `https://api.themoviedb.org/3/discover/movie?language=${language}&sort_by=${sortBy}&with_genres=${genres}&page=${page}`,
       );
       return data;
     } catch (error) {

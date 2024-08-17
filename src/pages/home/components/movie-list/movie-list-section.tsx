@@ -22,6 +22,7 @@ const MovieListSection = ({ title, trendingMovieData, isTrendingMovieLoading }: 
 
   const { lang } = useRegionStore((state) => ({ lang: state.language }));
   const { data: genreData } = useGenreListQuery(lang);
+  const page = Math.floor(Math.random() * 3) + 1;
 
   useEffect(() => {
     if (genreData?.genres) {
@@ -30,9 +31,10 @@ const MovieListSection = ({ title, trendingMovieData, isTrendingMovieLoading }: 
   }, [genreData]);
 
   const { data: randomMovieData, isLoading: isRandomMovieLoading } = useMovieDiscoverResultsQuery(
+    lang,
     'vote_count.desc',
     genreIdsStr,
-    lang,
+    page,
   );
 
   const movieData = trendingMovieData || randomMovieData;
