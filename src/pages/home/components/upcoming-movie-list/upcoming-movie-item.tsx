@@ -18,7 +18,7 @@ const UpcomingMovieItem = ({ data }: TUpcomingMovieItemProps) => {
     : '/andchill-logo.png';
 
   return (
-    <li onClick={() => navigate(`/${data.id}`)}>
+    <li onClick={() => navigate(`/movie-details/${data.id}`)}>
       <S.Container>
         <S.MovieImage src={backDropImageUrl} className="scale-on-hover" />
         <S.PopularityLabel>

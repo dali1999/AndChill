@@ -1,9 +1,10 @@
 import styled, { keyframes } from 'styled-components';
 interface TMovieRateProps {
   rate: number;
+  voteCounts: number;
 }
-const MovieRate = ({ rate }: TMovieRateProps) => {
-  const rotation = ((rate * 10) / 100) * 160 - 80;
+const MovieRate = ({ rate, voteCounts }: TMovieRateProps) => {
+  const rotation = ((rate * 10) / 100) * 180 - 90;
   return (
     <S.Container>
       <S.MovieRateWrapper>
@@ -12,8 +13,9 @@ const MovieRate = ({ rate }: TMovieRateProps) => {
         </S.Dial>
         <S.Needle $rotation={rotation} />
         <S.CenterDot />
-        <S.Value>{rate.toFixed(1)}</S.Value>
+        <S.VoteCount>{voteCounts.toLocaleString()} 명이 평가</S.VoteCount>
       </S.MovieRateWrapper>
+      <S.Value>{rate.toFixed(1)}</S.Value>
     </S.Container>
   );
 };
@@ -34,10 +36,12 @@ const S = {
     display: flex;
     align-items: center;
     justify-content: start;
-    margin-bottom: 20px;
+    margin: 30px 0 30px;
+    gap: 24px;
   `,
 
   MovieRateWrapper: styled.div`
+    opacity: 0.9;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -71,7 +75,7 @@ const S = {
   Needle: styled.div<{ $rotation: number }>`
     --rotation: ${({ $rotation }) => `${$rotation}deg`};
     position: absolute;
-    bottom: 47px;
+    bottom: 26px;
     left: calc(50% - 2px);
     width: 4px;
     border-top-left-radius: 40%;
@@ -86,7 +90,7 @@ const S = {
 
   CenterDot: styled.div`
     position: absolute;
-    bottom: 43px;
+    bottom: 22px;
     left: calc(50%);
     width: 8px;
     height: 8px;
@@ -96,9 +100,14 @@ const S = {
   `,
 
   Value: styled.div`
-    margin-top: 14px;
-    font-size: 28px;
+    font-size: 54px;
     font-weight: bold;
     color: var(--yellow01);
+  `,
+
+  VoteCount: styled.div`
+    font-size: 12px;
+    font-weight: 100;
+    margin-top: 10px;
   `,
 };

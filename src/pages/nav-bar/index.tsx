@@ -1,4 +1,4 @@
-import { SetStateAction } from 'react';
+import cardsIcon from '@assets/icons/cards-stack.svg';
 import RegionSelectButton from '@pages/nav-bar/components/region-select-button';
 import { NAV_MENU } from '@pages/nav-bar/constants/nav-menu-list';
 import { useNavigate } from 'react-router-dom';
@@ -7,10 +7,11 @@ import styled from 'styled-components';
 const NavBar = () => {
   const navigate = useNavigate();
 
-  const handleSearchQuerySubmit = (e: { keyCode: number; target: { value: SetStateAction<string> } }) => {
-    if (e.keyCode === 13) {
-      navigate(`/search-results/${e.target.value}`);
-      e.target.value = '';
+  const handleSearchQuerySubmit = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      const inputValue = (e.target as HTMLInputElement).value;
+      navigate(`/search-results/${inputValue}`);
+      (e.target as HTMLInputElement).value = '';
     }
   };
 
@@ -25,6 +26,9 @@ const NavBar = () => {
             </S.MenuItem>
           );
         })}
+        <S.MenuItem onClick={() => navigate('/')}>
+          <img src={cardsIcon} />
+        </S.MenuItem>
       </S.MenuLists>
       <S.SearchBar type="text" onKeyUp={handleSearchQuerySubmit} placeholder="영화 또는 TV 프로그램 검색" />
       <RegionSelectButton />
@@ -60,6 +64,9 @@ const S = {
 
   MenuItem: styled.li`
     cursor: pointer;
+    img {
+      width: 30px;
+    }
   `,
 
   LogoImg: styled.img`

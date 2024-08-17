@@ -107,6 +107,7 @@ const S = {
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: inset 0px 3px 13px rgba(0, 0, 0, 0.3);
   `,
 
   DummyImage: styled.img`

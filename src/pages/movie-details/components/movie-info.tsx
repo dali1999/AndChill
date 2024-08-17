@@ -13,7 +13,7 @@ interface TMovieInfoProps {
 
 const MovieInfo = ({ data, directors }: TMovieInfoProps) => {
   const [formattedRuntime, setFormattedRuntime] = useState<string | undefined>('');
-  const { runtime, title, release_date, vote_average, genres, tagline, overview } = data;
+  const { runtime, title, release_date, vote_average, genres, tagline, overview, vote_count } = data;
   const posterURL = data.poster_path
     ? getImage(IMAGE_SIZE.poster_sizes.size04, data?.poster_path)
     : '/andchill-logo-800.png';
@@ -42,10 +42,10 @@ const MovieInfo = ({ data, directors }: TMovieInfoProps) => {
           {genres.map((genre) => (
             <S.GenreItem key={genre.id}>{genre.name}</S.GenreItem>
           ))}
-          <p>• {formattedRuntime}</p>
+          {formattedRuntime && <p>• {formattedRuntime}</p>}
         </S.GenreList>
 
-        <MovieRate rate={vote_average} />
+        <MovieRate rate={vote_average} voteCounts={vote_count} />
 
         <S.Overview>
           <p>{tagline}</p>

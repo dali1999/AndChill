@@ -30,6 +30,10 @@ const MovieItem = ({ data }: TMovieItemProps) => {
         <S.MovieImage src={getImage(IMAGE_SIZE.poster_sizes.size04, data.poster_path)} className="scale-on-hover" />
       ) : (
         <S.DummyImageWrapper>
+          <S.NoPosterMovieTitle>
+            <h3>{data.title}</h3>
+            <p>{data.release_date.slice(0, 4)}</p>
+          </S.NoPosterMovieTitle>
           <S.DummyImage src="/andchill-logo-300.png" className="scale-on-hover" />
         </S.DummyImageWrapper>
       )}
@@ -81,10 +85,28 @@ const S = {
 
   DummyImageWrapper: styled.div`
     background-color: var(--indigo04);
+    position: relative;
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
+  `,
+
+  NoPosterMovieTitle: styled.div`
+    position: absolute;
+    top: 45px;
+    width: 100%;
+    padding: 0 12px;
+    text-align: center;
+    h3 {
+      font-size: 18px;
+      margin-bottom: 8px;
+      color: var(--gray03);
+    }
+    p {
+      font-size: 16px;
+      color: var(--gray01);
+    }
   `,
 
   DummyImage: styled.img`

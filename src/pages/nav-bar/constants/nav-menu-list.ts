@@ -1,5 +1,4 @@
 export const NAV_MENU = [
-  { title: 'Home', page: '/' },
-  { title: 'Discover', page: '/' },
-  { title: 'Random', page: '/' },
+  { title: '홈', page: '/' },
+  { title: '탐색', page: '/' },
 ];
