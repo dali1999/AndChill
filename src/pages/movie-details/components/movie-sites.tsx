@@ -47,6 +47,6 @@ const S = {
 
   NoSitesText: styled.p`
     font-size: 14px;
-    color: var(--gray02);
+    color: var(--gray01);
   `,
 };

@@ -14,8 +14,8 @@ const MovieVideos = ({ data }: TMovieVideosProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const videoOptions = {
-    width: '352',
-    height: '198',
+    width: '350',
+    height: '197',
     playerVars: {
       autoplay: 0,
       rel: 0,
@@ -67,14 +67,6 @@ const MovieVideos = ({ data }: TMovieVideosProps) => {
 export default MovieVideos;
 
 const S = {
-  Container: styled.div`
-    padding: 0 0 60px;
-  `,
-
-  Title: styled.h2`
-    margin-bottom: 20px;
-  `,
-
   VideoListWrapper: styled.div`
     position: relative;
     overflow: hidden;
@@ -106,6 +98,6 @@ const S = {
 
   NoVideoText: styled.p`
     font-size: 14px;
-    color: var(--gray02);
+    color: var(--gray01);
   `,
 };
