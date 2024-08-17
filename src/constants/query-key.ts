@@ -13,6 +13,10 @@ export const QUERY_KEY = {
   movieSites: 'movieSites',
   movieCredits: 'movieCredits',
 
+  // movie collection
+  movieCollection: 'movieCollection',
+  movieCollectionImages: 'movieCollectionImages',
+
   // movie lists
   nowPlayingMovieList: 'nowPlayingMovieList',
   popularMovieList: 'popularMovieList',
