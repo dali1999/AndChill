@@ -22,7 +22,7 @@ const MovieItem = ({ data }: TMovieItemProps) => {
 
   return (
     <S.Container
-      onClick={() => navigate(`/${data.id}`)}
+      onClick={() => navigate(`/movie-details/${data.id}`)}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >

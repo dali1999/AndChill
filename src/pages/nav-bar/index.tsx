@@ -1,3 +1,4 @@
+import { SetStateAction } from 'react';
 import RegionSelectButton from '@pages/nav-bar/components/region-select-button';
 import { NAV_MENU } from '@pages/nav-bar/constants/nav-menu-list';
 import { useNavigate } from 'react-router-dom';
@@ -5,6 +6,13 @@ import styled from 'styled-components';
 
 const NavBar = () => {
   const navigate = useNavigate();
+
+  const handleSearchQuerySubmit = (e: { keyCode: number; target: { value: SetStateAction<string> } }) => {
+    if (e.keyCode === 13) {
+      navigate(`/search-results/${e.target.value}`);
+      e.target.value = '';
+    }
+  };
 
   return (
     <S.Container>
@@ -18,7 +26,7 @@ const NavBar = () => {
           );
         })}
       </S.MenuLists>
-      <S.SearchBar type="text" placeholder="영화 또는 TV 프로그램 검색" />
+      <S.SearchBar type="text" onKeyUp={handleSearchQuerySubmit} placeholder="영화 또는 TV 프로그램 검색" />
       <RegionSelectButton />
     </S.Container>
   );
@@ -47,7 +55,6 @@ const S = {
     justify-content: center;
     align-items: center;
     gap: 20px;
-    /* width: 120px; */
     flex-shrink: 0;
   `,
 
