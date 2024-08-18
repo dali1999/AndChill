@@ -28,7 +28,7 @@ const myReset = css`
     overflow-x: hidden;
   }
   html {
-    background-color: var(--indigo01);
+    background-color: var(--dark09);
   }
 
   body {

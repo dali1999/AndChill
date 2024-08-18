@@ -32,5 +32,6 @@ export default Home;
 const S = {
   Container: styled.div`
     padding: 0 5%;
+    background-color: var(--indigo01);
   `,
 };

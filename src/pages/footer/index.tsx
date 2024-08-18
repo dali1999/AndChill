@@ -40,8 +40,8 @@ const S = {
     left: 0;
     width: 100%;
     height: 260px;
-    border-top: 1px solid var(--dark03);
-    background-color: var(--indigo01);
+    border-top: 2px solid var(--indigo02);
+    background-color: var(--dark09);
     padding: 0 5%;
 
     display: flex;
