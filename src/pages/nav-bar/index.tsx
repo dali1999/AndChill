@@ -51,6 +51,7 @@ const S = {
     left: 0;
     right: 0;
     z-index: 9999;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 10px;
   `,
 
   MenuLists: styled.ul`

@@ -49,6 +49,7 @@ const colors = css`
     --dark07: #d6d6d7;
     --dark08: #fbfbfb;
     --dark09: #0c0e19;
+    --dark10: #07080f;
   }
 `;
 export default colors;

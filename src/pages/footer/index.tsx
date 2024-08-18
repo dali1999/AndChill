@@ -41,7 +41,7 @@ const S = {
     width: 100%;
     height: 260px;
     border-top: 2px solid var(--indigo02);
-    background-color: var(--dark09);
+    background-color: var(--dark10);
     padding: 0 5%;
 
     display: flex;
