@@ -1,18 +1,18 @@
 export interface TMovieSearchResultsFetchRes {
   page: number;
-  results: MovieSearchItem[];
+  results: TMovieSearchItem[];
   total_pages: number;
   total_results: number;
 }
 
 export interface TCollectionSearchResultsFetchRes {
   page: number;
-  results: CollectionSearchItem[];
+  results: TCollectionSearchItem[];
   total_pages: number;
   total_results: number;
 }
 
-interface MovieSearchItem {
+export interface TMovieSearchItem {
   adult: boolean;
   backdrop_path: string;
   genre_ids: number[];
@@ -29,7 +29,7 @@ interface MovieSearchItem {
   vote_count: number;
 }
 
-interface CollectionSearchItem {
+export interface TCollectionSearchItem {
   adult: boolean;
   backdrop_path: string;
   id: number;

@@ -81,10 +81,12 @@ const S = {
     font-size: 70px;
     top: 230px;
     right: 8%;
+    left: 8%;
     color: var(--gray02);
     font-weight: 900;
     z-index: 1;
     opacity: 0.9;
+    text-align: end;
   `,
 
   CollectionImage: styled.div<{ $imageUrl: string }>`

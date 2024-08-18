@@ -66,7 +66,6 @@ const scrollCredits = keyframes`
 
 const S = {
   Container: styled.div`
-    margin-bottom: 30px;
     width: 200px;
     aspect-ratio: 1/1.5;
     cursor: pointer;

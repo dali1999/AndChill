@@ -60,12 +60,13 @@ export default MovieListSection;
 const S = {
   Container: styled.section`
     position: relative;
-    padding: 30px 0 0;
+    padding: 30px 0;
   `,
 
   SectionTitle: styled.h2`
     height: 32px;
     position: relative;
+
     padding-left: 15px;
     &::before {
       content: '';

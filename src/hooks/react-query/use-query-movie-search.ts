@@ -13,7 +13,7 @@ export const useMovieSearchResultsQuery = (searchQuery: string | number, languag
 
 export const useCollectionSearchResultsQuery = (searchQuery: string | number, language: string) => {
   const query = useQuery<TCollectionSearchResultsFetchRes, Error>({
-    queryKey: [QUERY_KEY.movieSearchResults, searchQuery],
+    queryKey: [QUERY_KEY.collectionSearchResults, searchQuery],
     queryFn: async () => await movieSearchRequest.fetchCollectionSearchResults(searchQuery, language),
   });
   return query;
