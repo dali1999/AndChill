@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
+import { TMovieListsItem } from '@api/movie-lists/movie-lists-request.type';
 import { useMovieDiscoverResultsQuery } from '@hooks/react-query/use-query-discover';
 import MovieItem from '@pages/home/components/movie-list/movie-item';
 import { useRegionStore } from '@stores/region';
 import styled from 'styled-components';
+import { CARD_COLOR } from '../constants/card-color';
 import {
   glowAnimation,
   shuffle1,
@@ -14,6 +16,7 @@ import {
   spreadAnimation,
   stackAnimation,
 } from '../style/card-animation';
+import { getRandomSixCards } from '../utils/get-random-cards';
 
 const SHUFFLE_TIME = 2500;
 
@@ -24,9 +27,6 @@ const Shuffle = () => {
   const [page, setPage] = useState(Math.floor(Math.random() * 500) + 1);
   const [flipped, setFlipped] = useState(Array(6).fill(false)); // 카드의 뒤집힌 상태를 관리
   const [isDisabled, setIsDisabled] = useState(false);
-
-  console.log(isDisabled);
-
   const { lang } = useRegionStore((state) => ({ lang: state.language }));
 
   const {
@@ -34,11 +34,12 @@ const Shuffle = () => {
     isFetching: isRandomMovieLoading,
     refetch,
   } = useMovieDiscoverResultsQuery(lang, 'vote_count.desc', '', page);
-  const movieDeck = randomMovieData?.results.slice(0, 6);
+  const [movieDeck, setMovieDeck] = useState<TMovieListsItem[] | undefined>([]);
 
   useEffect(() => {
     refetch();
-  }, [page, refetch, lang]);
+    setMovieDeck(getRandomSixCards(randomMovieData?.results));
+  }, [page, randomMovieData?.results, refetch]);
 
   const handleShuffle = () => {
     setSpreadAnimation(false);
@@ -71,18 +72,14 @@ const Shuffle = () => {
   };
 
   const handleCardColor = (rate: number) => {
-    if (rate >= 9) {
-      return LEGENDARY_COLOR;
-    } else if (rate >= 8) {
-      return EPIC_COLOR;
-    } else if (rate >= 7.5) {
-      return RARE_COLOR;
+    if (rate >= 8.4) {
+      return CARD_COLOR.legend;
+    } else if (rate >= 7.8) {
+      return CARD_COLOR.epic;
+    } else if (rate >= 7.2) {
+      return CARD_COLOR.rear;
     }
   };
-
-  const RARE_COLOR = 'rgba(254, 199, 18, 0.3)';
-  const EPIC_COLOR = 'rgba(238, 73, 250, 0.5)';
-  const LEGENDARY_COLOR = 'rgba(255, 56, 56, 1)';
 
   return (
     <S.Container>
@@ -98,8 +95,7 @@ const Shuffle = () => {
                 </div>
               </S.Card>
             ))
-        : page &&
-          movieDeck?.map((movie, i) => (
+        : movieDeck?.map((movie, i) => (
             <S.Card
               key={movie.id}
               className={`card${i + 1} ${animate ? 'animate' : ''} ${spreadAnimation ? 'spread' : ''} ${stackAnimation ? 'stack' : ''}`}
@@ -124,10 +120,10 @@ const Shuffle = () => {
         <S.Btn
           onClick={() => {
             if (spreadAnimation) {
-              handleButtonClick(flipped.every((value) => value === false) ? 3100 : 3600);
+              handleButtonClick(flipped.every((value) => value === false) ? 3100 : 3680);
               setFlipped(Array(6).fill(false));
               setTimeout(() => handleStack(), flipped.every((value) => value === false) ? 0 : 500);
-              setTimeout(() => handleShuffle(), flipped.every((value) => value === false) ? 600 : 1100);
+              setTimeout(() => handleShuffle(), flipped.every((value) => value === false) ? 600 : 1180);
             } else {
               handleButtonClick(2500);
               handleShuffle();
@@ -138,7 +134,7 @@ const Shuffle = () => {
         >
           셔플
         </S.Btn>
-        <S.Btn onClick={handleRow}>카드 보기</S.Btn>
+        <S.Btn onClick={handleRow}>펼치기</S.Btn>
         {/* <S.Btn onClick={handleStack}>모으기</S.Btn> */}
       </S.ButtonWrapper>
     </S.Container>
@@ -150,11 +146,14 @@ export default Shuffle;
 const S = {
   Container: styled.div`
     height: 800px;
+    width: 780px;
     position: relative;
     display: flex;
     flex-direction: column;
-    align-items: end;
+    align-items: center;
     justify-content: end;
+    background-color: var(--indigo02);
+    border-radius: 16px;
   `,
 
   ButtonWrapper: styled.div`
@@ -163,7 +162,7 @@ const S = {
     margin-bottom: 40px;
   `,
 
-  Btn: styled.button<{ $isDiabled: boolean }>`
+  Btn: styled.button<{ $isDiabled?: boolean }>`
     padding: 10px 20px;
     border-radius: 5px;
     display: flex;

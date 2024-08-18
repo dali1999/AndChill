@@ -4,7 +4,7 @@ import Shuffle from './components/movie-cards-shuffle';
 const RandomMovie = () => {
   return (
     <S.Container>
-      <h2>오늘은 무슨 영화 볼까?</h2>
+      <S.Title>오늘은 무슨 영화 볼까?</S.Title>
       <Shuffle />
     </S.Container>
   );
@@ -19,6 +19,9 @@ const S = {
     align-items: center;
     padding: 0 5%;
     padding-top: 40px;
-    background-color: var(--indigo02);
+  `,
+
+  Title: styled.h2`
+    padding-bottom: 18px;
   `,
 };

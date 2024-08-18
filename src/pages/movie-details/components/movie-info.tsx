@@ -19,9 +19,7 @@ const MovieInfo = ({ data, directors, backgroundColor }: TMovieInfoProps) => {
 
   const { runtime, title, release_date, vote_average, genres, tagline, overview, vote_count, belongs_to_collection } =
     data;
-  const posterURL = data.poster_path
-    ? getImage(IMAGE_SIZE.poster_sizes.size04, data?.poster_path)
-    : '/andchill-logo-800.png';
+  const posterURL = getImage(IMAGE_SIZE.poster_sizes.size04, data?.poster_path);
   const backdropURL = getImage(IMAGE_SIZE.backdrop_sizes.size03, data?.backdrop_path);
 
   useEffect(() => {
@@ -46,7 +44,7 @@ const MovieInfo = ({ data, directors, backgroundColor }: TMovieInfoProps) => {
         <S.PosterImage src={posterURL} />
       ) : (
         <S.DummyImageWrapper>
-          <S.DummyImage src={posterURL} />
+          <S.DummyImage src={'/andchill-logo-800.png'} />
         </S.DummyImageWrapper>
       )}
       <S.MovieInfoWrapper>
@@ -150,8 +148,8 @@ const S = {
 
   DummyImageWrapper: styled.div`
     background-color: var(--indigo04);
-    width: 330px;
-    height: 472px;
+    padding: 0 25px;
+    height: 470px;
     display: flex;
     align-items: center;
     justify-content: center;
