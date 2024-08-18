@@ -5,14 +5,16 @@ import { useMovieCollectionQuery } from '@hooks/react-query/use-query-movie-coll
 import MovieItem from '@pages/home/components/movie-list/movie-item';
 import { useRegionStore } from '@stores/region';
 import { getImage } from '@utils/get-image';
-import { useLocation, useParams } from 'react-router-dom';
+import { getImageColor } from '@utils/get-image-color';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 const MovieCollection = () => {
   const { collectionId } = useParams() as { collectionId: string };
   const collectionIdNumber = Number(collectionId);
-  const location = useLocation();
-  const backgroundColor = location.state?.backgroundColor || 'var(--dark09)';
+
+  const [backgroundColor, setBackgroundColor] = useState('linear-gradient(to bottom, var(--indigo04), var(--dark09))');
+
   const [scrollY, setScrollY] = useState(0);
   const handleScroll = () => {
     setScrollY(window.scrollY);
@@ -36,6 +38,17 @@ const MovieCollection = () => {
 
   const length = movieCollectionData?.parts?.length;
   const backdropURL = getImage(IMAGE_SIZE.backdrop_sizes.original, movieCollectionData?.backdrop_path);
+
+  const fetchImageColor = async (url: string) => {
+    const gradient = await getImageColor(url);
+    setBackgroundColor(gradient);
+  };
+
+  useEffect(() => {
+    if (backdropURL) {
+      fetchImageColor(`${backdropURL}`);
+    }
+  }, [backdropURL]);
 
   useEffect(() => {
     refetch();

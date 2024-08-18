@@ -29,13 +29,7 @@ const MovieInfo = ({ data, directors, backgroundColor }: TMovieInfoProps) => {
   return (
     <S.Container $backdropURL={backdropURL} $isImageExist={!!data.backdrop_path}>
       {belongs_to_collection && (
-        <S.CollectionLabel
-          onClick={() =>
-            navigate(`/movie-collections/${belongs_to_collection.id}`, {
-              state: { backgroundColor },
-            })
-          }
-        >
+        <S.CollectionLabel onClick={() => navigate(`/movie-collections/${belongs_to_collection.id}`)}>
           {belongs_to_collection.name}
         </S.CollectionLabel>
       )}
