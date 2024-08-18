@@ -4,7 +4,7 @@ import { useMovieDiscoverResultsQuery } from '@hooks/react-query/use-query-disco
 import MovieItem from '@pages/home/components/movie-list/movie-item';
 import { useRegionStore } from '@stores/region';
 import styled from 'styled-components';
-import { CARD_COLOR } from '../constants/card-color';
+import { CARD_COLOR } from '../constants/card-info';
 import {
   glowAnimation,
   shuffle1,
@@ -25,7 +25,7 @@ const Shuffle = () => {
   const [spreadAnimation, setSpreadAnimation] = useState(false);
   const [stackAnimation, setStackAnimation] = useState(false);
   const [page, setPage] = useState(Math.floor(Math.random() * 500) + 1);
-  const [flipped, setFlipped] = useState(Array(6).fill(false)); // 카드의 뒤집힌 상태를 관리
+  const [flipped, setFlipped] = useState(Array(6).fill(false));
   const [isDisabled, setIsDisabled] = useState(false);
   const { lang } = useRegionStore((state) => ({ lang: state.language }));
 
@@ -42,10 +42,10 @@ const Shuffle = () => {
   }, [page, randomMovieData?.results, refetch]);
 
   const handleShuffle = () => {
+    setPage(Math.floor(Math.random() * 500) + 1);
     setSpreadAnimation(false);
     setStackAnimation(false);
     setAnimate(true);
-    setPage(Math.floor(Math.random() * 100) + 1);
     setTimeout(() => setAnimate(false), SHUFFLE_TIME);
   };
 
@@ -71,13 +71,15 @@ const Shuffle = () => {
     }, time);
   };
 
-  const handleCardColor = (rate: number) => {
-    if (rate >= 8.4) {
-      return CARD_COLOR.legend;
-    } else if (rate >= 7.8) {
-      return CARD_COLOR.epic;
-    } else if (rate >= 7.2) {
-      return CARD_COLOR.rear;
+  const handleCardColor = (rate: number, id: number) => {
+    if (id === 680) {
+      return CARD_COLOR.god.color;
+    } else if (rate >= CARD_COLOR.legend.rank) {
+      return CARD_COLOR.legend.color;
+    } else if (rate >= CARD_COLOR.epic.rank) {
+      return CARD_COLOR.epic.color;
+    } else if (rate >= CARD_COLOR.rear.rank) {
+      return CARD_COLOR.rear.color;
     }
   };
 
@@ -102,7 +104,7 @@ const Shuffle = () => {
               $isRow={spreadAnimation}
               $flipped={flipped[i]}
               $movieRate={movie.vote_average}
-              $glowColor={handleCardColor(movie.vote_average)}
+              $glowColor={handleCardColor(movie.vote_average, movie.id)}
               onClick={() => spreadAnimation && handleCardClick(i)}
             >
               <div className="card-container">
@@ -125,8 +127,8 @@ const Shuffle = () => {
               setTimeout(() => handleStack(), flipped.every((value) => value === false) ? 0 : 500);
               setTimeout(() => handleShuffle(), flipped.every((value) => value === false) ? 600 : 1180);
             } else {
-              handleButtonClick(2500);
               handleShuffle();
+              handleButtonClick(2500);
             }
           }}
           disabled={isDisabled}
@@ -135,7 +137,6 @@ const Shuffle = () => {
           셔플
         </S.Btn>
         <S.Btn onClick={handleRow}>펼치기</S.Btn>
-        {/* <S.Btn onClick={handleStack}>모으기</S.Btn> */}
       </S.ButtonWrapper>
     </S.Container>
   );
@@ -152,8 +153,6 @@ const S = {
     flex-direction: column;
     align-items: center;
     justify-content: end;
-    background-color: var(--indigo02);
-    border-radius: 16px;
   `,
 
   ButtonWrapper: styled.div`
@@ -225,7 +224,7 @@ const S = {
       height: 100%;
       backface-visibility: hidden;
       background-color: var(--indigo06);
-      border: 3px solid var(--indigo04);
+      border: 4px solid var(--indigo04);
       border-radius: 6px;
       transform: rotateY(180deg);
       display: flex;
@@ -236,12 +235,18 @@ const S = {
         opacity: 0.8;
         width: 100px;
         height: 76px;
+
+        -webkit-user-drag: none;
+        user-select: none;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
       }
     }
 
     &.card1 {
       z-index: 6;
-      top: 22.5%;
+      top: calc(25% - 5 * 0.5%);
       left: calc(50% - 100px - 12px);
       --index: 1;
       --row: 0;
@@ -249,7 +254,7 @@ const S = {
     }
     &.card2 {
       z-index: 5;
-      top: 23%;
+      top: calc(25% - 4 * 0.5%);
       left: calc(50% - 95px - 12px);
       --index: 2;
       --row: 0;
@@ -257,7 +262,7 @@ const S = {
     }
     &.card3 {
       z-index: 4;
-      top: 23.5%;
+      top: calc(25% - 3 * 0.5%);
       left: calc(50% - 90px - 12px);
       --index: 3;
       --row: 0;
@@ -265,7 +270,7 @@ const S = {
     }
     &.card4 {
       z-index: 3;
-      top: 24%;
+      top: calc(25% - 2 * 0.5%);
       left: calc(50% - 85px - 12px);
       --index: 4;
       --row: 1;
@@ -273,7 +278,7 @@ const S = {
     }
     &.card5 {
       z-index: 2;
-      top: 24.5%;
+      top: calc(25% - 1 * 0.5%);
       left: calc(50% - 80px - 12px);
       --index: 5;
       --row: 1;
@@ -281,7 +286,7 @@ const S = {
     }
     &.card6 {
       z-index: 1;
-      top: 25%;
+      top: calc(25% - 0 * 0.5%);
       left: calc(50% - 75px - 12px);
       --index: 6;
       --row: 1;
