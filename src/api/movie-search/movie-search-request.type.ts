@@ -5,6 +5,13 @@ export interface TMovieSearchResultsFetchRes {
   total_results: number;
 }
 
+export interface TCollectionSearchResultsFetchRes {
+  page: number;
+  results: CollectionSearchItem[];
+  total_pages: number;
+  total_results: number;
+}
+
 interface MovieSearchItem {
   adult: boolean;
   backdrop_path: string;
@@ -20,4 +27,15 @@ interface MovieSearchItem {
   video: boolean;
   vote_average: number;
   vote_count: number;
+}
+
+interface CollectionSearchItem {
+  adult: boolean;
+  backdrop_path: string;
+  id: number;
+  name: string;
+  original_language: string;
+  original_name: string;
+  overview: string;
+  poster_path: string;
 }

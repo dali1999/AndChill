@@ -22,8 +22,9 @@ export const QUERY_KEY = {
   popularMovieList: 'popularMovieList',
   topRatedMovieList: 'topRatedMovieList',
 
-  // movie search
+  // search
   movieSearchResults: 'movieSearchResults',
+  collectionSearchResults: 'collectionSearchResults',
 
   // trending
   trendingMovieList: 'trendingMovieList',
