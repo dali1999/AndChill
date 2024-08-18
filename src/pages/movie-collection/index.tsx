@@ -12,7 +12,7 @@ const MovieCollection = () => {
   const { collectionId } = useParams() as { collectionId: string };
   const collectionIdNumber = Number(collectionId);
   const location = useLocation();
-  const backgroundColor = location.state?.backgroundColor || 'var(--indigo01)';
+  const backgroundColor = location.state?.backgroundColor || 'var(--dark09)';
   const [scrollY, setScrollY] = useState(0);
   const handleScroll = () => {
     setScrollY(window.scrollY);

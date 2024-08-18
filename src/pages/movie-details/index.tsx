@@ -24,10 +24,9 @@ import MovieImages from './components/movie-images';
 import MovieSimilar from './components/movie-similar';
 
 const MovieDetails = () => {
-  const [backgroundColor, setBackgroundColor] = useState('');
+  const [backgroundColor, setBackgroundColor] = useState('linear-gradient(to bottom, var(--dark09), var(--dark09))');
   const { movieId } = useParams() as { movieId: string };
   const movieIdNumber = Number(movieId);
-
   const lang = useRegionStore((state) => state.language);
 
   const { data: movieImagesData, isFetching: isImageDataLoading } = useMovieImagesQuery(movieIdNumber);

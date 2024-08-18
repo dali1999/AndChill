@@ -55,8 +55,8 @@ export default SearchResults;
 
 const S = {
   Container: styled.div`
-    padding: 0 5%;
-    margin-top: 100px;
+    padding: 40px 5%;
+    background-color: var(--dark09);
 
     section {
       border-bottom: 2px solid var(--indigo03);

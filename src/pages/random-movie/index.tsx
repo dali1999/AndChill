@@ -21,6 +21,7 @@ const S = {
     align-items: center;
     padding: 0 5%;
     padding-top: 20px;
+    background-color: var(--dark09);
   `,
 
   Title: styled.h2`
@@ -28,10 +29,10 @@ const S = {
   `,
 
   CardsBackground: styled.div`
-    background-color: var(--indigo02);
+    background-color: var(--indigo01);
     position: absolute;
     top: 64px;
-    width: 740px;
+    width: 90%;
     height: 690px;
     border-radius: 18px;
   `,
