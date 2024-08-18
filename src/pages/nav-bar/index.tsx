@@ -30,7 +30,7 @@ const NavBar = () => {
           <img src={cardsIcon} />
         </S.MenuItem>
       </S.MenuLists>
-      <S.SearchBar type="text" onKeyUp={handleSearchQuerySubmit} placeholder="영화 또는 TV 프로그램 검색" />
+      <S.SearchBar type="text" onKeyUp={handleSearchQuerySubmit} placeholder="영화 또는 인물 검색" />
       <RegionSelectButton />
     </S.Container>
   );
@@ -77,15 +77,17 @@ const S = {
   `,
 
   SearchBar: styled.input`
-    background-color: var(--dark01);
     background-color: var(--indigo03);
     border-radius: 5px;
-    padding: 10px;
+    padding: 14px 18px;
     margin: 0 10px;
     flex-grow: 1;
+    font-size: 14px;
+    font-weight: 100;
 
     &::placeholder {
-      color: var(--gray02);
+      color: var(--gray01);
+      font-weight: 400;
     }
   `,
 };
