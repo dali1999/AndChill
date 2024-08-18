@@ -6,7 +6,6 @@ interface TMovieListSkeletonProps {
   height?: number;
 }
 
-// 포스터 높이 200px 기준으로 초기값 설정
 const MovieListSkeleton = ({ text, height = 300 }: TMovieListSkeletonProps) => {
   return (
     <S.Container $height={height}>
@@ -40,5 +39,6 @@ const S = {
   LoadingIcon: styled.img`
     width: 40px;
     height: 40px;
+    opacity: 0.3;
   `,
 };

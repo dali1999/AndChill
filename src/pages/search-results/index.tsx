@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useCollectionSearchResultsQuery, useMovieSearchResultsQuery } from '@hooks/react-query/use-query-movie-search';
 import { useRegionStore } from '@stores/region';
+import { fadeIn } from '@styles/animations';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import CollectionSearchResults from './components/collection-search-results';
@@ -85,6 +86,9 @@ const S = {
   ResultsSection: styled.section`
     margin-top: 24px;
     padding-bottom: 40px;
+    ul {
+      animation: ${fadeIn} 0.5s ease-in;
+    }
   `,
 
   ResultsSectionTitle: styled.h2`
