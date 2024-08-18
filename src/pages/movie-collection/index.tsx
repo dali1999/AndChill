@@ -34,7 +34,7 @@ const MovieCollection = () => {
     refetch,
   } = useMovieCollectionQuery(collectionIdNumber, lang);
 
-  const length = movieCollectionData?.parts.length;
+  const length = movieCollectionData?.parts?.length;
   const backdropURL = getImage(IMAGE_SIZE.backdrop_sizes.original, movieCollectionData?.backdrop_path);
 
   useEffect(() => {
@@ -54,7 +54,7 @@ const MovieCollection = () => {
         <MovieListSkeleton text="검색 결과가 없습니다" height={220} />
       ) : (
         <S.CollectionMovieList>
-          {movieCollectionData?.parts.map((movie) => <MovieItem key={movie.id} data={movie} />)}
+          {movieCollectionData?.parts?.map((movie) => <MovieItem key={movie.id} data={movie} />)}
         </S.CollectionMovieList>
       )}
     </S.Container>

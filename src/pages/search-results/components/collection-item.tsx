@@ -49,17 +49,17 @@ const S = {
   `,
 
   CollectionImgageWrapper: styled.div`
-    height: 180px;
     border-radius: 5px;
   `,
 
   CollectionImage: styled.img`
     width: 120px;
+    height: 180px;
     border-radius: 5px;
   `,
 
   DummyImgageWrapper: styled.div`
-    width: 166px;
+    width: 120px;
     height: 180px;
     border-radius: 5px;
     background-color: var(--indigo04);
@@ -77,6 +77,7 @@ const S = {
 
   CollectionInfo: styled.div`
     padding: 20px 0;
+    width: 196px;
   `,
 
   Name: styled.p`
