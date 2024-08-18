@@ -10,10 +10,9 @@ import MovieRate from './movie-rate';
 interface TMovieInfoProps {
   data: TMovieDetailsFetchRes;
   directors: TMovieCrew[];
-  backgroundColor: string;
 }
 
-const MovieInfo = ({ data, directors, backgroundColor }: TMovieInfoProps) => {
+const MovieInfo = ({ data, directors }: TMovieInfoProps) => {
   const [formattedRuntime, setFormattedRuntime] = useState<string | undefined>('');
   const navigate = useNavigate();
 
