@@ -73,9 +73,7 @@ const S = {
     position: relative;
     overflow: hidden;
     border-radius: 7px;
-    box-shadow:
-      rgba(0, 0, 0, 0.3) 0px 10px 18px,
-      rgba(0, 0, 0, 0.2) 0px 15px 12px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 18px;
     &:hover .scale-on-hover {
       transform: scale(1.08);
     }

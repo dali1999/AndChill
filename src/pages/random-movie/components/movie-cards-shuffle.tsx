@@ -2,14 +2,30 @@ import { useEffect, useState } from 'react';
 import { useMovieDiscoverResultsQuery } from '@hooks/react-query/use-query-discover';
 import MovieItem from '@pages/home/components/movie-list/movie-item';
 import { useRegionStore } from '@stores/region';
-import styled, { keyframes } from 'styled-components';
-import { shuffle1, shuffle2, shuffle3, shuffle4, shuffle5, shuffle6 } from './shuffle-animation';
+import styled from 'styled-components';
+import {
+  glowAnimation,
+  shuffle1,
+  shuffle2,
+  shuffle3,
+  shuffle4,
+  shuffle5,
+  shuffle6,
+  spreadAnimation,
+  stackAnimation,
+} from '../style/card-animation';
+
+const SHUFFLE_TIME = 2500;
 
 const Shuffle = () => {
   const [animate, setAnimate] = useState(false);
-  const [rowAnimation, setRowAnimation] = useState(false);
+  const [spreadAnimation, setSpreadAnimation] = useState(false);
   const [stackAnimation, setStackAnimation] = useState(false);
   const [page, setPage] = useState(Math.floor(Math.random() * 500) + 1);
+  const [flipped, setFlipped] = useState(Array(6).fill(false)); // 카드의 뒤집힌 상태를 관리
+  const [isDisabled, setIsDisabled] = useState(false);
+
+  console.log(isDisabled);
 
   const { lang } = useRegionStore((state) => ({ lang: state.language }));
 
@@ -18,88 +34,127 @@ const Shuffle = () => {
     isFetching: isRandomMovieLoading,
     refetch,
   } = useMovieDiscoverResultsQuery(lang, 'vote_count.desc', '', page);
-
-  useEffect(() => {
-    setTimeout(() => refetch(), 1700);
-  }, [page, refetch, lang]);
-
   const movieDeck = randomMovieData?.results.slice(0, 6);
 
+  useEffect(() => {
+    refetch();
+  }, [page, refetch, lang]);
+
   const handleShuffle = () => {
-    setAnimate(true);
-    setRowAnimation(false);
+    setSpreadAnimation(false);
     setStackAnimation(false);
-    setPage(Math.floor(Math.random() * 500) + 1);
-    setTimeout(() => setAnimate(false), 1380);
+    setAnimate(true);
+    setPage(Math.floor(Math.random() * 100) + 1);
+    setTimeout(() => setAnimate(false), SHUFFLE_TIME);
   };
 
   const handleRow = () => {
-    setRowAnimation(true);
+    setSpreadAnimation(true);
     setStackAnimation(false);
   };
 
   const handleStack = () => {
-    setRowAnimation(false);
+    setSpreadAnimation(false);
     setStackAnimation(true);
   };
 
+  const handleCardClick = (index: number) => {
+    setFlipped((prevFlipped) => prevFlipped.map((flip, i) => (i === index ? !flip : flip)));
+  };
+
+  const handleButtonClick = (time: number) => {
+    setIsDisabled(true);
+
+    setTimeout(() => {
+      setIsDisabled(false);
+    }, time);
+  };
+
+  const handleCardColor = (rate: number) => {
+    if (rate >= 9) {
+      return LEGENDARY_COLOR;
+    } else if (rate >= 8) {
+      return EPIC_COLOR;
+    } else if (rate >= 7.5) {
+      return RARE_COLOR;
+    }
+  };
+
+  const RARE_COLOR = 'rgba(254, 199, 18, 0.3)';
+  const EPIC_COLOR = 'rgba(238, 73, 250, 0.5)';
+  const LEGENDARY_COLOR = 'rgba(255, 56, 56, 1)';
+
   return (
     <S.Container>
-      <S.ButtonWrapper>
-        <S.Btn onClick={handleShuffle}>Shuffle</S.Btn>
-        <S.Btn onClick={handleRow}>Spread</S.Btn>
-        <S.Btn onClick={handleStack}>Gather</S.Btn>
-      </S.ButtonWrapper>
+      {isRandomMovieLoading
+        ? [...Array(6)]
+            .map((_, i) => i)
+            .map((_, i) => (
+              <S.Card key={i} className={`card${i + 1}`}>
+                <div className="card-container">
+                  <div className="back noData">
+                    <img src="/andchill-favicon.svg" />
+                  </div>
+                </div>
+              </S.Card>
+            ))
+        : page &&
+          movieDeck?.map((movie, i) => (
+            <S.Card
+              key={movie.id}
+              className={`card${i + 1} ${animate ? 'animate' : ''} ${spreadAnimation ? 'spread' : ''} ${stackAnimation ? 'stack' : ''}`}
+              $isRow={spreadAnimation}
+              $flipped={flipped[i]}
+              $movieRate={movie.vote_average}
+              $glowColor={handleCardColor(movie.vote_average)}
+              onClick={() => spreadAnimation && handleCardClick(i)}
+            >
+              <div className="card-container">
+                <div className="front">
+                  <MovieItem data={movie} />
+                </div>
+                <div className="back">
+                  <img src="/andchill-favicon.svg" />
+                </div>
+              </div>
+            </S.Card>
+          ))}
 
-      {page &&
-        movieDeck?.map((movie, i) => (
-          <S.Box
-            key={movie.id}
-            className={`box${i + 1} card${i + 1} ${animate ? 'animate' : ''} ${rowAnimation ? 'row' : ''} ${stackAnimation ? 'stack' : ''}`}
-            $isRow={rowAnimation}
-          >
-            <div className="card-container">
-              <div className="front">
-                <MovieItem data={movie} />
-              </div>
-              <div className="back">
-                <img src="/andchill-favicon.svg" />
-              </div>
-            </div>
-          </S.Box>
-        ))}
+      <S.ButtonWrapper>
+        <S.Btn
+          onClick={() => {
+            if (spreadAnimation) {
+              handleButtonClick(flipped.every((value) => value === false) ? 3100 : 3600);
+              setFlipped(Array(6).fill(false));
+              setTimeout(() => handleStack(), flipped.every((value) => value === false) ? 0 : 500);
+              setTimeout(() => handleShuffle(), flipped.every((value) => value === false) ? 600 : 1100);
+            } else {
+              handleButtonClick(2500);
+              handleShuffle();
+            }
+          }}
+          disabled={isDisabled}
+          $isDiabled={isDisabled}
+        >
+          셔플
+        </S.Btn>
+        <S.Btn onClick={handleRow}>카드 보기</S.Btn>
+        {/* <S.Btn onClick={handleStack}>모으기</S.Btn> */}
+      </S.ButtonWrapper>
     </S.Container>
   );
 };
 
 export default Shuffle;
 
-const rowAnimation = keyframes`
-  0% {
-    transform: translateY(0);
-  }
-  100% {
-    transform: translateY(calc(var(--row) * 320px - 140px)) translateX(calc(var(--col) * 220px - 220px));
-  }
-`;
-
-const stackAnimation = keyframes`
-  0% {
-    transform: translateY(calc(var(--row) * 320px - 140px)) translateX(calc(var(--col) * 220px - 220px));
-  }
-  100% {
-    transform: translateY(0) translateX(0);
-  }
-`;
-
 const S = {
   Container: styled.div`
-    width: 100%;
     height: 800px;
     position: relative;
     display: flex;
+    flex-direction: column;
     align-items: end;
-    justify-content: center;
+    justify-content: end;
   `,
 
   ButtonWrapper: styled.div`
@@ -108,20 +163,30 @@ const S = {
     margin-bottom: 40px;
   `,
 
-  Btn: styled.div`
+  Btn: styled.button<{ $isDiabled: boolean }>`
     padding: 10px 20px;
-    /* width: 100px; */
     border-radius: 5px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--lightWhite);
-    color: var(--dark02);
-    cursor: pointer;
+    background-color: ${({ $isDiabled }) => ($isDiabled ? 'var(--yellow03)' : 'var(--yellow02)')};
+    color: var(--dark01);
+    cursor: ${({ $isDiabled }) => ($isDiabled ? 'default' : 'pointer')};
     font-weight: 900;
+    font-size: 20px;
+    transition: 0.1s ease-in-out;
   `,
 
-  Box: styled.div<{ $isRow: boolean }>`
+  NoCardText: styled.div`
+    border: 1px solid red;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  `,
+
+  Card: styled.div<{ $isRow?: boolean; $movieRate?: number; $glowColor?: string; $flipped?: boolean }>`
     position: absolute;
     width: 200px;
     height: 300px;
@@ -131,14 +196,7 @@ const S = {
     --row: 0;
     --col: 0;
     perspective: 1000px;
-
-    ${(props) =>
-      props.$isRow &&
-      `
-      &:hover .card-container {
-        transform: rotateY(0deg);
-      }
-    `}
+    cursor: pointer;
 
     .card-container {
       position: relative;
@@ -147,19 +205,19 @@ const S = {
       transition: transform 0.5s;
       transform-style: preserve-3d;
       cursor: pointer;
-      cursor: pointer;
       transform: rotateY(180deg);
-      box-shadow:
-        rgba(0, 0, 0, 0.2) 0px 10px 18px,
-        rgba(0, 0, 0, 0.2) 0px 15px 12px;
+      transform: rotateY(${(props) => (props.$flipped ? '0deg' : '180deg')});
+
+      box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 18px;
     }
 
     /* Front face */
     .front {
       position: absolute;
-      width: 100%;
+      width: 200px;
       height: 100%;
       backface-visibility: hidden;
+      animation: ${(props) => props.$glowColor && glowAnimation(props.$glowColor)} 2s infinite;
     }
 
     /* Back face */
@@ -169,11 +227,12 @@ const S = {
       backface-visibility: hidden;
       background-color: var(--indigo06);
       border: 3px solid var(--indigo04);
-      border-radius: 5px;
+      border-radius: 6px;
       transform: rotateY(180deg);
       display: flex;
       align-items: center;
       justify-content: center;
+      animation: ${(props) => props.$glowColor && glowAnimation(props.$glowColor)} 2s infinite;
       img {
         opacity: 0.8;
         width: 100px;
@@ -181,78 +240,84 @@ const S = {
       }
     }
 
-    &.box1 {
+    &.card1 {
       z-index: 6;
       top: 22.5%;
-      left: calc(50% - 100px);
+      left: calc(50% - 100px - 12px);
+      --index: 1;
       --row: 0;
       --col: 0;
     }
-    &.box2 {
+    &.card2 {
       z-index: 5;
       top: 23%;
-      left: calc(50% - 95px);
+      left: calc(50% - 95px - 12px);
+      --index: 2;
       --row: 0;
       --col: 1;
     }
-    &.box3 {
+    &.card3 {
       z-index: 4;
       top: 23.5%;
-      left: calc(50% - 90px);
+      left: calc(50% - 90px - 12px);
+      --index: 3;
       --row: 0;
       --col: 2;
     }
-    &.box4 {
+    &.card4 {
       z-index: 3;
       top: 24%;
-      left: calc(50% - 85px);
+      left: calc(50% - 85px - 12px);
+      --index: 4;
       --row: 1;
       --col: 0;
     }
-    &.box5 {
+    &.card5 {
       z-index: 2;
       top: 24.5%;
-      left: calc(50% - 80px);
+      left: calc(50% - 80px - 12px);
+      --index: 5;
       --row: 1;
       --col: 1;
     }
-    &.box6 {
+    &.card6 {
       z-index: 1;
       top: 25%;
-      left: calc(50% - 75px);
+      left: calc(50% - 75px - 12px);
+      --index: 6;
       --row: 1;
       --col: 2;
     }
 
     /* Shuffle animation */
-    &.animate.box1 {
+    &.animate.card1 {
       transform-origin: 150% 0%;
-      animation: ${shuffle1} 2s forwards;
+      animation: ${shuffle1} 2.5s forwards;
     }
-    &.animate.box2 {
+    &.animate.card2 {
       transform-origin: 150% 0%;
-      animation: ${shuffle2} 2s forwards;
+      animation: ${shuffle2} 2.5s forwards;
     }
-    &.animate.box3 {
+    &.animate.card3 {
       transform-origin: 150% 0%;
-      animation: ${shuffle3} 2s forwards;
+      animation: ${shuffle3} 2.5s forwards;
     }
-    &.animate.box4 {
+    &.animate.card4 {
       transform-origin: 150% 0%;
-      animation: ${shuffle4} 2s forwards;
+      animation: ${shuffle4} 2.5s forwards;
     }
-    &.animate.box5 {
+    &.animate.card5 {
       transform-origin: 150% 0%;
-      animation: ${shuffle5} 2s forwards;
+      animation: ${shuffle5} 2.5s forwards;
     }
-    &.animate.box6 {
+    &.animate.card6 {
       transform-origin: 150% 0%;
-      animation: ${shuffle6} 2s forwards;
+      animation: ${shuffle6} 2.5s forwards;
     }
 
-    /* Row animation */
-    &.row {
-      animation: ${rowAnimation} 0.5s forwards;
+    /* spread animation */
+    &.spread {
+      animation: ${spreadAnimation} 0.5s forwards;
     }
 
     /* Stack animation */
