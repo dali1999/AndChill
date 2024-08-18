@@ -37,7 +37,7 @@ const MovieItem = ({ data }: TMovieItemProps) => {
           <S.DummyImage src="/andchill-logo-300.png" className="scale-on-hover" />
         </S.DummyImageWrapper>
       )}
-      <S.MovieLightInfo>
+      <S.MovieLightInfo $isOverview={!!data.overview}>
         {hovered && (
           <div>
             <S.MovieGenreList>
@@ -118,7 +118,7 @@ const S = {
     height: 80px;
   `,
 
-  MovieLightInfo: styled.div`
+  MovieLightInfo: styled.div<{ $isOverview: boolean }>`
     color: white;
     position: absolute;
     display: flex;
@@ -137,6 +137,7 @@ const S = {
         padding: 15px;
         position: absolute;
         animation: ${scrollCredits} 10s linear infinite;
+        animation: ${scrollCredits} ${({ $isOverview }) => ($isOverview ? 10 : 0)}s linear infinite;
       }
     }
   `,
