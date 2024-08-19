@@ -25,6 +25,7 @@ export const QUERY_KEY = {
   // search
   movieSearchResults: 'movieSearchResults',
   collectionSearchResults: 'collectionSearchResults',
+  peopleSearchResults: 'peopleSearchResults',
 
   // trending
   trendingMovieList: 'trendingMovieList',

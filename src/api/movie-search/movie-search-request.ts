@@ -18,6 +18,15 @@ const movieSearchRequest = {
       return error;
     }
   },
+
+  fetchPeopleSearchResults: async (searchQuery: string | number, language: string) => {
+    try {
+      const { data } = await axios.get(`search/person?query=${searchQuery}&language=${language}`);
+      return data;
+    } catch (error) {
+      return error;
+    }
+  },
 } as const;
 
 export default movieSearchRequest;
