@@ -7,6 +7,7 @@ import {
 import { useRegionStore } from '@stores/region';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import PeopleCredits from './components/people-credits';
 import PeopleInfo from './components/people-info';
 
 const PeopleDetails = () => {
@@ -21,7 +22,14 @@ const PeopleDetails = () => {
   const isFetching = isDetailsLoading || isImagesLoading || isCreditsLoading;
   return (
     <S.Container>
-      {isFetching ? <MovieListSkeleton /> : <>{detailsData && <PeopleInfo data={detailsData} />}</>}
+      {isFetching ? (
+        <MovieListSkeleton />
+      ) : (
+        <>
+          {detailsData && <PeopleInfo data={detailsData} lang={lang} />}
+          {creditsData && <PeopleCredits data={creditsData} />}
+        </>
+      )}
     </S.Container>
   );
 };
@@ -30,7 +38,7 @@ export default PeopleDetails;
 
 const S = {
   Container: styled.div`
-    padding: 40px 5%;
     background-color: var(--dark09);
+    padding-bottom: 40px;
   `,
 };
