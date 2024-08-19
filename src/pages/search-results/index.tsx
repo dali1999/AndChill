@@ -23,7 +23,7 @@ import PeopleSearchResults from './components/people-search-results';
 const SearchResults = () => {
   const { searchQuery } = useParams() as { searchQuery: string };
   const lang = useRegionStore((state) => state.language);
-  const [activeSection, setActiveSection] = useState<'Movies' | 'Collections' | 'People' | ''>('');
+  const [activeSection, setActiveSection] = useState<'Movies' | 'Collections' | 'People'>('Movies');
 
   const {
     data: movieResultsData,
