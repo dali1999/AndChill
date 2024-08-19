@@ -4,7 +4,7 @@ interface TMovieRateProps {
   voteCounts: number;
 }
 const MovieRate = ({ rate, voteCounts }: TMovieRateProps) => {
-  const rotation = ((rate * 10) / 100) * 180 - 90;
+  const rotation = ((rate * 10) / 100) * 170 - 85;
   return (
     <S.Container>
       <S.MovieRateWrapper>
@@ -75,7 +75,7 @@ const S = {
   Needle: styled.div<{ $rotation: number }>`
     --rotation: ${({ $rotation }) => `${$rotation}deg`};
     position: absolute;
-    bottom: 26px;
+    bottom: 24px;
     left: calc(50% - 2px);
     width: 4px;
     border-top-left-radius: 40%;
@@ -90,7 +90,7 @@ const S = {
 
   CenterDot: styled.div`
     position: absolute;
-    bottom: 22px;
+    bottom: 20px;
     left: calc(50%);
     width: 8px;
     height: 8px;
