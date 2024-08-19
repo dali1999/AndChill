@@ -32,7 +32,7 @@ const MovieItem = ({ data }: TMovieItemProps) => {
         <S.DummyImageWrapper>
           <S.NoPosterMovieTitle>
             <h3>{data.title}</h3>
-            <p>{data.release_date.slice(0, 4)}</p>
+            <p>{data.release_date?.slice(0, 4)}</p>
           </S.NoPosterMovieTitle>
           <S.DummyImage src="/andchill-logo-300.png" className="scale-on-hover" />
         </S.DummyImageWrapper>
@@ -41,7 +41,7 @@ const MovieItem = ({ data }: TMovieItemProps) => {
         {hovered && (
           <div>
             <S.MovieGenreList>
-              {mappedGenres.map((genre) => {
+              {mappedGenres?.map((genre) => {
                 return <S.MovieGenreItem key={genre}>{genre}</S.MovieGenreItem>;
               })}
             </S.MovieGenreList>
