@@ -177,7 +177,7 @@ export const shuffle6 = keyframes`
 
 `;
 
-export const glowAnimation = (color: string) => keyframes` 
+export const glowAnimation = (color: string = 'transparent') => keyframes` 
   0% {
     filter: drop-shadow(0 0 2px ${color}) drop-shadow(0 0 2px ${color})
     drop-shadow(0 0 10px ${color});
@@ -188,6 +188,21 @@ export const glowAnimation = (color: string) => keyframes`
   }
   100% {
     filter: drop-shadow(0 0 2px ${color}) drop-shadow(0 0 2px ${color})
+    drop-shadow(0 0 10px ${color});
+  }
+`;
+
+export const godGlowAnimation = (color: string = 'transparent') => keyframes` 
+  0% {
+    filter: drop-shadow(0 0 6px ${color}) drop-shadow(0 0 2px ${color})
+    drop-shadow(0 0 10px ${color});
+  }
+  50% {
+    filter: drop-shadow(0 0 12px ${color}) drop-shadow(0 0 2px ${color})
+    drop-shadow(0 0 10px ${color});
+  }
+  100% {
+    filter: drop-shadow(0 0 6px ${color}) drop-shadow(0 0 2px ${color})
     drop-shadow(0 0 10px ${color});
   }
 `;

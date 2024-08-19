@@ -1,12 +1,14 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react';
 import { TMovieListsItem } from '@api/movie-lists/movie-lists-request.type';
 import { useMovieDiscoverResultsQuery } from '@hooks/react-query/use-query-discover';
 import MovieItem from '@pages/home/components/movie-list/movie-item';
 import { useRegionStore } from '@stores/region';
 import styled from 'styled-components';
-import { CARD_COLOR } from '../constants/card-info';
+import { CARD_INFO } from '../constants/card-info';
 import {
   glowAnimation,
+  godGlowAnimation,
   shuffle1,
   shuffle2,
   shuffle3,
@@ -16,11 +18,15 @@ import {
   spreadAnimation,
   stackAnimation,
 } from '../style/card-animation';
-import { getRandomSixCards } from '../utils/get-random-cards';
+import { getRandomSixCards, getRandomText } from '../utils/get-random-cards';
+
+interface TShuffleProps {
+  setRandomText: (text: string) => void;
+}
 
 const SHUFFLE_TIME = 2500;
 
-const Shuffle = () => {
+const Shuffle = ({ setRandomText }: TShuffleProps) => {
   const [animate, setAnimate] = useState(false);
   const [spreadAnimation, setSpreadAnimation] = useState(false);
   const [stackAnimation, setStackAnimation] = useState(false);
@@ -35,6 +41,10 @@ const Shuffle = () => {
     refetch,
   } = useMovieDiscoverResultsQuery(lang, 'vote_count.desc', '', page);
   const [movieDeck, setMovieDeck] = useState<TMovieListsItem[] | undefined>([]);
+
+  useEffect(() => {
+    setRandomText(getRandomText());
+  }, [page]);
 
   useEffect(() => {
     refetch();
@@ -71,20 +81,23 @@ const Shuffle = () => {
     }, time);
   };
 
-  const handleCardColor = (rate: number, id: number) => {
-    if (id === 680) {
-      return CARD_COLOR.god.color;
-    } else if (rate >= CARD_COLOR.legend.rank) {
-      return CARD_COLOR.legend.color;
-    } else if (rate >= CARD_COLOR.epic.rank) {
-      return CARD_COLOR.epic.color;
-    } else if (rate >= CARD_COLOR.rear.rank) {
-      return CARD_COLOR.rear.color;
+  const handleCardColor = (rate: number) => {
+    if (rate >= CARD_INFO.god.rank) {
+      return CARD_INFO.god.color;
+    } else if (rate >= CARD_INFO.legend.rank) {
+      return CARD_INFO.legend.color;
+    } else if (rate >= CARD_INFO.epic.rank) {
+      return CARD_INFO.epic.color;
+    } else if (rate >= CARD_INFO.rear.rank) {
+      return CARD_INFO.rear.color;
+    } else {
+      return 'transparent';
     }
   };
 
   return (
     <S.Container>
+      {page}
       {isRandomMovieLoading
         ? [...Array(6)]
             .map((_, i) => i)
@@ -104,7 +117,7 @@ const Shuffle = () => {
               $isRow={spreadAnimation}
               $flipped={flipped[i]}
               $movieRate={movie.vote_average}
-              $glowColor={handleCardColor(movie.vote_average, movie.id)}
+              $glowColor={handleCardColor(movie.vote_average)}
               onClick={() => spreadAnimation && handleCardClick(i)}
             >
               <div className="card-container">
@@ -215,7 +228,11 @@ const S = {
       width: 200px;
       height: 100%;
       backface-visibility: hidden;
-      animation: ${(props) => props.$glowColor && glowAnimation(props.$glowColor)} 2s infinite;
+      animation: ${(props) =>
+          props.$glowColor === 'rgba(255, 208, 81, 0.8)'
+            ? godGlowAnimation(props.$glowColor)
+            : glowAnimation(props.$glowColor)}
+        1.8s infinite;
     }
 
     /* Back face */
@@ -230,7 +247,11 @@ const S = {
       display: flex;
       align-items: center;
       justify-content: center;
-      animation: ${(props) => props.$glowColor && glowAnimation(props.$glowColor)} 2s infinite;
+      animation: ${(props) =>
+          props.$glowColor === 'rgba(255, 208, 81, 0.8)'
+            ? godGlowAnimation(props.$glowColor)
+            : glowAnimation(props.$glowColor)}
+        1.8s infinite;
       img {
         opacity: 0.8;
         width: 100px;
