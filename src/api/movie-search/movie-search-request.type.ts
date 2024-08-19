@@ -1,3 +1,5 @@
+import { TMovieListsItem } from '@api/movie-lists/movie-lists-request.type';
+
 export interface TMovieSearchResultsFetchRes {
   page: number;
   results: TMovieSearchItem[];
@@ -48,19 +50,13 @@ export interface TCollectionSearchItem {
 }
 
 export interface TPeopleSearchItem {
-  backdrop_path: string;
-  id: number;
-  title: string;
-  original_title: string;
-  overview: string;
-  poster_path: string;
-  media_type: string;
   adult: false;
-  original_language: string;
-  genre_ids: number[];
+  gender: number;
+  id: number;
+  known_for_department: string;
+  name: string;
+  original_name: string;
   popularity: number;
-  release_date: string;
-  video: false;
-  vote_average: number;
-  vote_count: number;
+  profile_path: string;
+  known_for: TMovieListsItem[];
 }

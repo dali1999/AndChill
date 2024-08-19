@@ -2,6 +2,7 @@ import movieSearchRequest from '@api/movie-search/movie-search-request';
 import {
   TCollectionSearchResultsFetchRes,
   TMovieSearchResultsFetchRes,
+  TPeopleSearchResultsFetchRes,
 } from '@api/movie-search/movie-search-request.type';
 import { QUERY_KEY } from '@constants/query-key';
 import { useQuery } from '@tanstack/react-query';
@@ -23,7 +24,7 @@ export const useCollectionSearchResultsQuery = (searchQuery: string | number, la
 };
 
 export const usePeopleSearchResultsQuery = (searchQuery: string | number, language: string) => {
-  const query = useQuery<TCollectionSearchResultsFetchRes, Error>({
+  const query = useQuery<TPeopleSearchResultsFetchRes, Error>({
     queryKey: [QUERY_KEY.peopleSearchResults, searchQuery],
     queryFn: async () => await movieSearchRequest.fetchPeopleSearchResults(searchQuery, language),
   });

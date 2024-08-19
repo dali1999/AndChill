@@ -1,16 +1,25 @@
 import { useEffect, useState } from 'react';
-import { useCollectionSearchResultsQuery, useMovieSearchResultsQuery } from '@hooks/react-query/use-query-movie-search';
+import {
+  useCollectionSearchResultsQuery,
+  useMovieSearchResultsQuery,
+  usePeopleSearchResultsQuery,
+} from '@hooks/react-query/use-query-movie-search';
 import { useRegionStore } from '@stores/region';
 import { fadeIn } from '@styles/animations';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import CollectionSearchResults from './components/collection-search-results';
 import MovieSearchResults from './components/movie-search-results';
+import PeopleSearchResults from './components/people-search-results';
 
 const SearchResults = () => {
   const { searchQuery } = useParams() as { searchQuery: string };
   const lang = useRegionStore((state) => state.language);
   const [activeSection, setActiveSection] = useState<'movies' | 'collections' | 'people'>('movies');
+
+  useEffect(() => {
+    
+  }, []);
 
   const {
     data: movieResultsData,
@@ -24,10 +33,17 @@ const SearchResults = () => {
     refetch: collectionResultsRefetch,
   } = useCollectionSearchResultsQuery(searchQuery, lang);
 
+  const {
+    data: peopleResultsData,
+    isFetching: isPeopleResultsLoading,
+    refetch: peopleResultsRefetch,
+  } = usePeopleSearchResultsQuery(searchQuery, lang);
+
   useEffect(() => {
     movieResultsRefetch();
     collectionResultsRefetch();
-  }, [lang]);
+    peopleResultsRefetch();
+  }, [lang, movieResultsRefetch, collectionResultsRefetch, peopleResultsRefetch]);
 
   return (
     <S.Container>
@@ -50,14 +66,20 @@ const SearchResults = () => {
 
       {activeSection === 'movies' && (
         <S.ResultsSection>
-          <S.ResultsSectionTitle>Movies</S.ResultsSectionTitle>
+          <S.ResultsSectionTitle>
+            <span>Movies </span>
+            {movieResultsData && <span>({movieResultsData.total_results})</span>}
+          </S.ResultsSectionTitle>
           <MovieSearchResults isLoading={isMovieResultsLoading} data={movieResultsData}></MovieSearchResults>
         </S.ResultsSection>
       )}
 
       {activeSection === 'collections' && (
         <S.ResultsSection>
-          <S.ResultsSectionTitle>Collections</S.ResultsSectionTitle>
+          <S.ResultsSectionTitle>
+            <span>Collections </span>
+            {collectionResultsData && <span>({collectionResultsData?.total_results})</span>}
+          </S.ResultsSectionTitle>
           <CollectionSearchResults
             isLoading={isCollectionResultsLoading}
             data={collectionResultsData}
@@ -67,8 +89,11 @@ const SearchResults = () => {
 
       {activeSection === 'people' && (
         <S.ResultsSection>
-          <S.ResultsSectionTitle>People</S.ResultsSectionTitle>
-          <div>People search results will go here.</div>
+          <S.ResultsSectionTitle>
+            <span>People </span>
+            {peopleResultsData && <span>({peopleResultsData.total_results})</span>}
+          </S.ResultsSectionTitle>
+          <PeopleSearchResults isLoading={isPeopleResultsLoading} data={peopleResultsData}></PeopleSearchResults>
         </S.ResultsSection>
       )}
     </S.Container>
@@ -158,9 +183,16 @@ const S = {
     }
   `,
 
-  ResultsSectionTitle: styled.h2`
+  ResultsSectionTitle: styled.div`
     margin-bottom: 26px;
     font-weight: 400;
-    font-size: 20px;
+
+    & span:first-child {
+      font-size: 20px;
+    }
+    & span:last-child {
+      font-size: 16px;
+      color: var(--gray01);
+    }
   `,
 };
