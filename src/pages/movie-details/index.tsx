@@ -74,7 +74,7 @@ const MovieDetails = () => {
         <>
           {movieImagesData && <MovieLogoImage data={movieImagesData} />}
           <S.MovieDetails>
-            {movieDetailsData && directors && <MovieInfo data={movieDetailsData} directors={directors} />}
+            {movieDetailsData && directors && <MovieInfo data={movieDetailsData} directors={directors} lang={lang} />}
             <S.BottomSection>
               <S.BottomLeftSection>
                 {movieCreditsData && <MovieCredits data={movieCreditsData} />}

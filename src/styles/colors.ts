@@ -30,6 +30,8 @@ const colors = css`
     --indigo04: #2c2e45;
     --indigo05: #363750;
     --indigo06: #40405b;
+    --indigo07: #4c4c63;
+    --indigo08: #6b6b89;
 
     //gray
     --gray01: #9e9e9e;

@@ -74,6 +74,6 @@ const S = {
 
   NoImageText: styled.p`
     font-size: 14px;
-    color: var(--gray01);
+    color: var(--indigo08);
   `,
 };

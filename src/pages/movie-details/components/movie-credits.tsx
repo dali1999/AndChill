@@ -20,6 +20,7 @@ const MovieCredits = ({ data }: TMovieCreditsProps) => {
   return (
     <MovieDetailsSectionTemplate title="출연진">
       <S.CastListWrapper>
+        {length === 0 && <S.NoCreditText>인물 정보가 없습니다</S.NoCreditText>}
         <S.CastList $curIndex={currentIndex}>
           {castsData.map((cast) => (
             <S.CastItem key={cast.cast_id} onClick={() => navigate(`/people-details/${cast.id}`)}>
@@ -128,5 +129,10 @@ const S = {
       font-weight: 100;
       color: var(--gray01);
     }
+  `,
+
+  NoCreditText: styled.p`
+    font-size: 14px;
+    color: var(--indigo08);
   `,
 };

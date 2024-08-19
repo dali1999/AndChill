@@ -39,11 +39,11 @@ const UpcomingMovieList = () => {
             currentIndex={currentIndex}
             setCurrentIndex={setCurrentIndex}
             perSlide={2}
-            positionTop={0}
+            positionTop={20}
             positionLR={-22}
             width={60}
             height={180}
-            backgroundColor="var(--indigo01)"
+            backgroundColor="var(--dark09)"
           />
         </S.UpcomingMovieListWrapper>
       )}

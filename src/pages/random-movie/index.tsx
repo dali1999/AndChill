@@ -1,12 +1,14 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 import Shuffle from './components/movie-cards-shuffle';
 
 const RandomMovie = () => {
+  const [randomText, setRandomText] = useState('');
   return (
     <S.Container>
-      <S.Title>오늘은 무슨 영화 볼까?</S.Title>
+      <S.Title>오늘 뭐 볼까?</S.Title>
       <S.CardsBackground></S.CardsBackground>
-      <Shuffle />
+      <Shuffle setRandomText={setRandomText} />
     </S.Container>
   );
 };
@@ -26,6 +28,8 @@ const S = {
 
   Title: styled.h2`
     padding-bottom: 12px;
+    font-size: 20px;
+    font-weight: 600;
   `,
 
   CardsBackground: styled.div`

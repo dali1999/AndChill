@@ -31,7 +31,7 @@ const MovieList = ({ data }: TMovieListProps) => {
         positionLR={-22}
         width={60}
         height={300}
-        backgroundColor="var(--indigo01)"
+        backgroundColor="var(--dark09)"
       />
     </S.MovieListWrapper>
   );

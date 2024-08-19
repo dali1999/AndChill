@@ -73,6 +73,7 @@ const S = {
     overflow: hidden;
     border-radius: 7px;
     box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 18px;
+
     &:hover .scale-on-hover {
       transform: scale(1.08);
     }
@@ -81,7 +82,7 @@ const S = {
   MovieImage: styled.img`
     border-radius: 7px;
     transition: transform 0.4s ease-in-out;
-    background-color: var(--indigo05);
+    background-color: var(--indigo04);
   `,
 
   DummyImageWrapper: styled.div`
@@ -168,5 +169,10 @@ const S = {
   MovieOverView: styled.p`
     font-size: 14px;
     line-height: 23px;
+    width: 100%;
+    text-align: justify;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
   `,
 };

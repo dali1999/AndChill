@@ -11,9 +11,10 @@ import MovieRate from './movie-rate';
 interface TMovieInfoProps {
   data: TMovieDetailsFetchRes;
   directors: TMovieCrew[];
+  lang: string;
 }
 
-const MovieInfo = ({ data, directors }: TMovieInfoProps) => {
+const MovieInfo = ({ data, directors, lang }: TMovieInfoProps) => {
   const [formattedRuntime, setFormattedRuntime] = useState<string | undefined>('');
   const navigate = useNavigate();
 
@@ -58,7 +59,7 @@ const MovieInfo = ({ data, directors }: TMovieInfoProps) => {
 
         <S.Overview>
           <p>{tagline}</p>
-          {overview ? <p>{overview}</p> : <S.NoOverviewText>영화 내용에 관한 정보가 없습니다</S.NoOverviewText>}
+          {overview ? <p>{overview}</p> : <S.NoOverviewText>{lang} 언어로 된 정보가 없습니다</S.NoOverviewText>}
         </S.Overview>
 
         <S.Directors>
@@ -218,6 +219,8 @@ const S = {
     align-items: center;
     justify-content: center;
     height: 180px;
+    color: var(--indigo08);
+    font-weight: 600;
   `,
 
   Directors: styled.ul`
