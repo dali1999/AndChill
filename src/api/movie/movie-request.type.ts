@@ -94,12 +94,12 @@ interface TMovieVideo {
 
 export interface TMovieImagesFetchRes {
   id: number;
-  backdrops: TMovieImage[];
-  logos: TMovieImage[];
-  posters: TMovieImage[];
+  backdrops: TImage[];
+  logos: TImage[];
+  posters: TImage[];
 }
 
-interface TMovieImage {
+export interface TImage {
   aspect_ratio: number;
   height: number;
   width: number;
