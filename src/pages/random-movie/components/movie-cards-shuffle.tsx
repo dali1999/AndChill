@@ -97,7 +97,6 @@ const Shuffle = ({ setRandomText }: TShuffleProps) => {
 
   return (
     <S.Container>
-      {page}
       {isRandomMovieLoading
         ? [...Array(6)]
             .map((_, i) => i)
