@@ -7,3 +7,6 @@
 
 ### ✅ 영화 컬렉션
 <img src="https://github.com/user-attachments/assets/a0faa3a0-eaa1-4da4-8c03-27340e2f0c8c" width="100%"/>
+
+### ✅ 랜덤 영화 뽑기
+<img src="https://github.com/user-attachments/assets/42ef5d6f-3670-45a2-a805-e06456c7e620" width="100%"/>
