@@ -58,7 +58,6 @@ const S = {
   `,
 
   SectionTitle: styled.h2`
-    margin-bottom: 20px;
     height: 32px;
     position: relative;
     padding-left: 15px;
@@ -73,6 +72,7 @@ const S = {
   `,
 
   UpcomingMovieListWrapper: styled.div`
+    padding-top: 20px;
     position: relative;
     overflow: hidden;
     &:hover ${Button} {

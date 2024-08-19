@@ -8,7 +8,6 @@ import {
   useMovieRecommendationsQuery,
   useMovieSitesQuery,
   useMovieVideosQuery,
-  useSimilarMoviesQuery,
 } from '@hooks/react-query/use-query-movie';
 import MovieInfo from '@pages/movie-details/components/movie-info';
 import MovieLogoImage from '@pages/movie-details/components/movie-logo-image';

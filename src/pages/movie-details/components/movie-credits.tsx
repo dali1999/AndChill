@@ -3,6 +3,7 @@ import { TMovieCreditsFetchRes } from '@api/movie/movie-request.type';
 import CarouselButton, { Button } from '@components/carousel/carousel-button';
 import { IMAGE_SIZE } from '@constants/image-size';
 import { getImage } from '@utils/get-image';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import MovieDetailsSectionTemplate from './movie-details-section-template';
 
@@ -11,6 +12,7 @@ interface TMovieCreditsProps {
 }
 
 const MovieCredits = ({ data }: TMovieCreditsProps) => {
+  const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const castsData = data.cast;
@@ -20,12 +22,14 @@ const MovieCredits = ({ data }: TMovieCreditsProps) => {
       <S.CastListWrapper>
         <S.CastList $curIndex={currentIndex}>
           {castsData.map((cast) => (
-            <S.CastItem key={cast.cast_id}>
+            <S.CastItem key={cast.cast_id} onClick={() => navigate(`/people-details/${cast.id}`)}>
               {cast.profile_path ? (
-                <S.ProfileImage
-                  src={getImage(IMAGE_SIZE.profile_sizes.size02, cast.profile_path)}
-                  alt="출연진 프로필 이미지"
-                />
+                <S.ProfileImageWrapper>
+                  <S.ProfileImage
+                    src={getImage(IMAGE_SIZE.profile_sizes.size02, cast.profile_path)}
+                    alt="출연진 프로필 이미지"
+                  />
+                </S.ProfileImageWrapper>
               ) : (
                 <S.DummyImageWrapper>
                   <S.DummyImage src="/andchill-favicon.svg" alt="출연진 기본 프로필 이미지" />
@@ -78,19 +82,15 @@ const S = {
     align-items: center;
     gap: 10px;
     height: 110px;
+    cursor: pointer;
+    &:hover {
+      opacity: 0.7;
+    }
+  `,
 
-    p {
-      width: 110px;
-    }
-    & p:nth-child(1) {
-      font-size: 15px;
-      font-weight: 100;
-    }
-    & p:nth-child(2) {
-      font-size: 12px;
-      font-weight: 100;
-      color: var(--gray01);
-    }
+  ProfileImageWrapper: styled.div`
+    border-radius: 40px;
+    overflow: hidden;
   `,
 
   ProfileImage: styled.img`
@@ -116,5 +116,17 @@ const S = {
     height: 31px;
   `,
 
-  RoleWrapper: styled.div``,
+  RoleWrapper: styled.div`
+    width: 110px;
+    & p:nth-child(1) {
+      font-size: 15px;
+      font-weight: 400;
+      margin-bottom: 4px;
+    }
+    & p:nth-child(2) {
+      font-size: 12px;
+      font-weight: 100;
+      color: var(--gray01);
+    }
+  `,
 };

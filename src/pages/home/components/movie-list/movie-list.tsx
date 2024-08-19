@@ -41,6 +41,7 @@ export default MovieList;
 
 const S = {
   MovieListWrapper: styled.div`
+    padding-top: 20px;
     position: relative;
     overflow: hidden;
     animation: ${fadeIn} 0.5s ease-in;
@@ -50,7 +51,6 @@ const S = {
   `,
 
   MovieList: styled.ul<{ $curIndex: number }>`
-    padding-top: 20px;
     display: flex;
     gap: 20px;
     transform: ${({ $curIndex }) => `translateX(-${$curIndex * 220}px)`};

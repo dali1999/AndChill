@@ -16,11 +16,11 @@ const CollectionItem = ({ data }: TCollectionItemProps) => {
     <S.Container onClick={() => navigate(`/movie-collections/${data.id}`)}>
       {data.poster_path ? (
         <S.CollectionImgageWrapper>
-          <S.CollectionImage src={profileImgURL} />
+          <S.CollectionImage src={profileImgURL} alt="컬렉션 포스터 이미지" />
         </S.CollectionImgageWrapper>
       ) : (
         <S.DummyImgageWrapper>
-          <S.DummyImage src={'/andchill-favicon.svg'} />
+          <S.DummyImage src={'/andchill-favicon.svg'} alt="기본 포스터 이미지" />
         </S.DummyImgageWrapper>
       )}
       <S.CollectionInfo>

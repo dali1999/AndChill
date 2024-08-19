@@ -63,7 +63,7 @@ const MovieInfo = ({ data, directors }: TMovieInfoProps) => {
 
         <S.Directors>
           {directors.map((director) => (
-            <li key={director.id}>
+            <li key={director.id} onClick={() => navigate(`/people-details/${director.id}`)}>
               <S.DirectorName>{director.name}</S.DirectorName>
               <S.DirectorJob>{director.job}</S.DirectorJob>
             </li>
@@ -224,6 +224,12 @@ const S = {
     margin-top: 40px;
     display: flex;
     gap: 34px;
+    li {
+      cursor: pointer;
+      &:hover {
+        opacity: 0.7;
+      }
+    }
   `,
   DirectorName: styled.p`
     font-size: 18px;
