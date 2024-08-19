@@ -16,7 +16,7 @@ const MovieDetailsSectionTemplate = ({ title, children }: TMovieDetailsSectionTe
 export default MovieDetailsSectionTemplate;
 const S = {
   Container: styled.div`
-    padding: 0 0 60px;
+    padding: 0 0 50px;
   `,
   Title: styled.h2`
     font-size: 22px;

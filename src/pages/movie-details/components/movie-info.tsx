@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { TMovieCrew, TMovieDetailsFetchRes } from '@api/movie/movie-request.type';
 import { IMAGE_SIZE } from '@constants/image-size';
 import { claculateRuntime } from '@pages/movie-details/utils/calculate-runtime';
+import { fadeIn } from '@styles/animations';
 import { getImage } from '@utils/get-image';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -135,11 +136,13 @@ const S = {
   `,
 
   PosterImage: styled.img`
+    animation: ${fadeIn} 0.5s ease-in;
     width: 330px;
     border-radius: 6px;
   `,
 
   DummyImageWrapper: styled.div`
+    animation: ${fadeIn} 0.5s ease-in;
     background-color: var(--indigo04);
     padding: 0 25px;
     height: 470px;
@@ -156,6 +159,7 @@ const S = {
   `,
 
   MovieInfoWrapper: styled.div`
+    animation: ${fadeIn} 0.5s ease-in;
     width: 100%;
     height: 100%;
   `,

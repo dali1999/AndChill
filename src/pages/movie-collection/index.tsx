@@ -115,9 +115,7 @@ const S = {
     width: 100%;
     background: ${({ $backgroundColor }) => $backgroundColor};
     bottom: -20px;
-
     height: 40px;
-
     position: absolute;
     filter: blur(30px);
     -webkit-filter: blur(30px);

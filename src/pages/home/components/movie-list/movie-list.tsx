@@ -43,6 +43,7 @@ const S = {
   MovieListWrapper: styled.div`
     position: relative;
     overflow: hidden;
+    animation: ${fadeIn} 0.5s ease-in;
     &:hover ${Button} {
       opacity: 0.8;
     }
@@ -52,7 +53,6 @@ const S = {
     padding-top: 20px;
     display: flex;
     gap: 20px;
-    animation: ${fadeIn} 0.5s ease-in;
     transform: ${({ $curIndex }) => `translateX(-${$curIndex * 220}px)`};
     transition: 0.3s ease-in-out;
   `,

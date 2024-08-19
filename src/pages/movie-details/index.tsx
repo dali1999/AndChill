@@ -5,6 +5,7 @@ import {
   useMovieCreditsQuery,
   useMovieDetailsQuery,
   useMovieImagesQuery,
+  useMovieRecommendationsQuery,
   useMovieSitesQuery,
   useMovieVideosQuery,
   useSimilarMoviesQuery,
@@ -15,6 +16,7 @@ import MovieSecondaryDetails from '@pages/movie-details/components/movie-seconda
 import MovieSites from '@pages/movie-details/components/movie-sites';
 import MovieVideos from '@pages/movie-details/components/movie-videos';
 import { useRegionStore } from '@stores/region';
+import { fadeIn } from '@styles/animations';
 import { getImage } from '@utils/get-image';
 import { getImageColor } from '@utils/get-image-color';
 import { useParams } from 'react-router-dom';
@@ -29,12 +31,12 @@ const MovieDetails = () => {
   const movieIdNumber = Number(movieId);
   const lang = useRegionStore((state) => state.language);
 
-  const { data: movieImagesData, isFetching: isImageDataLoading } = useMovieImagesQuery(movieIdNumber);
-  const { data: movieDetailsData, isFetching: isDetailsDataLoading } = useMovieDetailsQuery(movieIdNumber, lang);
-  const { data: movieSitesData, isFetching: isSiteDataLoading } = useMovieSitesQuery(movieIdNumber, lang);
-  const { data: movieVideosData, isFetching: isVideoDataLoading } = useMovieVideosQuery(movieIdNumber, lang);
-  const { data: movieCreditsData, isFetching: isCreditsDataLoading } = useMovieCreditsQuery(movieIdNumber, lang);
-  const { data: similarMoviesData, isFetching: isSimilarMoviesDataLoading } = useSimilarMoviesQuery(
+  const { data: movieImagesData, isFetching: isImagesLoading } = useMovieImagesQuery(movieIdNumber);
+  const { data: movieDetailsData, isFetching: isDetailsLoading } = useMovieDetailsQuery(movieIdNumber, lang);
+  const { data: movieSitesData, isFetching: isSitesLoading } = useMovieSitesQuery(movieIdNumber, lang);
+  const { data: movieVideosData, isFetching: isVideosLoading } = useMovieVideosQuery(movieIdNumber, lang);
+  const { data: movieCreditsData, isFetching: isCreditsLoading } = useMovieCreditsQuery(movieIdNumber, lang);
+  const { data: movieRecommendationsData, isFetching: isMovieRecommendationsLoading } = useMovieRecommendationsQuery(
     movieIdNumber,
     lang,
   );
@@ -47,12 +49,12 @@ const MovieDetails = () => {
   const directors = movieCreditsData?.crew.filter((people) => people.job === 'Director');
 
   const isFetching =
-    isDetailsDataLoading ||
-    isImageDataLoading ||
-    isSiteDataLoading ||
-    isVideoDataLoading ||
-    isCreditsDataLoading ||
-    isSimilarMoviesDataLoading;
+    isDetailsLoading ||
+    isImagesLoading ||
+    isSitesLoading ||
+    isVideosLoading ||
+    isCreditsLoading ||
+    isMovieRecommendationsLoading;
 
   const fetchImageColor = async (url: string) => {
     const gradient = await getImageColor(url);
@@ -80,7 +82,7 @@ const MovieDetails = () => {
                 {movieSitesData && <MovieSites data={movieSitesData} />}
                 {movieVideosData && <MovieVideos data={movieVideosData} />}
                 {movieImagesData && <MovieImages data={movieImagesData} />}
-                {similarMoviesData && <MovieSimilar data={similarMoviesData} />}
+                {movieRecommendationsData && <MovieSimilar data={movieRecommendationsData} />}
               </S.BottomLeftSection>
               {movieDetailsData && <MovieSecondaryDetails data={movieDetailsData} />}
             </S.BottomSection>
@@ -96,7 +98,6 @@ export default MovieDetails;
 const S = {
   Container: styled.div<{ $backgroundColor: string }>`
     position: relative;
-    margin-bottom: -30px; //footer
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -120,12 +121,9 @@ const S = {
   `,
 
   BottomLeftSection: styled.div`
+    animation: ${fadeIn} 0.5s ease-in;
     flex: 1;
     overflow: hidden;
-    padding: 40px 20px 40px 40px;
-  `,
-
-  BottomRightSection: styled.div`
-    display: flex;
+    padding: 40px 20px 10px 40px;
   `,
 };

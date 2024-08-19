@@ -1,4 +1,5 @@
 import { TMovieDetailsFetchRes } from '@api/movie/movie-request.type';
+import { fadeIn } from '@styles/animations';
 import styled from 'styled-components';
 import MovieProductionCompanyItem from './movie-production-company-item';
 import { formatCurrency } from '../utils/calculate-currency';
@@ -61,6 +62,7 @@ const S = {
   `,
 
   InfoItem: styled.li`
+    animation: ${fadeIn} 0.5s ease-in;
     border-bottom: 1px solid var(--indigo06);
     padding: 20px 0;
   `,
@@ -79,6 +81,7 @@ const S = {
   `,
 
   ProductionCompanyList: styled.ul`
+    animation: ${fadeIn} 0.5s ease-in;
     padding: 20px 0;
   `,
 };
