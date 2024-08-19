@@ -167,7 +167,7 @@ const S = {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: ${({ $isDiabled }) => ($isDiabled ? 'var(--yellow03)' : 'var(--yellow02)')};
+    background-color: ${({ $isDiabled }) => ($isDiabled ? 'var(--yellow04)' : 'var(--yellow02)')};
     color: var(--dark01);
     cursor: ${({ $isDiabled }) => ($isDiabled ? 'default' : 'pointer')};
     font-weight: 900;

@@ -21,6 +21,7 @@ const colors = css`
     --yellow01: #efc229;
     --yellow02: #e2b728;
     --yellow03: #a08016;
+    --yellow04: #8e7523;
 
     //point indigo
     --indigo01: #101322;
