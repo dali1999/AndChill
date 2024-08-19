@@ -8,8 +8,11 @@ const NavBar = () => {
   const navigate = useNavigate();
 
   const handleSearchQuerySubmit = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const inputValue = (e.target as HTMLInputElement).value.trim();
+
     if (e.key === 'Enter') {
-      const inputValue = (e.target as HTMLInputElement).value;
+      if (!inputValue) return;
+
       navigate(`/search-results/${inputValue}`);
       (e.target as HTMLInputElement).value = '';
     }
