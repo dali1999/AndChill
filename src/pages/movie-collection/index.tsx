@@ -45,10 +45,10 @@ const MovieCollection = () => {
   };
 
   useEffect(() => {
-    if (backdropURL) {
+    if (movieCollectionData?.backdrop_path !== undefined) {
       fetchImageColor(`${backdropURL}`);
     }
-  }, [backdropURL]);
+  }, [backdropURL, movieCollectionData?.backdrop_path]);
 
   useEffect(() => {
     refetch();
