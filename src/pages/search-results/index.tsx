@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useCollectionSearchResultsQuery, useMovieSearchResultsQuery } from '@hooks/react-query/use-query-movie-search';
 import { useRegionStore } from '@stores/region';
 import { fadeIn } from '@styles/animations';
@@ -10,6 +10,7 @@ import MovieSearchResults from './components/movie-search-results';
 const SearchResults = () => {
   const { searchQuery } = useParams() as { searchQuery: string };
   const lang = useRegionStore((state) => state.language);
+  const [activeSection, setActiveSection] = useState<'movies' | 'collections' | 'people'>('movies');
 
   const {
     data: movieResultsData,
@@ -35,18 +36,41 @@ const SearchResults = () => {
         <S.TitleText> 검색 결과</S.TitleText>
       </S.Title>
 
-      <S.ResultsSection>
-        <S.ResultsSectionTitle>Collections</S.ResultsSectionTitle>
-        <CollectionSearchResults
-          isLoading={isCollectionResultsLoading}
-          data={collectionResultsData}
-        ></CollectionSearchResults>
-      </S.ResultsSection>
+      <S.ButtonsWrapper $activate={activeSection}>
+        <button onClick={() => setActiveSection('movies')} className="movies">
+          Movie
+        </button>
+        <button onClick={() => setActiveSection('collections')} className="collections">
+          Collection
+        </button>
+        <button onClick={() => setActiveSection('people')} className="people">
+          People
+        </button>
+      </S.ButtonsWrapper>
 
-      <S.ResultsSection>
-        <S.ResultsSectionTitle>Movies</S.ResultsSectionTitle>
-        <MovieSearchResults isLoading={isMovieResultsLoading} data={movieResultsData}></MovieSearchResults>
-      </S.ResultsSection>
+      {activeSection === 'movies' && (
+        <S.ResultsSection>
+          <S.ResultsSectionTitle>Movies</S.ResultsSectionTitle>
+          <MovieSearchResults isLoading={isMovieResultsLoading} data={movieResultsData}></MovieSearchResults>
+        </S.ResultsSection>
+      )}
+
+      {activeSection === 'collections' && (
+        <S.ResultsSection>
+          <S.ResultsSectionTitle>Collections</S.ResultsSectionTitle>
+          <CollectionSearchResults
+            isLoading={isCollectionResultsLoading}
+            data={collectionResultsData}
+          ></CollectionSearchResults>
+        </S.ResultsSection>
+      )}
+
+      {activeSection === 'people' && (
+        <S.ResultsSection>
+          <S.ResultsSectionTitle>People</S.ResultsSectionTitle>
+          <div>People search results will go here.</div>
+        </S.ResultsSection>
+      )}
     </S.Container>
   );
 };
@@ -55,9 +79,9 @@ export default SearchResults;
 
 const S = {
   Container: styled.div`
+    position: relative;
     padding: 40px 5%;
     background-color: var(--dark09);
-
     section {
       border-bottom: 2px solid var(--indigo03);
     }
@@ -68,6 +92,49 @@ const S = {
 
   Title: styled.h1`
     margin-bottom: 46px;
+  `,
+
+  ButtonsWrapper: styled.div<{ $activate: string }>`
+    position: absolute;
+    right: 5%;
+    top: 122px;
+    display: flex;
+    gap: 10px;
+    button {
+      background-color: var(--indigo06);
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: 0.05s ease-in;
+
+      &:hover {
+        background-color: var(--indigo05);
+      }
+
+      ${({ $activate }) =>
+        $activate === 'movies' &&
+        `
+        &.movies {
+          background-color: var(--indigo03);
+        }
+      `}
+
+      ${({ $activate }) =>
+        $activate === 'collections' &&
+        `
+        &.collections {
+          background-color: var(--indigo03);
+        }
+      `}
+
+      ${({ $activate }) =>
+        $activate === 'people' &&
+        `
+        &.people {
+          background-color: var(--indigo03);
+        }
+      `}
+    }
   `,
 
   SearchQuery: styled.span`
