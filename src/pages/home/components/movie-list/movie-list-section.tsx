@@ -17,12 +17,17 @@ interface TMovieListSectionProps {
 
 const MovieListSection = ({ title, trendingMovieData, isTrendingMovieLoading }: TMovieListSectionProps) => {
   const [randomGenre, setRandomGenre] = useState<TGenre[] | undefined>();
+  const [page, setPage] = useState(1);
   const genreIdsStr = randomGenre?.map((genre) => genre.id).join();
   const genreNamesStr = randomGenre?.map((genre) => genre.name).join(' • ');
 
   const { lang } = useRegionStore((state) => ({ lang: state.language }));
   const { data: genreData } = useGenreListQuery(lang);
-  const page = Math.floor(Math.random() * 10) + 1;
+
+  useEffect(() => {
+    const randomPage = Math.floor(Math.random() * 10) + 1;
+    setPage(randomPage);
+  }, []);
 
   useEffect(() => {
     if (genreData?.genres) {

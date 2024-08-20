@@ -12,7 +12,6 @@ const Home = () => {
   useEffect(() => {
     refetch();
   }, [lang, refetch]);
-
   return (
     <S.Container>
       <UpcomingMovieList />
