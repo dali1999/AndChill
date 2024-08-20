@@ -207,6 +207,21 @@ export const godGlowAnimation = (color: string = 'transparent') => keyframes`
   }
 `;
 
+export const dotGlowAnimation = (color: string = 'transparent') => keyframes` 
+  0% {
+    filter: drop-shadow(0 0 1px ${color}) drop-shadow(0 0 2px ${color})
+    drop-shadow(0 0 10px ${color});
+  }
+  50% {
+    filter: drop-shadow(0 0 3px ${color}) drop-shadow(0 0 2px ${color})
+    drop-shadow(0 0 10px ${color});
+  }
+  100% {
+    filter: drop-shadow(0 0 1px ${color}) drop-shadow(0 0 2px ${color})
+    drop-shadow(0 0 10px ${color});
+  }
+`;
+
 export const spreadAnimation = keyframes`
   0% {
     transform: translateY(0);

@@ -82,9 +82,10 @@ const Shuffle = ({ setRandomText }: TShuffleProps) => {
   };
 
   const handleCardColor = (rate: number) => {
-    if (rate >= CARD_INFO.god.rank) {
-      return CARD_INFO.god.color;
-    } else if (rate >= CARD_INFO.legend.rank) {
+    // if (rate >= CARD_INFO.god.rank) {
+    //   return CARD_INFO.god.color;
+    // } else
+    if (rate >= CARD_INFO.legend.rank) {
       return CARD_INFO.legend.color;
     } else if (rate >= CARD_INFO.epic.rank) {
       return CARD_INFO.epic.color;

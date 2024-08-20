@@ -1,20 +1,22 @@
 export const CARD_INFO = {
   rear: {
-    // color: 'rgba(51, 107, 204, 0.4)', // blue
+    originColor: '#e5e5e5',
     color: 'rgba(255, 255, 255, 0.3)',
     rank: 7.3,
   },
   epic: {
-    color: 'rgba(238, 73, 250, 0.6)', // purple
-    rank: 7.8,
+    originColor: '#c327db',
+    color: 'rgba(238, 73, 250, 0.6)',
+    rank: 7.7,
   },
   legend: {
-    // color: 'rgba(255, 233, 0, 0.8)', // gold
-    color: 'rgba(255, 208, 81, 0.8)', // gold
+    originColor: '#EFC229',
+    color: 'rgba(255, 208, 81, 0.8)',
     rank: 8.4,
   },
-  god: {
-    color: 'rgba(255, 255, 255, 1)', // white
-    rank: 8.8,
-  },
+  // god: {
+  //   originColor: '#ffffff',
+  //   color: 'rgba(255, 255, 255, 1)',
+  //   rank: 8.5,
+  // },
 } as const;
