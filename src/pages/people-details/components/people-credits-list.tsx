@@ -46,7 +46,7 @@ const PeopleCreditsList = ({ data, type }: TPeopleCreditsListProps) => {
               <S.CreditItem key={`${movie.id}_${movie.character}`}>
                 <S.ReleaseDate>{movie.release_date}</S.ReleaseDate>
                 <MovieItem data={movie} />
-                <S.Character>{movie.character}</S.Character>
+                {movie.character && <S.Character>{movie.character}</S.Character>}
               </S.CreditItem>
             ))}
           </>
@@ -56,7 +56,7 @@ const PeopleCreditsList = ({ data, type }: TPeopleCreditsListProps) => {
               <S.CreditItem key={`${movie.id}_${movie.job.join('')}`}>
                 <S.ReleaseDate>{movie.release_date}</S.ReleaseDate>
                 <MovieItem data={movie} />
-                <S.Character>{movie.job.join(' • ')}</S.Character>
+                {movie.job && <S.Character>{movie.job.join(' • ')}</S.Character>}
               </S.CreditItem>
             ))}
           </>
@@ -120,6 +120,7 @@ const S = {
     font-size: 24px;
     font-weight: 600;
     color: var(--indigo07);
+    height: 29px;
   `,
 
   Character: styled.div`
