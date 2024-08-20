@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 
 export const useMovieDiscoverResultsQuery = (language: string, sortBy: string, genres?: string, page?: number) => {
   const query = useQuery<TMovieListsFetchRes, Error>({
-    queryKey: [QUERY_KEY.movieDiscoveredResults, genres, language],
+    queryKey: [QUERY_KEY.movieDiscoveredResults, language, sortBy, genres, page],
     queryFn: async () => await discoverRequest.fetchMovieDiscoverResults(language, sortBy, genres, page),
   });
   return query;

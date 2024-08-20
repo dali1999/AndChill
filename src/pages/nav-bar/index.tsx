@@ -58,11 +58,11 @@ const S = {
   `,
 
   MenuLists: styled.ul`
-    margin: 0 10px 0 30px;
+    margin: 0 15px 0 25px;
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 20px;
+    gap: 30px;
     flex-shrink: 0;
   `,
 

@@ -12,6 +12,7 @@ const Router = () => {
           <Route path="movie-collections/:collectionId" element={<Page.MovieCollection />} />
           <Route path="search-results/:searchQuery" element={<Page.SearchResults />} />
           <Route path="random-movie" element={<Page.RandomMovie />} />
+          <Route path="discover" element={<Page.Discover />} />
           {/* <Route path="login" element={<Page.Login />} />
           <Route path="group-home" element={<Page.GroupHome />} />
           <Route path="meeting-room" element={<Page.MeetingRoom />} />
