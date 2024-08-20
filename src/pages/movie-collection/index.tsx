@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import thumbIcon from '@assets/icons/thumb.svg';
 import MovieListSkeleton from '@components/skeleton/movie-list-skeleton';
 import { IMAGE_SIZE } from '@constants/image-size';
 import { useMovieCollectionQuery } from '@hooks/react-query/use-query-movie-collection';
@@ -14,7 +15,7 @@ const MovieCollection = () => {
   const collectionIdNumber = Number(collectionId);
 
   const [backgroundColor, setBackgroundColor] = useState('linear-gradient(to bottom, var(--indigo04), var(--dark09))');
-
+  const [bestMovieId, setBestMovieId] = useState(0);
   const [scrollY, setScrollY] = useState(0);
   const handleScroll = () => {
     setScrollY(window.scrollY);
@@ -44,6 +45,8 @@ const MovieCollection = () => {
     setBackgroundColor(gradient);
   };
 
+  useEffect(() => {}, []);
+
   useEffect(() => {
     if (movieCollectionData?.backdrop_path !== undefined) {
       fetchImageColor(`${backdropURL}`);
@@ -52,7 +55,14 @@ const MovieCollection = () => {
 
   useEffect(() => {
     refetch();
-  }, [lang, refetch]);
+    const movieWithHighestVote = movieCollectionData?.parts.reduce(
+      (max, movie) => (movie.vote_average > max.vote_average ? movie : max),
+      movieCollectionData?.parts[0],
+    );
+    if (movieWithHighestVote) {
+      setBestMovieId(movieWithHighestVote.id);
+    }
+  }, [lang, movieCollectionData?.parts, refetch]);
 
   return (
     <S.Container $backgroundColor={backgroundColor}>
@@ -61,13 +71,23 @@ const MovieCollection = () => {
         <S.CollectionImage $imageUrl={backdropURL} />
         <S.BlurContainer $backgroundColor={backgroundColor}></S.BlurContainer>
       </S.CollectionBanner>
+
       {isMovieCollectionLoading ? (
         <MovieListSkeleton height={220} />
       ) : length === 0 ? (
         <MovieListSkeleton text="검색 결과가 없습니다" height={220} />
       ) : (
         <S.CollectionMovieList>
-          {movieCollectionData?.parts?.map((movie) => <MovieItem key={movie.id} data={movie} />)}
+          {movieCollectionData?.parts?.map((movie) => (
+            <S.MovieItemWrapper key={movie.id}>
+              <MovieItem data={movie} />
+              {movie.id === bestMovieId && (
+                <S.BestMovieLabel>
+                  <img src={thumbIcon} alt="시리즈 베스트 영화 라벨 아이콘" />
+                </S.BestMovieLabel>
+              )}
+            </S.MovieItemWrapper>
+          ))}
         </S.CollectionMovieList>
       )}
     </S.Container>
@@ -126,9 +146,46 @@ const S = {
     margin-top: -110px;
     display: flex;
     justify-content: start;
-    gap: 10px 20px;
+    gap: 20px;
     flex-wrap: wrap;
     width: 100%;
     max-width: 80%;
+  `,
+
+  MovieItemWrapper: styled.div`
+    position: relative;
+  `,
+
+  BestMovieLabel: styled.div`
+    position: absolute;
+    top: -8px;
+    left: 20px;
+    width: 40px;
+    height: 40px;
+    background-color: var(--yellow02);
+    border-radius: 2px 2px 4px 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--indigo02);
+    font-weight: 900;
+    font-size: 14px;
+    box-shadow: rgba(0, 0, 0, 0.6) -4px 4px 3px;
+
+    img {
+      width: 22px;
+      height: 22px;
+    }
+
+    &:before {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 1.2px;
+      left: -4px;
+      border-width: 6.8px 4px 0px 0px;
+      border-style: solid;
+      border-color: transparent var(--yellow04) transparent;
+    }
   `,
 };
