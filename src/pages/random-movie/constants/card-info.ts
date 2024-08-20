@@ -1,7 +1,7 @@
 export const CARD_INFO = {
   rear: {
     // color: 'rgba(51, 107, 204, 0.4)', // blue
-    color: 'rgba(255, 255, 255, 0.4)',
+    color: 'rgba(255, 255, 255, 0.3)',
     rank: 7.3,
   },
   epic: {
