@@ -97,40 +97,7 @@ const Shuffle = ({ setRandomText }: TShuffleProps) => {
   };
 
   return (
-    <S.Container>
-      {isRandomMovieLoading
-        ? [...Array(6)]
-            .map((_, i) => i)
-            .map((_, i) => (
-              <S.Card key={i} className={`card${i + 1}`}>
-                <div className="card-container">
-                  <div className="back noData">
-                    <img src="/andchill-favicon.svg" />
-                  </div>
-                </div>
-              </S.Card>
-            ))
-        : movieDeck?.map((movie, i) => (
-            <S.Card
-              key={movie.id}
-              className={`card${i + 1} ${animate ? 'animate' : ''} ${spreadAnimation ? 'spread' : ''} ${stackAnimation ? 'stack' : ''}`}
-              $isRow={spreadAnimation}
-              $flipped={flipped[i]}
-              $movieRate={movie.vote_average}
-              $glowColor={handleCardColor(movie.vote_average)}
-              onClick={() => spreadAnimation && handleCardClick(i)}
-            >
-              <div className="card-container">
-                <div className="front">
-                  <MovieItem data={movie} />
-                </div>
-                <div className="back">
-                  <img src="/andchill-favicon.svg" />
-                </div>
-              </div>
-            </S.Card>
-          ))}
-
+    <>
       <S.ButtonWrapper>
         <S.Btn
           onClick={() => {
@@ -151,7 +118,42 @@ const Shuffle = ({ setRandomText }: TShuffleProps) => {
         </S.Btn>
         <S.Btn onClick={handleRow}>펼치기</S.Btn>
       </S.ButtonWrapper>
-    </S.Container>
+
+      <S.Container>
+        {isRandomMovieLoading
+          ? [...Array(6)]
+              .map((_, i) => i)
+              .map((_, i) => (
+                <S.Card key={i} className={`card${i + 1}`}>
+                  <div className="card-container">
+                    <div className="back noData">
+                      <img src="/andchill-favicon.svg" />
+                    </div>
+                  </div>
+                </S.Card>
+              ))
+          : movieDeck?.map((movie, i) => (
+              <S.Card
+                key={movie.id}
+                className={`card${i + 1} ${animate ? 'animate' : ''} ${spreadAnimation ? 'spread' : ''} ${stackAnimation ? 'stack' : ''}`}
+                $isRow={spreadAnimation}
+                $flipped={flipped[i]}
+                $movieRate={movie.vote_average}
+                $glowColor={handleCardColor(movie.vote_average)}
+                onClick={() => spreadAnimation && handleCardClick(i)}
+              >
+                <div className="card-container">
+                  <div className="front">
+                    <MovieItem data={movie} />
+                  </div>
+                  <div className="back">
+                    <img src="/andchill-favicon.svg" />
+                  </div>
+                </div>
+              </S.Card>
+            ))}
+      </S.Container>
+    </>
   );
 };
 
@@ -160,22 +162,25 @@ export default Shuffle;
 const S = {
   Container: styled.div`
     height: 800px;
-    width: 780px;
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: end;
+    z-index: 1;
   `,
 
   ButtonWrapper: styled.div`
     display: flex;
-    gap: 20px;
-    margin-bottom: 40px;
+    gap: 10px;
+    margin-bottom: 0px;
+    z-index: 2;
+    position: relative;
+    bottom: 40px;
   `,
 
   Btn: styled.button<{ $isDiabled?: boolean }>`
-    padding: 10px 20px;
+    padding: 6px 12px;
     border-radius: 5px;
     display: flex;
     align-items: center;
@@ -184,7 +189,7 @@ const S = {
     color: var(--dark01);
     cursor: ${({ $isDiabled }) => ($isDiabled ? 'default' : 'pointer')};
     font-weight: 900;
-    font-size: 20px;
+    font-size: 18px;
     transition: 0.1s ease-in-out;
   `,
 
@@ -267,7 +272,7 @@ const S = {
 
     &.card1 {
       z-index: 6;
-      top: calc(25% - 5 * 0.5%);
+      top: calc(21.5% - 5 * 0.5%);
       left: calc(50% - 100px - 12px);
       --index: 1;
       --row: 0;
@@ -275,7 +280,7 @@ const S = {
     }
     &.card2 {
       z-index: 5;
-      top: calc(25% - 4 * 0.5%);
+      top: calc(21.5% - 4 * 0.5%);
       left: calc(50% - 95px - 12px);
       --index: 2;
       --row: 0;
@@ -283,7 +288,7 @@ const S = {
     }
     &.card3 {
       z-index: 4;
-      top: calc(25% - 3 * 0.5%);
+      top: calc(21.5% - 3 * 0.5%);
       left: calc(50% - 90px - 12px);
       --index: 3;
       --row: 0;
@@ -291,7 +296,7 @@ const S = {
     }
     &.card4 {
       z-index: 3;
-      top: calc(25% - 2 * 0.5%);
+      top: calc(21.5% - 2 * 0.5%);
       left: calc(50% - 85px - 12px);
       --index: 4;
       --row: 1;
@@ -299,7 +304,7 @@ const S = {
     }
     &.card5 {
       z-index: 2;
-      top: calc(25% - 1 * 0.5%);
+      top: calc(21.5% - 1 * 0.5%);
       left: calc(50% - 80px - 12px);
       --index: 5;
       --row: 1;
@@ -307,7 +312,7 @@ const S = {
     }
     &.card6 {
       z-index: 1;
-      top: calc(25% - 0 * 0.5%);
+      top: calc(21.5% - 0 * 0.5%);
       left: calc(50% - 75px - 12px);
       --index: 6;
       --row: 1;

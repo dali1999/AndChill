@@ -10,12 +10,12 @@ const RandomMovie = () => {
   return (
     <S.Container>
       <S.TitleWrapper>
-        <S.Title>오늘 뭐 볼까?</S.Title>
+        <S.Title>오늘 뭐 봄?</S.Title>
         <S.InfoIcon src={infoIcon} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)} />
         {hovered && <CardsInfoModal />}
       </S.TitleWrapper>
-      <S.CardsBackground></S.CardsBackground>
       <Shuffle setRandomText={setRandomText} />
+      <S.CardsBackground></S.CardsBackground>
     </S.Container>
   );
 };
@@ -34,6 +34,8 @@ const S = {
   `,
 
   TitleWrapper: styled.div`
+    padding: 6px 0 0 16px;
+    width: 100%;
     position: relative;
     display: flex;
     align-items: center;
@@ -52,11 +54,11 @@ const S = {
   `,
 
   CardsBackground: styled.div`
-    background-color: var(--indigo01);
+    background-color: var(--indigo02);
     position: absolute;
-    top: 64px;
+    top: 74px;
     width: 90%;
-    height: 690px;
+    height: 670px;
     border-radius: 18px;
   `,
 };
