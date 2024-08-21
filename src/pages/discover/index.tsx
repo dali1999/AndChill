@@ -13,7 +13,7 @@ import { SORT_INFO } from './constants/sort-info';
 const Discover = () => {
   const lang = useRegionStore((state) => state.language);
   // 국가
-  const [selectedRegionTemp, setSelectedRegionTemp] = useState(lang);
+  const [selectedRegionTemp, setSelectedRegionTemp] = useState('');
   const [selectedRegion, setSelectedRegion] = useState(selectedRegionTemp);
   const [selectedRegionName, setSelectedRegionName] = useState('');
 

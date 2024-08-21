@@ -18,12 +18,12 @@ const RegionSelect = ({ lang, selectedRegion, setSelectedRegion, setSelectedRegi
   const regionsWithFlags = filteredRegionList && addFlagIcons(filteredRegionList);
 
   const handleClickRegion = (region: TRegionConfigItem) => {
-    if (!selectedRegion) {
-      setSelectedRegion(region.iso_3166_1);
-      setSelectedRegionName(region.native_name);
-    } else {
+    if (selectedRegion === region.iso_3166_1) {
       setSelectedRegion('');
       setSelectedRegionName('');
+    } else {
+      setSelectedRegion(region.iso_3166_1);
+      setSelectedRegionName(region.native_name);
     }
   };
 
