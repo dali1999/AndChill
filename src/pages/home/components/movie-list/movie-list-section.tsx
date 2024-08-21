@@ -40,6 +40,7 @@ const MovieListSection = ({ title, trendingMovieData, isTrendingMovieLoading }: 
     'vote_count.desc',
     genreIdsStr,
     page,
+    '',
   );
 
   const movieData = trendingMovieData || randomMovieData;

@@ -24,7 +24,7 @@ const NavBar = () => {
       <S.MenuLists>
         {NAV_MENU.map((menu) => {
           return (
-            <S.MenuItem key={menu.title} onClick={() => navigate(menu.page)}>
+            <S.MenuItem key={menu.title} onClick={() => navigate(menu.path)}>
               {menu.title}
             </S.MenuItem>
           );

@@ -34,11 +34,10 @@ const SortSelect = ({ selectedSort, setSelectedSort, setSelectedSortName }: TSor
 export default SortSelect;
 const S = {
   Container: styled.ul`
-    background-color: var(--indigo02);
     display: flex;
     flex-wrap: nowrap;
     gap: 10px;
-    padding: 14px 5%;
+    margin-top: 30px;
     width: 100%;
     justify-content: end;
   `,

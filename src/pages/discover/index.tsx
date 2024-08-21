@@ -3,13 +3,21 @@ import { useMovieDiscoverResultsQuery } from '@hooks/react-query/use-query-disco
 import { useGenreListQuery } from '@hooks/react-query/use-query-genre';
 import MovieItem from '@pages/home/components/movie-list/movie-item';
 import { useRegionStore } from '@stores/region';
+import { getLanguageByCountry } from '@utils/get-region-language';
 import styled from 'styled-components';
 import GenreSelect from './components/genre-select';
+import RegionSelect from './components/region-select';
 import SortSelect from './components/sort-select';
 import { SORT_INFO } from './constants/sort-info';
 
 const Discover = () => {
   const lang = useRegionStore((state) => state.language);
+  // 국가
+  const [selectedRegionTemp, setSelectedRegionTemp] = useState(lang);
+  const [selectedRegion, setSelectedRegion] = useState(selectedRegionTemp);
+  const [selectedRegionName, setSelectedRegionName] = useState('');
+  console.log(selectedRegionName);
+
   // 장르
   const [selectedGenreIdTemp, setSelectedGenreIdTemp] = useState<number[]>([]);
   const [selectedGenreId, setSelectedGenreId] = useState<number[]>(selectedGenreIdTemp);
@@ -26,17 +34,25 @@ const Discover = () => {
     selectedSort,
     selectedGenreId.join(','),
     1,
+    getLanguageByCountry(selectedRegion, lang),
   );
 
   const handleSearch = () => {
-    setSelectedSort(selectedSortTemp);
+    setSelectedRegion(selectedRegionTemp);
     setSelectedGenreId(selectedGenreIdTemp);
+    setSelectedSort(selectedSortTemp);
   };
 
   return (
     <S.Container>
       {genreListData && (
-        <>
+        <S.SelectSectionWrapper>
+          <RegionSelect
+            lang={lang}
+            selectedRegion={selectedRegionTemp}
+            setSelectedRegion={setSelectedRegionTemp}
+            setSelectedRegionName={setSelectedRegionName}
+          />
           <GenreSelect
             data={genreListData}
             selectedGenreId={selectedGenreIdTemp}
@@ -49,12 +65,15 @@ const Discover = () => {
             setSelectedSort={setSelectedSortTemp}
             setSelectedSortName={setSelectedSortName}
           />
-        </>
+        </S.SelectSectionWrapper>
       )}
 
       <S.DiscoverButton onClick={handleSearch}>
+        <S.GenreSummary>{selectedRegionName && `${selectedRegionName}의`}</S.GenreSummary>
+        &nbsp;
         <S.GenreSummary>{selectedGenreName.length === 0 ? '모든' : selectedGenreName.join(' • ')}</S.GenreSummary>
-        &nbsp;장르의 영화들을&nbsp;<S.SortSummary>{selectedSortName}</S.SortSummary>&nbsp;으로 탐색
+        &nbsp;장르의 영화들을&nbsp;
+        <S.SortSummary>{selectedSortName}</S.SortSummary>&nbsp;으로 탐색
       </S.DiscoverButton>
 
       <S.DiscoveredListWrapper>
@@ -76,6 +95,14 @@ const S = {
     display: flex;
     flex-direction: column;
     justify-content: center;
+  `,
+
+  SelectSectionWrapper: styled.div`
+    background-color: var(--indigo02);
+    padding: 20px 5%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
   `,
 
   DiscoveredListWrapper: styled.div`

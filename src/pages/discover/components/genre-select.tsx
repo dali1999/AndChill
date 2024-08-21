@@ -32,45 +32,39 @@ const GenreSelect = ({
   };
 
   return (
-    <S.Container>
+    <div>
       <S.Title>장르 선택</S.Title>
-      <S.GenreListWrapper>
+      <S.GenreList>
         {data?.genres.map((genre) => (
-          <S.GenreList
+          <S.GenreListItem
             key={genre.id}
             onClick={() => handleClickGenre(genre.id, genre.name)}
             $isSelected={selectedGenreId.includes(genre.id)}
           >
             {genre.name}
-          </S.GenreList>
+          </S.GenreListItem>
         ))}
-      </S.GenreListWrapper>
-    </S.Container>
+      </S.GenreList>
+    </div>
   );
 };
 
 export default GenreSelect;
 const S = {
-  Container: styled.div`
-    background-color: var(--indigo02);
-    padding: 20px 5%;
-  `,
-
   Title: styled.h3`
     font-weight: 500;
     font-size: 20px;
     margin-bottom: 12px;
   `,
 
-  GenreListWrapper: styled.ul`
+  GenreList: styled.ul`
     display: flex;
-    flex-wrap: nowrap;
     gap: 10px;
     width: 100%;
     flex-wrap: wrap;
   `,
 
-  GenreList: styled.li<{ $isSelected: boolean }>`
+  GenreListItem: styled.li<{ $isSelected: boolean }>`
     background-color: var(--yellow02);
     background-color: ${({ $isSelected }) => ($isSelected ? 'var(--yellow02)' : 'var(--indigo07)')};
     display: flex;

@@ -1,6 +1,5 @@
 import { SetStateAction, useState } from 'react';
 import { TRegionConfigItem } from '@api/configuration/config-request.type';
-import { NOT_SUPPORTED_REGIONS } from '@pages/nav-bar/constants/not-supported-regions';
 import { filteredRegionsBySearchQuery } from '@pages/nav-bar/utils/filterd-regions-by-search-query';
 import { useRegionStore } from '@stores/region';
 import { getLanguageByCountry } from '@utils/get-region-language';
@@ -13,13 +12,15 @@ interface TRegionSelectModalProps {
 
 const RegionSelectModal = ({ regionData, handleSetIsOpen }: TRegionSelectModalProps) => {
   const [searchQuery, setSearchQuery] = useState('');
+  const { lang } = useRegionStore((state) => ({ lang: state.language }));
+
   const { setRegion } = useRegionStore((state) => ({
     region: state.region,
     setRegion: state.setRegion,
   }));
 
   const handleRegionItemClick = (regionCode: string) => {
-    setRegion(regionCode, getLanguageByCountry(regionCode));
+    setRegion(regionCode, getLanguageByCountry(regionCode, lang));
   };
 
   const handleRegionSearchChange = (e: { currentTarget: { value: SetStateAction<string> } }) => {
@@ -30,25 +31,23 @@ const RegionSelectModal = ({ regionData, handleSetIsOpen }: TRegionSelectModalPr
 
   return (
     <S.Container>
-      <S.SearchBar type="text" placeholder="어떤 국가의 영화 정보를 알고 싶나요?" onChange={handleRegionSearchChange} />
+      <S.SearchBar type="text" placeholder="지금 어디에 계신가요?" onChange={handleRegionSearchChange} />
       <S.RegionInfoContainer>
-        {filteredRegionList
-          .filter((region) => !NOT_SUPPORTED_REGIONS.includes(region.iso_3166_1))
-          .map((region) => {
-            return (
-              <S.RegionItem
-                onClick={() => {
-                  handleRegionItemClick(region.iso_3166_1);
-                  handleSetIsOpen();
-                }}
-                key={region.iso_3166_1}
-              >
-                <S.FlagIconSkeleton></S.FlagIconSkeleton>
-                <S.FlagIcon src={region.flag_icon} />
-                <S.RegionName>{region.native_name}</S.RegionName>
-              </S.RegionItem>
-            );
-          })}
+        {filteredRegionList.map((region) => {
+          return (
+            <S.RegionItem
+              onClick={() => {
+                handleRegionItemClick(region.iso_3166_1);
+                handleSetIsOpen();
+              }}
+              key={region.iso_3166_1}
+            >
+              <S.FlagIconSkeleton></S.FlagIconSkeleton>
+              <S.FlagIcon src={region.flag_icon} />
+              <S.RegionName>{region.native_name}</S.RegionName>
+            </S.RegionItem>
+          );
+        })}
       </S.RegionInfoContainer>
     </S.Container>
   );
@@ -81,18 +80,18 @@ const S = {
   RegionInfoContainer: styled.ul`
     display: flex;
     flex-wrap: wrap; // 2열 만들기
-    gap: 20px;
-    max-height: 325px;
+    gap: 6px;
+    padding: 10px;
     overflow-x: hidden;
-    &::-webkit-scrollbar {
+    /* max-height: 325px; */
+    /* &::-webkit-scrollbar {
       width: 10px;
     }
     &::-webkit-scrollbar-thumb {
       background-color: var(--gray01);
       border-radius: 10px;
       height: 130px;
-    }
-    padding: 15px;
+    } */
   `,
 
   RegionItem: styled.li`
@@ -101,14 +100,18 @@ const S = {
     display: flex;
     align-items: center;
     gap: 10px;
-    width: 46%; // 2열 만들기
-    height: 26px;
+    width: calc(50% - 6px / 2);
+    border-radius: 4px;
+    padding: 8px;
+    &:hover {
+      background-color: var(--indigo03);
+    }
   `,
 
   FlagIconSkeleton: styled.div`
     width: 35px;
-    aspect-ratio: 4/3;
-    background-color: rgba(0, 0, 0, 0.2);
+    height: calc(35px * 3 / 4);
+    background-color: rgba(0, 0, 0, 0.9);
     border-radius: 2px;
     z-index: 0;
   `,
@@ -116,12 +119,14 @@ const S = {
   FlagIcon: styled.img`
     position: absolute;
     width: 35px;
+    height: calc(35px * 3 / 4);
     border-radius: 2px;
     z-index: 1;
+    opacity: 0.8;
   `,
 
   RegionName: styled.span`
-    font-size: 10px;
+    font-size: 12px;
     width: 95px;
   `,
 };
