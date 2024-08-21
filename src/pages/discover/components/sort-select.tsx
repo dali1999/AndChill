@@ -16,15 +16,17 @@ const SortSelect = ({ selectedSort, setSelectedSort, setSelectedSortName }: TSor
 
   return (
     <S.Container>
-      {SORT_INFO.map((sort) => (
-        <S.GenreList
-          key={sort.queryStr}
-          onClick={() => handleClickSort(sort)}
-          $isSelected={selectedSort === sort.queryStr}
-        >
-          {sort.title}
-        </S.GenreList>
-      ))}
+      <S.GenreListWrapper>
+        {SORT_INFO.map((sort) => (
+          <S.GenreList
+            key={sort.queryStr}
+            onClick={() => handleClickSort(sort)}
+            $isSelected={selectedSort === sort.queryStr}
+          >
+            {sort.title}
+          </S.GenreList>
+        ))}
+      </S.GenreListWrapper>
     </S.Container>
   );
 };
@@ -38,21 +40,29 @@ const S = {
     gap: 10px;
     padding: 14px 5%;
     width: 100%;
-    flex-wrap: wrap;
     justify-content: end;
   `,
 
+  GenreListWrapper: styled.div`
+    display: flex;
+    gap: 0px;
+    background-color: var(--indigo04);
+    /* padding: 10px; */
+    flex-wrap: wrap;
+    border-radius: 50px;
+  `,
+
   GenreList: styled.li<{ $isSelected: boolean }>`
-    background-color: var(--yellow02);
-    background-color: ${({ $isSelected }) => ($isSelected ? 'var(--yellow02)' : 'var(--indigo07)')};
+    background-color: ${({ $isSelected }) => $isSelected && 'var(--indigo07)'};
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 6px 10px;
     color: var(--dark02);
-    color: ${({ $isSelected }) => ($isSelected ? 'var(--dark02)' : 'var(--gray01)')};
-    font-weight: ${({ $isSelected }) => ($isSelected ? 900 : 500)};
-    border-radius: 4px;
+    color: ${({ $isSelected }) => ($isSelected ? 'var(--yellow02)' : 'var(--gray01)')};
+    font-weight: ${({ $isSelected }) => ($isSelected ? 400 : 100)};
+    border-radius: 50px;
     cursor: pointer;
+    font-size: 15px;
   `,
 };

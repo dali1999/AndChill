@@ -33,27 +33,39 @@ const GenreSelect = ({
 
   return (
     <S.Container>
-      {data?.genres.map((genre) => (
-        <S.GenreList
-          key={genre.id}
-          onClick={() => handleClickGenre(genre.id, genre.name)}
-          $isSelected={selectedGenreId.includes(genre.id)}
-        >
-          {genre.name}
-        </S.GenreList>
-      ))}
+      <S.Title>장르 선택</S.Title>
+      <S.GenreListWrapper>
+        {data?.genres.map((genre) => (
+          <S.GenreList
+            key={genre.id}
+            onClick={() => handleClickGenre(genre.id, genre.name)}
+            $isSelected={selectedGenreId.includes(genre.id)}
+          >
+            {genre.name}
+          </S.GenreList>
+        ))}
+      </S.GenreListWrapper>
     </S.Container>
   );
 };
 
 export default GenreSelect;
 const S = {
-  Container: styled.ul`
+  Container: styled.div`
     background-color: var(--indigo02);
+    padding: 20px 5%;
+  `,
+
+  Title: styled.h3`
+    font-weight: 500;
+    font-size: 20px;
+    margin-bottom: 12px;
+  `,
+
+  GenreListWrapper: styled.ul`
     display: flex;
     flex-wrap: nowrap;
     gap: 10px;
-    padding: 20px 5%;
     width: 100%;
     flex-wrap: wrap;
   `,
