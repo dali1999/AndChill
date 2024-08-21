@@ -39,7 +39,7 @@ const Shuffle = ({ setRandomText }: TShuffleProps) => {
     data: randomMovieData,
     isFetching: isRandomMovieLoading,
     refetch,
-  } = useMovieDiscoverResultsQuery(lang, 'vote_count.desc', '', page);
+  } = useMovieDiscoverResultsQuery(lang, 'vote_count.desc', '', page, '');
   const [movieDeck, setMovieDeck] = useState<TMovieListsItem[] | undefined>([]);
 
   useEffect(() => {

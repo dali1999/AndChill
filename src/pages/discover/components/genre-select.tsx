@@ -32,8 +32,8 @@ const GenreSelect = ({
   };
 
   return (
-    <div>
-      <S.Title>장르 선택</S.Title>
+    <S.Container>
+      <S.Title>장르</S.Title>
       <S.GenreList>
         {data?.genres.map((genre) => (
           <S.GenreListItem
@@ -45,15 +45,24 @@ const GenreSelect = ({
           </S.GenreListItem>
         ))}
       </S.GenreList>
-    </div>
+    </S.Container>
   );
 };
 
 export default GenreSelect;
+
 const S = {
+  Container: styled.div`
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  `,
+
   Title: styled.h3`
+    padding-top: 11px;
     font-weight: 500;
-    font-size: 20px;
+    font-size: 18px;
+    width: 50px;
     margin-bottom: 12px;
   `,
 
@@ -65,12 +74,13 @@ const S = {
   `,
 
   GenreListItem: styled.li<{ $isSelected: boolean }>`
-    background-color: var(--yellow02);
-    background-color: ${({ $isSelected }) => ($isSelected ? 'var(--yellow02)' : 'var(--indigo07)')};
+    background-color: ${({ $isSelected }) => ($isSelected ? 'var(--yellow02)' : 'var(--indigo04)')};
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 3px 8px;
+    padding: 6px 12px;
+
     color: var(--dark02);
     color: ${({ $isSelected }) => ($isSelected ? 'var(--dark02)' : 'var(--gray01)')};
     font-weight: 600;

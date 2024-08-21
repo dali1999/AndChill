@@ -16,7 +16,6 @@ const Discover = () => {
   const [selectedRegionTemp, setSelectedRegionTemp] = useState(lang);
   const [selectedRegion, setSelectedRegion] = useState(selectedRegionTemp);
   const [selectedRegionName, setSelectedRegionName] = useState('');
-  console.log(selectedRegionName);
 
   // 장르
   const [selectedGenreIdTemp, setSelectedGenreIdTemp] = useState<number[]>([]);

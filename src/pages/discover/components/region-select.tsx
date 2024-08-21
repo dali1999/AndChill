@@ -19,13 +19,12 @@ const RegionSelect = ({ lang, selectedRegion, setSelectedRegion, setSelectedRegi
 
   const handleClickRegion = (region: TRegionConfigItem) => {
     setSelectedRegion(region.iso_3166_1);
-    console.log(region.native_name);
     setSelectedRegionName(region.native_name);
   };
 
   return (
-    <div>
-      <S.Title>국가 선택</S.Title>
+    <S.Container>
+      <S.Title>국가</S.Title>
       <S.RegionList>
         {regionsWithFlags?.map((region) => {
           return (
@@ -41,17 +40,25 @@ const RegionSelect = ({ lang, selectedRegion, setSelectedRegion, setSelectedRegi
           );
         })}
       </S.RegionList>
-    </div>
+    </S.Container>
   );
 };
 
 export default RegionSelect;
 
 const S = {
+  Container: styled.div`
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  `,
+
   Title: styled.h3`
+    padding-top: 11px;
     font-weight: 500;
     font-size: 20px;
     margin-bottom: 12px;
+    width: 50px;
   `,
 
   RegionList: styled.ul`
@@ -62,7 +69,7 @@ const S = {
   `,
 
   RegionItem: styled.li<{ $isSelected: boolean }>`
-    background-color: var(--indigo03);
+    background-color: var(--indigo04);
     cursor: pointer;
     position: relative;
     display: flex;
@@ -70,7 +77,7 @@ const S = {
     gap: 10px;
     border-radius: 4px;
     padding: 6px 8px;
-    border: 3px solid ${({ $isSelected }) => ($isSelected ? 'var(--yellow03)' : 'var(--indigo03)')};
+    border: 3px solid ${({ $isSelected }) => ($isSelected ? 'var(--yellow03)' : 'var(--indigo04)')};
   `,
 
   FlagIconSkeleton: styled.div`
