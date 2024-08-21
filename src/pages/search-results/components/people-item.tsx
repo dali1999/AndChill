@@ -70,7 +70,7 @@ const S = {
 
   DummyImage: styled.img`
     transition: transform 0.2s ease-in;
-    opacity: 0.3;
+    opacity: 0.1;
     width: 40px;
     height: 31px;
   `,

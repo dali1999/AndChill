@@ -29,6 +29,7 @@ const PeopleInfo = ({ data, lang }: TPeopleInfoProps) => {
             </S.HomepageLink>
           )}
         </S.ProfileImageWrapper>
+
         <S.InfoWrapper>
           <S.NameWrapper>
             <S.Name>{name}</S.Name>
@@ -53,7 +54,6 @@ const S = {
   Container: styled.section`
     display: flex;
     justify-content: center;
-    margin-bottom: 20px;
     padding: 30px 0;
     background-color: var(--indigo02);
   `,
@@ -91,7 +91,7 @@ const S = {
   DummyImage: styled.img`
     width: 60px;
     height: 46px;
-    opacity: 0.3;
+    opacity: 0.1;
   `,
 
   HomepageLink: styled.a`

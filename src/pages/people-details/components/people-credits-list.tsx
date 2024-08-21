@@ -71,7 +71,7 @@ const PeopleCreditsList = ({ data, type }: TPeopleCreditsListProps) => {
         positionTop={72}
         positionLR={-22}
         width={60}
-        height={340}
+        height={380}
         backgroundColor="var(--dark09)"
       />
     </S.CreditListWrapper>
@@ -94,9 +94,12 @@ const S = {
   Title: styled.div`
     display: flex;
     align-items: end;
+    h3 {
+      color: var(--gray01);
+    }
     p {
       font-size: 15px;
-      color: var(--gray01);
+      color: var(--dark06);
     }
   `,
 

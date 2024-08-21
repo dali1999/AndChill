@@ -24,9 +24,10 @@ export default PeopleCredits;
 const S = {
   Container: styled.div`
     padding: 0 5%;
+    margin-top: 40px;
   `,
 
   Title: styled.h1`
-    font-size: 24px;
+    font-size: 26px;
   `,
 };

@@ -8,6 +8,7 @@ import { useRegionStore } from '@stores/region';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import PeopleCredits from './components/people-credits';
+import PeopleImages from './components/people-images';
 import PeopleInfo from './components/people-info';
 
 const PeopleDetails = () => {
@@ -28,6 +29,7 @@ const PeopleDetails = () => {
         <>
           {detailsData && <PeopleInfo data={detailsData} lang={lang} />}
           {creditsData && <PeopleCredits data={creditsData} />}
+          {imagesData && <PeopleImages data={imagesData} />}
         </>
       )}
     </S.Container>
