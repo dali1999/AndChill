@@ -37,7 +37,6 @@ const S = {
     display: flex;
     flex-wrap: nowrap;
     gap: 10px;
-    margin-top: 30px;
     width: 100%;
     justify-content: end;
   `,

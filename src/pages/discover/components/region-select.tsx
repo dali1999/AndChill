@@ -18,8 +18,13 @@ const RegionSelect = ({ lang, selectedRegion, setSelectedRegion, setSelectedRegi
   const regionsWithFlags = filteredRegionList && addFlagIcons(filteredRegionList);
 
   const handleClickRegion = (region: TRegionConfigItem) => {
-    setSelectedRegion(region.iso_3166_1);
-    setSelectedRegionName(region.native_name);
+    if (!selectedRegion) {
+      setSelectedRegion(region.iso_3166_1);
+      setSelectedRegionName(region.native_name);
+    } else {
+      setSelectedRegion('');
+      setSelectedRegionName('');
+    }
   };
 
   return (
@@ -55,21 +60,20 @@ const S = {
 
   Title: styled.h3`
     padding-top: 11px;
-    font-weight: 500;
-    font-size: 20px;
+    font-size: 16px;
     margin-bottom: 12px;
-    width: 50px;
+    width: 40px;
+    color: var(--gray01);
   `,
 
   RegionList: styled.ul`
     display: flex;
-    gap: 10px;
+    gap: 4px;
     width: 100%;
     flex-wrap: wrap;
   `,
 
   RegionItem: styled.li<{ $isSelected: boolean }>`
-    background-color: var(--indigo04);
     cursor: pointer;
     position: relative;
     display: flex;
@@ -77,7 +81,7 @@ const S = {
     gap: 10px;
     border-radius: 4px;
     padding: 6px 8px;
-    border: 3px solid ${({ $isSelected }) => ($isSelected ? 'var(--yellow03)' : 'var(--indigo04)')};
+    border: 3px solid ${({ $isSelected }) => ($isSelected ? 'var(--yellow03)' : 'transparent')};
   `,
 
   FlagIconSkeleton: styled.div`

@@ -101,7 +101,7 @@ const S = {
     padding: 20px 5%;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 18px;
   `,
 
   DiscoveredListWrapper: styled.div`
@@ -121,6 +121,7 @@ const S = {
       padding-bottom: 3px;
       font-size: 20px;
       color: var(--yellow02);
+      font-weight: 900;
     }
     &:hover {
       background-color: var(--indigo03);

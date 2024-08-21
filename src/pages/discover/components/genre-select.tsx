@@ -60,10 +60,10 @@ const S = {
 
   Title: styled.h3`
     padding-top: 11px;
-    font-weight: 500;
-    font-size: 18px;
-    width: 50px;
+    font-size: 16px;
+    width: 40px;
     margin-bottom: 12px;
+    color: var(--gray01);
   `,
 
   GenreList: styled.ul`
