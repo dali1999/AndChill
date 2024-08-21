@@ -56,6 +56,7 @@ const S = {
     display: flex;
     align-items: center;
     gap: 12px;
+    height: 45px;
   `,
 
   Title: styled.h3`
@@ -87,7 +88,7 @@ const S = {
   FlagIconSkeleton: styled.div`
     width: 35px;
     height: calc(35px * 3 / 4);
-    background-color: rgba(0, 0, 0, 0.9);
+    background-color: rgba(0, 0, 0, 0.4);
     border-radius: 2px;
     z-index: 0;
   `,

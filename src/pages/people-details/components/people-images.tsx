@@ -37,7 +37,7 @@ const PeopleImages = ({ data }: TPeopleImagesProps) => {
             currentIndex={currentIndex}
             setCurrentIndex={setCurrentIndex}
             perSlide={1}
-            positionTop={0}
+            positionTop={14}
             positionLR={-10}
             width={60}
             height={271}

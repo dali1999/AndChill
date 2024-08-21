@@ -25,6 +25,6 @@ export default MovieSimilar;
 const S = {
   NoSimilarMoviesText: styled.div`
     font-size: 14px;
-    color: var(--gray01);
+    color: var(--indigo08);
   `,
 };

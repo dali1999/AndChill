@@ -112,7 +112,7 @@ const S = {
   `,
 
   DummyImage: styled.img`
-    opacity: 0.3;
+    opacity: 0.1;
     width: 40px;
     height: 31px;
   `,

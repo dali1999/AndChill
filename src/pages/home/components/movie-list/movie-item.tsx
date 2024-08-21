@@ -82,7 +82,7 @@ const S = {
   MovieImage: styled.img`
     border-radius: 7px;
     transition: transform 0.4s ease-in-out;
-    background-color: var(--indigo04);
+    background-color: var(--indigo02);
   `,
 
   DummyImageWrapper: styled.div`
@@ -114,7 +114,7 @@ const S = {
 
   DummyImage: styled.img`
     transition: transform 0.4s ease-in-out;
-    opacity: 0.3;
+    opacity: 0.1;
     height: 80px;
   `,
 

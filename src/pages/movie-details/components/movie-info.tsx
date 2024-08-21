@@ -154,7 +154,7 @@ const S = {
   `,
 
   DummyImage: styled.img`
-    opacity: 0.2;
+    opacity: 0.1;
     width: 280px;
     height: 120px;
   `,

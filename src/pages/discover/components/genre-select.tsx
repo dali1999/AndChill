@@ -1,9 +1,10 @@
 /* eslint-disable no-unused-vars */
 import { TGenreFetchRes } from '@api/genre/genre-request.type';
+import { useGenreListQuery } from '@hooks/react-query/use-query-genre';
 import styled from 'styled-components';
 
 interface TGenreSelectProps {
-  data: TGenreFetchRes;
+  lang: string;
   selectedGenreId: number[];
   setSelectedGenreId: (genreArr: number[]) => void;
   selectedGenreName: string[];
@@ -11,12 +12,14 @@ interface TGenreSelectProps {
 }
 
 const GenreSelect = ({
-  data,
+  lang,
   selectedGenreId,
   setSelectedGenreId,
   selectedGenreName,
   setSelectedGenreName,
 }: TGenreSelectProps) => {
+  const { data: genreListData, isFetching: isGenreListLoading } = useGenreListQuery(lang);
+
   const handleClickGenre = (genreId: number, genreName: string) => {
     if (selectedGenreId.includes(genreId)) {
       setSelectedGenreId(selectedGenreId.filter((id) => id !== genreId));
@@ -35,7 +38,7 @@ const GenreSelect = ({
     <S.Container>
       <S.Title>장르</S.Title>
       <S.GenreList>
-        {data?.genres.map((genre) => (
+        {genreListData?.genres.map((genre) => (
           <S.GenreListItem
             key={genre.id}
             onClick={() => handleClickGenre(genre.id, genre.name)}
