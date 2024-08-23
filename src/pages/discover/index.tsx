@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import MovieListSkeleton from '@components/skeleton/movie-list-skeleton';
 import { useMovieDiscoverResultsQuery } from '@hooks/react-query/use-query-discover';
-import { useGenreListQuery } from '@hooks/react-query/use-query-genre';
 import MovieItem from '@pages/home/components/movie-list/movie-item';
 import { useRegionStore } from '@stores/region';
 import { getLanguageByCountry } from '@utils/get-region-language';

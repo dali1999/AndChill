@@ -1,49 +1,53 @@
 import { useEffect, useState } from 'react';
-import collectionIcon from '@assets/icons/search-results-button/button-collection.svg';
-import movieIcon from '@assets/icons/search-results-button/button-movies.svg';
-import peopleIcon from '@assets/icons/search-results-button/button-people.svg';
-
-import collectionColorIcon from '@assets/icons/search-results-button/button-yellow-collection.svg';
-import movieColorIcon from '@assets/icons/search-results-button/button-yellow-movies.svg';
-import peopleColorIcon from '@assets/icons/search-results-button/button-yellow-people.svg';
 
 import {
   useCollectionSearchResultsQuery,
   useMovieSearchResultsQuery,
   usePeopleSearchResultsQuery,
 } from '@hooks/react-query/use-query-movie-search';
+import MovieItem from '@pages/home/components/movie-list/movie-item';
 import { useRegionStore } from '@stores/region';
 import { fadeIn } from '@styles/animations';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import CollectionSearchResults from './components/collection-search-results';
-import MovieSearchResults from './components/movie-search-results';
-import PeopleSearchResults from './components/people-search-results';
+import CategoryNavigationButton from './components/category-navigation-button';
+import CollectionItem from './components/collection-item';
+import PeopleItem from './components/people-item';
+import SearchResultsSection from './components/search-results-section';
 
 const SearchResults = () => {
   const { searchQuery } = useParams() as { searchQuery: string };
   const lang = useRegionStore((state) => state.language);
+  const [moviePage, setMoviePage] = useState(1);
+  const [collectionPage, setCollectionPage] = useState(1);
+  const [peoplePage, setPeoplePage] = useState(1);
   const [activeSection, setActiveSection] = useState<'Movies' | 'Collections' | 'People'>('Movies');
 
   const {
-    data: movieResultsData,
-    isFetching: isMovieResultsLoading,
+    data: movieData,
+    isFetching: isMovieLoading,
     refetch: movieResultsRefetch,
-  } = useMovieSearchResultsQuery(searchQuery, lang);
+  } = useMovieSearchResultsQuery(searchQuery, lang, moviePage);
 
   const {
-    data: collectionResultsData,
-    isFetching: isCollectionResultsLoading,
+    data: collectionData,
+    isFetching: isCollectionLoading,
     refetch: collectionResultsRefetch,
-  } = useCollectionSearchResultsQuery(searchQuery, lang);
+  } = useCollectionSearchResultsQuery(searchQuery, lang, collectionPage);
 
   const {
-    data: peopleResultsData,
-    isFetching: isPeopleResultsLoading,
+    data: peopleData,
+    isFetching: isPeopleLoading,
     refetch: peopleResultsRefetch,
-  } = usePeopleSearchResultsQuery(searchQuery, lang);
+  } = usePeopleSearchResultsQuery(searchQuery, lang, peoplePage);
 
-  const isFetching = isMovieResultsLoading || isCollectionResultsLoading || isPeopleResultsLoading;
+  const isFetching = isMovieLoading || isCollectionLoading || isPeopleLoading;
+
+  useEffect(() => {
+    setMoviePage(1);
+    setCollectionPage(1);
+    setPeoplePage(1);
+  }, []);
 
   useEffect(() => {
     movieResultsRefetch();
@@ -53,15 +57,15 @@ const SearchResults = () => {
 
   useEffect(() => {
     if (!isFetching) {
-      if (movieResultsData?.total_results) {
+      if (movieData?.total_results !== 0 && !(activeSection !== 'Movies')) {
         setActiveSection('Movies');
-      } else if (collectionResultsData?.total_results) {
+      } else if (collectionData?.total_results !== 0 && !(activeSection !== 'Collections')) {
         setActiveSection('Collections');
-      } else if (peopleResultsData?.total_results) {
+      } else if (peopleData?.total_results !== 0 && !(activeSection !== 'People')) {
         setActiveSection('People');
       }
     }
-  }, [movieResultsData, collectionResultsData, peopleResultsData, isFetching]);
+  }, [movieData, collectionData, peopleData, isFetching, activeSection]);
 
   return (
     <S.Container>
@@ -70,62 +74,43 @@ const SearchResults = () => {
         <S.TitleText> 검색 결과</S.TitleText>
       </S.Title>
 
-      <S.ButtonsWrapper $activate={activeSection}>
-        <button onClick={() => setActiveSection('Movies')} className="movies">
-          {activeSection === 'Movies' ? (
-            <img src={movieColorIcon} alt="노랑 영화 아이콘" />
-          ) : (
-            <img src={movieIcon} alt="영화 아이콘" />
-          )}
-        </button>
-        <button onClick={() => setActiveSection('Collections')} className="collections">
-          {activeSection === 'Collections' ? (
-            <img src={collectionColorIcon} alt="노랑 컬렉션 아이콘" />
-          ) : (
-            <img src={collectionIcon} alt="컬렉션 아이콘" />
-          )}
-        </button>
-        <button onClick={() => setActiveSection('People')} className="people">
-          {activeSection === 'People' ? (
-            <img src={peopleColorIcon} alt="노랑 사람 아이콘" />
-          ) : (
-            <img src={peopleIcon} alt="사람 아이콘" />
-          )}
-        </button>
-      </S.ButtonsWrapper>
+      <CategoryNavigationButton activeSection={activeSection} setActiveSection={setActiveSection} />
 
-      <S.ResultsSection>
+      <S.SearchResultsWrapper>
         {activeSection === 'Movies' && (
-          <>
-            <S.ResultsSectionTitle>
-              <S.SectionTitle>영화 </S.SectionTitle>
-              {movieResultsData && <S.ResultsCount>({movieResultsData.total_results})</S.ResultsCount>}
-            </S.ResultsSectionTitle>
-            <MovieSearchResults isLoading={isMovieResultsLoading} data={movieResultsData}></MovieSearchResults>
-          </>
+          <SearchResultsSection
+            title={activeSection}
+            isLoading={isMovieLoading}
+            data={movieData}
+            setPage={setMoviePage}
+            itemWidth={200}
+          >
+            {movieData?.results.map((movie) => <MovieItem key={movie.id} data={movie} />)}
+          </SearchResultsSection>
         )}
         {activeSection === 'Collections' && (
-          <>
-            <S.ResultsSectionTitle>
-              <S.SectionTitle>컬렉션 </S.SectionTitle>
-              {collectionResultsData && <S.ResultsCount>({collectionResultsData.total_results})</S.ResultsCount>}
-            </S.ResultsSectionTitle>
-            <CollectionSearchResults
-              isLoading={isCollectionResultsLoading}
-              data={collectionResultsData}
-            ></CollectionSearchResults>
-          </>
+          <SearchResultsSection
+            title={activeSection}
+            isLoading={isCollectionLoading}
+            data={collectionData}
+            setPage={setCollectionPage}
+            itemWidth={350}
+          >
+            {collectionData?.results.map((collection) => <CollectionItem key={collection.id} data={collection} />)}
+          </SearchResultsSection>
         )}
         {activeSection === 'People' && (
-          <>
-            <S.ResultsSectionTitle>
-              <S.SectionTitle>인물 </S.SectionTitle>
-              {peopleResultsData && <S.ResultsCount>({peopleResultsData.total_results})</S.ResultsCount>}
-            </S.ResultsSectionTitle>
-            <PeopleSearchResults isLoading={isPeopleResultsLoading} data={peopleResultsData}></PeopleSearchResults>
-          </>
+          <SearchResultsSection
+            title={activeSection}
+            isLoading={isPeopleLoading}
+            data={peopleData}
+            setPage={setPeoplePage}
+            itemWidth={230}
+          >
+            {peopleData?.results.map((people) => <PeopleItem key={people.id} data={people} />)}
+          </SearchResultsSection>
         )}
-      </S.ResultsSection>
+      </S.SearchResultsWrapper>
     </S.Container>
   );
 };
@@ -143,52 +128,6 @@ const S = {
     margin-bottom: 46px;
   `,
 
-  ButtonsWrapper: styled.div<{ $activate: string }>`
-    position: absolute;
-    right: 5%;
-    top: 122px;
-    display: flex;
-    gap: 10px;
-    button {
-      background-color: var(--indigo06);
-      padding: 8px 14px;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: 0.05s ease-in;
-      img {
-        width: 20px;
-      }
-
-      &:hover {
-        background-color: var(--indigo05);
-      }
-
-      ${({ $activate }) =>
-        $activate === 'Movies' &&
-        `
-        &.movies {
-          background-color: var(--indigo03);
-        }
-      `}
-
-      ${({ $activate }) =>
-        $activate === 'Collections' &&
-        `
-        &.collections {
-          background-color: var(--indigo03);
-        }
-      `}
-
-      ${({ $activate }) =>
-        $activate === 'People' &&
-        `
-        &.people {
-          background-color: var(--indigo03);
-        }
-      `}
-    }
-  `,
-
   SearchQuery: styled.span`
     font-size: 40px;
     font-weight: 600;
@@ -202,7 +141,7 @@ const S = {
     color: var(--gray02);
   `,
 
-  ResultsSection: styled.section`
+  SearchResultsWrapper: styled.section`
     margin-top: 24px;
     padding-bottom: 40px;
     ul {
@@ -213,13 +152,5 @@ const S = {
   ResultsSectionTitle: styled.div`
     margin-bottom: 26px;
     font-weight: 400;
-  `,
-
-  SectionTitle: styled.span`
-    font-size: 20px;
-  `,
-  ResultsCount: styled.span`
-    font-size: 16px;
-    color: var(--gray01);
   `,
 };
