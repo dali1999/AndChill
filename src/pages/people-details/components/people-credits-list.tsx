@@ -16,8 +16,18 @@ interface MergedCredit extends Omit<TPeopleCrew, 'job'> {
 
 const PeopleCreditsList = ({ data, type }: TPeopleCreditsListProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const castData = data.cast;
-  const crewData = data.crew;
+  const castData = data.cast.sort((a, b) => {
+    const dateA = a.release_date ? new Date(a.release_date) : new Date(0);
+    const dateB = b.release_date ? new Date(b.release_date) : new Date(0);
+
+    return dateB.getTime() - dateA.getTime();
+  });
+  const crewData = data.crew.sort((a, b) => {
+    const dateA = a.release_date ? new Date(a.release_date) : new Date(0);
+    const dateB = b.release_date ? new Date(b.release_date) : new Date(0);
+
+    return dateB.getTime() - dateA.getTime();
+  });
 
   const mergedData: MergedCredit[] = crewData.reduce((acc: MergedCredit[], curr: TPeopleCrew) => {
     const existingEntry = acc.find((item) => item.id === curr.id);
