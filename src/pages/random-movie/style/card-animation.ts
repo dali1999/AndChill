@@ -225,6 +225,7 @@ export const dotGlowAnimation = (color: string = 'transparent') => keyframes`
 export const spreadAnimation = keyframes`
   0% {
     transform: translateY(0);
+    
   }
   100% {
     transform: translateY(calc(var(--row) * 320px - 140px - var(--index) * 4px)) translateX(calc(var(--col) * 220px - 204px - var(--index) * 5px));

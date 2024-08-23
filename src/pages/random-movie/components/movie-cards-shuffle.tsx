@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react';
-import { TMovieListsItem } from '@api/movie-lists/movie-lists-request.type';
 import shuffleIcon from '@assets/icons/cards-shuffle.png';
 import { useMovieDiscoverResultsQuery } from '@hooks/react-query/use-query-discover';
 import MovieItem from '@pages/home/components/movie-list/movie-item';
+import { useCardStore } from '@stores/cards';
 import { useRegionStore } from '@stores/region';
 import styled from 'styled-components';
 import { CARD_INFO } from '../constants/card-info';
@@ -24,32 +24,48 @@ import { getRandomSixCards } from '../utils/get-random-cards';
 const SHUFFLE_TIME = 2500;
 
 const Shuffle = () => {
+  const { flipped, movieDeck, setFlipped, setMovieDeck } = useCardStore((state) => ({
+    flipped: state.flipped,
+    movieDeck: state.movieDeck,
+    setFlipped: state.setFlipped,
+    setMovieDeck: state.setMovieDeck,
+  }));
   const [animate, setAnimate] = useState(false);
   const [spreadAnimation, setSpreadAnimation] = useState(true);
   const [stackAnimation, setStackAnimation] = useState(false);
   const [page, setPage] = useState(Math.floor(Math.random() * 500) + 1);
-  const [flipped, setFlipped] = useState(Array(6).fill(false));
   const [isDisabled, setIsDisabled] = useState(false);
   const { lang } = useRegionStore((state) => ({ lang: state.language }));
+  const [clicked, setClicked] = useState(false);
+  const [isAllNotFlipped, setIsAllNotFlipped] = useState(true);
 
   const {
     data: randomMovieData,
     isFetching: isRandomMovieLoading,
     refetch,
   } = useMovieDiscoverResultsQuery(lang, 'vote_count.desc', '', page, '');
-  const [movieDeck, setMovieDeck] = useState<TMovieListsItem[] | undefined>([]);
 
   useEffect(() => {
-    refetch();
-    setMovieDeck(getRandomSixCards(randomMovieData?.results));
-  }, [page, randomMovieData?.results, refetch]);
+    if (clicked && randomMovieData?.results) {
+      refetch();
+      const newMovieDeck = getRandomSixCards(randomMovieData.results);
+      setMovieDeck(newMovieDeck);
+    }
+  }, [clicked, randomMovieData?.results, setMovieDeck]);
+
+  useEffect(() => {
+    if (!clicked) {
+      refetch();
+      setMovieDeck(movieDeck);
+    }
+  }, [clicked, movieDeck, setMovieDeck]);
 
   const handleShuffle = () => {
-    setPage(Math.floor(Math.random() * 500) + 1);
-    setSpreadAnimation(false);
-    setStackAnimation(false);
+    setPage(Math.floor(Math.random() * 500) + 1); // 랜덤 뽑기
+    setSpreadAnimation(false); // 펼친거 접기
     setAnimate(true);
     setTimeout(() => setAnimate(false), SHUFFLE_TIME);
+    setFlipped(Array(6).fill(false));
   };
 
   const handleSpread = () => {
@@ -63,7 +79,11 @@ const Shuffle = () => {
   };
 
   const handleCardClick = (index: number) => {
-    setFlipped((prevFlipped) => prevFlipped.map((flip, i) => (i === index ? !flip : flip)));
+    // 이미 클릭된 상태면 변경 안함
+    if (!flipped[index]) {
+      const newFlipped = flipped.map((flip, i) => (i === index ? !flip : flip));
+      setFlipped(newFlipped);
+    }
   };
 
   const handleShuffleButtonDisable = (time: number) => {
@@ -85,26 +105,25 @@ const Shuffle = () => {
     }
   };
 
+  const handleShuffleButtonClick = () => {
+    setClicked(true);
+    setIsAllNotFlipped(flipped.every((value) => value === false));
+    console.log(flipped);
+    console.log(isAllNotFlipped);
+    handleShuffleButtonDisable(isAllNotFlipped ? 3700 : 4280);
+    setFlipped(Array(6).fill(false));
+    setTimeout(() => handleStack(), isAllNotFlipped ? 0 : 580); // 카드 모으고 (만약 뒤집힌 카드 있으면 580 동안 다시 뒤집고 모으기)
+    setTimeout(() => handleShuffle(), isAllNotFlipped ? 600 : 1180); // 카드 셔플
+    setTimeout(() => handleSpread(), isAllNotFlipped ? 800 : 1380); // 펼치기
+  };
+  // handleShuffle();
+  // setTimeout(() => handleSpread(), 1180);
+  // handleShuffleButtonDisable(2500);
+
   return (
     <>
       <S.ButtonWrapper>
-        <S.Btn
-          onClick={() => {
-            if (spreadAnimation) {
-              handleShuffleButtonDisable(flipped.every((value) => value === false) ? 3700 : 4280);
-              setFlipped(Array(6).fill(false));
-              setTimeout(() => handleStack(), flipped.every((value) => value === false) ? 0 : 500);
-              setTimeout(() => handleShuffle(), flipped.every((value) => value === false) ? 600 : 1180);
-              setTimeout(() => handleSpread(), flipped.every((value) => value === false) ? 800 : 1300);
-            } else {
-              handleShuffle();
-              setTimeout(() => handleSpread(), 1180);
-              handleShuffleButtonDisable(2500);
-            }
-          }}
-          disabled={isDisabled}
-          $isDiabled={isDisabled}
-        >
+        <S.Btn onClick={handleShuffleButtonClick} disabled={isDisabled} $isDiabled={isDisabled}>
           <img src={shuffleIcon} alt="카드 셔플 아이콘" />
         </S.Btn>
       </S.ButtonWrapper>
@@ -206,7 +225,6 @@ const S = {
       cursor: pointer;
       transform: rotateY(180deg);
       transform: rotateY(${(props) => (props.$flipped ? '0deg' : '180deg')});
-
       box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 18px;
     }
 
@@ -257,6 +275,7 @@ const S = {
       z-index: 6;
       top: calc(22% - 5 * 0.5%);
       left: calc(50% - 100px - 10px);
+
       --index: 1;
       --row: 0;
       --col: 0;
@@ -265,6 +284,7 @@ const S = {
       z-index: 5;
       top: calc(22% - 4 * 0.5%);
       left: calc(50% - 95px - 10px);
+
       --index: 2;
       --row: 0;
       --col: 1;
@@ -273,6 +293,7 @@ const S = {
       z-index: 4;
       top: calc(22% - 3 * 0.5%);
       left: calc(50% - 90px - 10px);
+
       --index: 3;
       --row: 0;
       --col: 2;
@@ -281,6 +302,7 @@ const S = {
       z-index: 3;
       top: calc(22% - 2 * 0.5%);
       left: calc(50% - 85px - 10px);
+
       --index: 4;
       --row: 1;
       --col: 0;
@@ -289,6 +311,7 @@ const S = {
       z-index: 2;
       top: calc(22% - 1 * 0.5%);
       left: calc(50% - 80px - 10px);
+
       --index: 5;
       --row: 1;
       --col: 1;
@@ -297,6 +320,7 @@ const S = {
       z-index: 1;
       top: calc(22% - 0 * 0.5%);
       left: calc(50% - 75px - 10px);
+
       --index: 6;
       --row: 1;
       --col: 2;

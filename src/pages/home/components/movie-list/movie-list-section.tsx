@@ -25,7 +25,7 @@ const MovieListSection = ({ title, trendingMovieData, isTrendingMovieLoading }: 
   const { data: genreData } = useGenreListQuery(lang);
 
   useEffect(() => {
-    const randomPage = Math.floor(Math.random() * 10) + 1;
+    const randomPage = Math.floor(Math.random() * 4) + 1;
     setPage(randomPage);
   }, []);
 
