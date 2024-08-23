@@ -2,6 +2,7 @@ import { TPeopleDetailsFetchRes } from '@api/people/people-request.type';
 import displayIcon from '@assets/icons/display.svg';
 import { IMAGE_SIZE } from '@constants/image-size';
 import { getImage } from '@utils/get-image';
+import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 
 interface TPeopleInfoProps {
@@ -10,6 +11,7 @@ interface TPeopleInfoProps {
 }
 
 const PeopleInfo = ({ data, lang }: TPeopleInfoProps) => {
+  const { t } = useTranslation();
   const { biography, birthday, deathday, homepage, known_for_department, name, profile_path } = data;
   const profileImageURL = getImage(IMAGE_SIZE.profile_sizes.size03, profile_path);
   return (
@@ -36,11 +38,16 @@ const PeopleInfo = ({ data, lang }: TPeopleInfoProps) => {
             <S.Department>{known_for_department}</S.Department>
           </S.NameWrapper>
           <S.VitalRecord>
-            {birthday} ~ {deathday}
+            {birthday && `${birthday} ~ `}
+            {deathday}
           </S.VitalRecord>
 
           <S.BiographyWrapper>
-            {!biography ? <S.NoBiographyText>{lang} 언어로 된 정보가 없습니다</S.NoBiographyText> : <p>{biography}</p>}
+            {!biography ? (
+              <S.NoBiographyText>{t('people_details.no_biography', { lang })}</S.NoBiographyText>
+            ) : (
+              <p>{biography}</p>
+            )}
           </S.BiographyWrapper>
         </S.InfoWrapper>
       </S.ChildContainer>

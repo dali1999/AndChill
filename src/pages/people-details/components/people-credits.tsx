@@ -1,4 +1,5 @@
 import { TPeopleCreditsFetchRes } from '@api/people/people-request.type';
+import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import PeopleCreditsList from './people-credits-list';
 
@@ -7,12 +8,13 @@ interface TPeopleCreditsProps {
 }
 
 const PeopleCredits = ({ data }: TPeopleCreditsProps) => {
+  const { t } = useTranslation();
   const castData = data.cast;
   const crewData = data.crew;
 
   return (
     <S.Container>
-      <S.Title>필모그래피</S.Title>
+      <S.Title>{t('people_details.filmography')}</S.Title>
       {castData.length !== 0 && <PeopleCreditsList data={data} type="cast" />}
       {crewData.length !== 0 && <PeopleCreditsList data={data} type="crew" />}
     </S.Container>

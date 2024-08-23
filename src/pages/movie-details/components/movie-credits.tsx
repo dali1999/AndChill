@@ -3,6 +3,7 @@ import { TMovieCreditsFetchRes } from '@api/movie/movie-request.type';
 import CarouselButton, { Button } from '@components/carousel/carousel-button';
 import { IMAGE_SIZE } from '@constants/image-size';
 import { getImage } from '@utils/get-image';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import MovieDetailsSectionTemplate from './movie-details-section-template';
@@ -12,15 +13,16 @@ interface TMovieCreditsProps {
 }
 
 const MovieCredits = ({ data }: TMovieCreditsProps) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const castsData = data.cast;
   const length = castsData.length || 0;
   return (
-    <MovieDetailsSectionTemplate title="출연진">
+    <MovieDetailsSectionTemplate title={t('movie_details.credits.title')}>
       <S.CastListWrapper>
-        {length === 0 && <S.NoCreditText>인물 정보가 없습니다</S.NoCreditText>}
+        {length === 0 && <S.NoCreditText>{t('movie_details.credits.nodata')}</S.NoCreditText>}
         <S.CastList $curIndex={currentIndex}>
           {castsData.map((cast) => (
             <S.CastItem key={cast.cast_id} onClick={() => navigate(`/people-details/${cast.id}`)}>

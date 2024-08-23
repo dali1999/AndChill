@@ -4,7 +4,7 @@ import CarouselButton, { Button } from '@components/carousel/carousel-button';
 import { IMAGE_SIZE } from '@constants/image-size';
 import { fadeIn } from '@styles/animations';
 import { getImage } from '@utils/get-image';
-
+import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 
 interface TPeopleImagesProps {
@@ -12,13 +12,14 @@ interface TPeopleImagesProps {
 }
 
 const PeopleImages = ({ data }: TPeopleImagesProps) => {
+  const { t } = useTranslation();
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const movieImages = data?.profiles;
   const imageDatalength = movieImages?.length || 0;
 
   return (
-    <div>
+    <S.Container>
       {imageDatalength !== 0 ? (
         <S.MovieImageListWrapper>
           <S.MovieImageList $curIndex={currentIndex}>
@@ -45,19 +46,22 @@ const PeopleImages = ({ data }: TPeopleImagesProps) => {
           />
         </S.MovieImageListWrapper>
       ) : (
-        <S.NoImageText>이미지가 없습니다</S.NoImageText>
+        <S.NoImageText>{t('people_details.no_image')}</S.NoImageText>
       )}
-    </div>
+    </S.Container>
   );
 };
 
 export default PeopleImages;
 
 const S = {
+  Container: styled.div`
+    margin: 20px 5% 40px;
+  `,
+
   MovieImageListWrapper: styled.div`
     position: relative;
     overflow: hidden;
-    margin: 20px 5% 40px;
     padding-top: 14px;
     &:hover ${Button} {
       opacity: 0.6;
@@ -78,6 +82,7 @@ const S = {
   `,
 
   NoImageText: styled.p`
+    text-align: center;
     font-size: 14px;
     color: var(--indigo08);
   `,

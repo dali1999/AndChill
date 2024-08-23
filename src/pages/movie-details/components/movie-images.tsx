@@ -4,6 +4,7 @@ import CarouselButton, { Button } from '@components/carousel/carousel-button';
 import { IMAGE_SIZE } from '@constants/image-size';
 import { getImage } from '@utils/get-image';
 
+import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import MovieDetailsSectionTemplate from './movie-details-section-template';
 
@@ -12,13 +13,14 @@ interface TMovieImagesProps {
 }
 
 const MovieImages = ({ data }: TMovieImagesProps) => {
+  const { t } = useTranslation();
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const movieImages = data?.backdrops;
   const imageDatalength = movieImages?.length || 0;
 
   return (
-    <MovieDetailsSectionTemplate title="이미지">
+    <MovieDetailsSectionTemplate title={t('movie_details.images.title')}>
       {imageDatalength !== 0 ? (
         <S.MovieImageListWrapper>
           <S.MovieImageList $curIndex={currentIndex}>
@@ -43,7 +45,7 @@ const MovieImages = ({ data }: TMovieImagesProps) => {
           />
         </S.MovieImageListWrapper>
       ) : (
-        <S.NoImageText>이미지가 없습니다</S.NoImageText>
+        <S.NoImageText>{t('movie_details.images.nodata')}</S.NoImageText>
       )}
     </MovieDetailsSectionTemplate>
   );

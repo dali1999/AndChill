@@ -1,6 +1,6 @@
 import { TCountryResult, TMovieSitesFetchRes } from '@api/movie/movie-request.type';
-import { getFlagEmoji } from '@pages/home/utils/get-flag-emoji';
 import { useRegionStore } from '@stores/region';
+import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import MovieDetailsSectionTemplate from './movie-details-section-template';
 import MovieSitesList from './movie-sites-list';
@@ -10,26 +10,28 @@ interface TMovieSitesProps {
 }
 
 const RENDER_DATA: { key: keyof TCountryResult; title: string }[] = [
-  { key: 'buy', title: '구매' },
-  { key: 'free', title: '무료' },
-  { key: 'flatrate', title: '구독' },
-  { key: 'rent', title: '대여' },
+  { key: 'buy', title: 'Buy' },
+  { key: 'free', title: 'Free' },
+  { key: 'flatrate', title: 'Sub' },
+  { key: 'rent', title: 'Rent' },
 ];
 
 const MovieSites = ({ data }: TMovieSitesProps) => {
+  const { t } = useTranslation();
   const region = useRegionStore((state) => state.region);
-  const flagEmoji = getFlagEmoji(region);
-
   const sitesRegionData = data?.results[region];
+  
   return (
-    <MovieDetailsSectionTemplate title="지금 보러 가기">
+    <MovieDetailsSectionTemplate title={t('movie_details.sites.title')}>
       <>
         {sitesRegionData ? (
           RENDER_DATA.map(({ key, title }) =>
-            sitesRegionData?.[key] ? <MovieSitesList key={key} data={sitesRegionData[key]} title={title} /> : null,
+            sitesRegionData?.[key] ? (
+              <MovieSitesList key={key} data={sitesRegionData[key]} title={t(`movie_details.sites.${title}`)} />
+            ) : null,
           )
         ) : (
-          <S.NoSitesText>현재 {flagEmoji}에서 시청할 수 있는 곳이 없습니다</S.NoSitesText>
+          <S.NoSitesText>{t('movie_details.sites.nodata', { region })}</S.NoSitesText>
         )}
       </>
     </MovieDetailsSectionTemplate>

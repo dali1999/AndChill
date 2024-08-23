@@ -7,9 +7,11 @@ import UpcomingMovieItem from '@pages/home/components/upcoming-movie-list/upcomi
 import { getFlagEmoji } from '@pages/home/utils/get-flag-emoji';
 import { useRegionStore } from '@stores/region';
 import { fadeIn } from '@styles/animations';
+import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 
 const UpcomingMovieList = () => {
+  const { t } = useTranslation();
   const [currentIndex, setCurrentIndex] = useState(0);
   const { region, lang } = useRegionStore((state) => ({ region: state.region, lang: state.language }));
   const { data: upcomingMovieData, isFetching, refetch } = useUpcomingMovieListQuery(region, lang);
@@ -22,11 +24,11 @@ const UpcomingMovieList = () => {
 
   return (
     <S.Container>
-      <S.SectionTitle>{flagEmoji} 개봉 예정</S.SectionTitle>
+      <S.SectionTitle>{t('home.upcoming', { flagEmoji })}</S.SectionTitle>
       {isFetching ? (
         <MovieListSkeleton height={180} />
       ) : upcomingMovieData?.total_results === 0 ? (
-        <MovieListSkeleton text={`${region}에서 개봉 예정인 영화가 없습니다`} height={180} />
+        <MovieListSkeleton text={t('home.upcoming_nodata', { region })} height={180} />
       ) : (
         <S.UpcomingMovieListWrapper>
           <S.UpcomingMovieList $curIndex={currentIndex}>

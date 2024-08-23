@@ -6,6 +6,7 @@ import {
   TPeopleSearchResultsFetchRes,
 } from '@api/movie-search/movie-search-request.type';
 import MovieListSkeleton from '@components/skeleton/movie-list-skeleton';
+import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 
 interface TSearchResultsSectionProps {
@@ -18,6 +19,7 @@ interface TSearchResultsSectionProps {
 }
 
 const SearchResultsSection = ({ title, isLoading, data, setPage, itemWidth, children }: TSearchResultsSectionProps) => {
+  const { t } = useTranslation();
   const length = data?.results.length;
   const [pageArr, setPageArr] = useState<number[]>([]);
   const [totalPage, setTotalPage] = useState(0);
@@ -70,7 +72,7 @@ const SearchResultsSection = ({ title, isLoading, data, setPage, itemWidth, chil
   };
 
   return (
-    <>
+    <div>
       <S.ResultsSectionTitle>
         <S.SectionTitle>{title} </S.SectionTitle>
         {data && <S.ResultsCount>({data.total_results})</S.ResultsCount>}
@@ -79,12 +81,12 @@ const SearchResultsSection = ({ title, isLoading, data, setPage, itemWidth, chil
       {isLoading ? (
         <MovieListSkeleton height={220} />
       ) : length === 0 ? (
-        <MovieListSkeleton text="검색 결과가 없습니다" height={220} />
+        <MovieListSkeleton text={t('search.nodata')} height={220} />
       ) : (
         <>
           <S.SearchResultList $itemWidth={itemWidth}>{children}</S.SearchResultList>
           <S.PagenationButtonWrapper>
-            <button onClick={handleClickPrev}>이전</button>
+            <button onClick={handleClickPrev}>{t('search.page_prev')}</button>
             <S.PageButtonWrapper>
               {pageArr.map((page) => (
                 <S.PageButton key={page} onClick={() => handlePageClick(page)} $isSelected={page === selectedPage}>
@@ -92,11 +94,11 @@ const SearchResultsSection = ({ title, isLoading, data, setPage, itemWidth, chil
                 </S.PageButton>
               ))}
             </S.PageButtonWrapper>
-            <button onClick={handleClickNext}>다음</button>
+            <button onClick={handleClickNext}>{t('search.page_next')}</button>
           </S.PagenationButtonWrapper>
         </>
       )}
-    </>
+    </div>
   );
 };
 

@@ -3,11 +3,13 @@ import { useTrendingMovieListQuery } from '@hooks/react-query/use-query-trending
 import MovieListSection from '@pages/home/components/movie-list/movie-list-section';
 import UpcomingMovieList from '@pages/home/components/upcoming-movie-list/upcoming-movie-list';
 import { useRegionStore } from '@stores/region';
+import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 
 const Home = () => {
   const lang = useRegionStore((state) => state.language);
   const { data: trendingMovieData, isLoading: isTrendingLoading, refetch } = useTrendingMovieListQuery(lang);
+  const { t } = useTranslation();
 
   useEffect(() => {
     refetch();
@@ -16,7 +18,7 @@ const Home = () => {
     <S.Container>
       <UpcomingMovieList />
       <MovieListSection
-        title="이번 주 🌎 트렌드"
+        title={t('home.week_trend')}
         trendingMovieData={trendingMovieData}
         isTrendingMovieLoading={isTrendingLoading}
       />

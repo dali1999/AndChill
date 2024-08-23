@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import { CATEGORY_INFO } from '../constants/category-info';
 
 interface TCategoryNavigationButtonProps {
-  activeSection: 'Movies' | 'Collections' | 'People';
-  setActiveSection: (activeSection: 'Movies' | 'Collections' | 'People') => void;
+  activeSection: 'movies' | 'collections' | 'people';
+  setActiveSection: (activeSection: 'movies' | 'collections' | 'people') => void;
 }
 
 const CategoryNavigationButton = ({ activeSection, setActiveSection }: TCategoryNavigationButtonProps) => {

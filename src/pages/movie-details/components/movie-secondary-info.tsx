@@ -1,5 +1,6 @@
 import { TMovieDetailsFetchRes } from '@api/movie/movie-request.type';
 import { fadeIn } from '@styles/animations';
+import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import MovieProductionCompanyItem from './movie-production-company-item';
 import { formatCurrency } from '../utils/calculate-currency';
@@ -9,6 +10,7 @@ interface TMovieSecondaryProps {
 }
 
 const MovieSecondaryInfo = ({ data }: TMovieSecondaryProps) => {
+  const { t } = useTranslation();
   const { budget, revenue, original_language, status } = data;
   const movieBudget = budget === 0 ? '—' : formatCurrency(budget);
   const movieRevenue = revenue === 0 ? '—' : formatCurrency(revenue);
@@ -18,27 +20,27 @@ const MovieSecondaryInfo = ({ data }: TMovieSecondaryProps) => {
   return (
     <S.Container>
       <S.InfoItem>
-        <S.InfoTitle>제작비</S.InfoTitle>
+        <S.InfoTitle>{t('movie_details.secondary.budget')}</S.InfoTitle>
         <S.InfoContent>{movieBudget}</S.InfoContent>
       </S.InfoItem>
 
       <S.InfoItem>
-        <S.InfoTitle>수익</S.InfoTitle>
+        <S.InfoTitle>{t('movie_details.secondary.revenue')}</S.InfoTitle>
         <S.InfoContent>{movieRevenue}</S.InfoContent>
       </S.InfoItem>
 
       <S.InfoItem>
-        <S.InfoTitle>원어</S.InfoTitle>
+        <S.InfoTitle>{t('movie_details.secondary.lang')}</S.InfoTitle>
         <S.InfoContent>{original_language}</S.InfoContent>
       </S.InfoItem>
 
       <S.InfoItem>
-        <S.InfoTitle>상태</S.InfoTitle>
+        <S.InfoTitle>{t('movie_details.secondary.status')}</S.InfoTitle>
         <S.InfoContent>{status}</S.InfoContent>
       </S.InfoItem>
 
       <S.ProductionCompanyList>
-        <S.InfoTitle>제작사</S.InfoTitle>
+        <S.InfoTitle>{t('movie_details.secondary.company')}</S.InfoTitle>
         {productionCompaniesData.length === 0 ? (
           <S.InfoContent>—</S.InfoContent>
         ) : (

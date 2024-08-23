@@ -7,24 +7,24 @@ import peopleColorIcon from '@assets/icons/search-results-button/button-yellow-p
 
 export const CATEGORY_INFO: TCategoryInfo[] = [
   {
-    title: 'Movies',
+    title: 'movies',
     defaultIcon: movieIcon,
     selectedIcon: movieColorIcon,
   },
   {
-    title: 'Collections',
+    title: 'collections',
     defaultIcon: collectionIcon,
     selectedIcon: collectionColorIcon,
   },
   {
-    title: 'People',
+    title: 'people',
     defaultIcon: peopleIcon,
     selectedIcon: peopleColorIcon,
   },
 ];
 
 interface TCategoryInfo {
-  title: 'Movies' | 'Collections' | 'People';
+  title: 'movies' | 'collections' | 'people';
   defaultIcon: string;
   selectedIcon: string;
 }

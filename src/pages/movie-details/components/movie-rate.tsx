@@ -1,9 +1,11 @@
+import { useTranslation } from 'react-i18next';
 import styled, { keyframes } from 'styled-components';
 interface TMovieRateProps {
   rate: number;
   voteCounts: number;
 }
 const MovieRate = ({ rate, voteCounts }: TMovieRateProps) => {
+  const { t } = useTranslation();
   const rotation = ((rate * 10) / 100) * 170 - 85;
   return (
     <S.Container>
@@ -13,7 +15,9 @@ const MovieRate = ({ rate, voteCounts }: TMovieRateProps) => {
         </S.Dial>
         <S.Needle $rotation={rotation} />
         <S.CenterDot />
-        <S.VoteCount>{voteCounts.toLocaleString()} 명이 평가</S.VoteCount>
+        <S.VoteCount>
+          {voteCounts.toLocaleString()} {t('movie_details.people_rated')}
+        </S.VoteCount>
       </S.MovieRateWrapper>
       <S.Value>{rate.toFixed(1)}</S.Value>
     </S.Container>

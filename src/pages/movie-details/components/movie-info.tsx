@@ -4,6 +4,7 @@ import { IMAGE_SIZE } from '@constants/image-size';
 import { claculateRuntime } from '@pages/movie-details/utils/calculate-runtime';
 import { fadeIn } from '@styles/animations';
 import { getImage } from '@utils/get-image';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import MovieRate from './movie-rate';
@@ -15,7 +16,8 @@ interface TMovieInfoProps {
 }
 
 const MovieInfo = ({ data, directors, lang }: TMovieInfoProps) => {
-  const [formattedRuntime, setFormattedRuntime] = useState<string | undefined>('');
+  const { t } = useTranslation();
+  const [formattedRuntime, setFormattedRuntime] = useState<number[] | undefined>([]);
   const navigate = useNavigate();
 
   const { runtime, title, release_date, vote_average, genres, tagline, overview, vote_count, belongs_to_collection } =
@@ -52,14 +54,24 @@ const MovieInfo = ({ data, directors, lang }: TMovieInfoProps) => {
           {genres.map((genre) => (
             <S.GenreItem key={genre.id}>{genre.name}</S.GenreItem>
           ))}
-          {formattedRuntime && <p>• {formattedRuntime}</p>}
+          {formattedRuntime && (
+            <p>
+              • {formattedRuntime[0]}
+              {t('movie_details.hour')} {formattedRuntime[1]}
+              {t('movie_details.min')}
+            </p>
+          )}
         </S.GenreList>
 
         <MovieRate rate={vote_average} voteCounts={vote_count} />
 
         <S.Overview>
           <p>{tagline}</p>
-          {overview ? <p>{overview}</p> : <S.NoOverviewText>{lang} 언어로 된 정보가 없습니다</S.NoOverviewText>}
+          {overview ? (
+            <p>{overview}</p>
+          ) : (
+            <S.NoOverviewText>{t('movie_details.no_overview', { lang })}</S.NoOverviewText>
+          )}
         </S.Overview>
 
         <S.Directors>

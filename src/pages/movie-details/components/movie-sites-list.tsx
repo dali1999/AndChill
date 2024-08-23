@@ -16,7 +16,6 @@ const MovieSitesList = ({ data, title }: TMovieSitesListProps) => {
         {data.map((item) => (
           <S.MovieSitesItem key={item.provider_id}>
             <S.ProviderLogo src={getImage(IMAGE_SIZE.logo_sizes.original, item.logo_path)} />
-            {/* <S.ProviderName>{item.provider_name}</S.ProviderName> */}
           </S.MovieSitesItem>
         ))}
       </S.MovieSitesList>
@@ -36,7 +35,7 @@ const S = {
   `,
 
   Title: styled.h4`
-    /* margin-bottom: 10px; */
+    width: 38px;
   `,
 
   MovieSitesList: styled.ul`

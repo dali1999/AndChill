@@ -37,15 +37,12 @@ const MovieCollection = () => {
     refetch,
   } = useMovieCollectionQuery(collectionIdNumber, lang);
 
-  const length = movieCollectionData?.parts?.length;
   const backdropURL = getImage(IMAGE_SIZE.backdrop_sizes.original, movieCollectionData?.backdrop_path);
 
   const fetchImageColor = async (url: string) => {
     const gradient = await getImageColor(url);
     setBackgroundColor(gradient);
   };
-
-  useEffect(() => {}, []);
 
   useEffect(() => {
     if (movieCollectionData?.backdrop_path !== undefined) {
@@ -74,8 +71,6 @@ const MovieCollection = () => {
 
       {isMovieCollectionLoading ? (
         <MovieListSkeleton height={220} />
-      ) : length === 0 ? (
-        <MovieListSkeleton text="검색 결과가 없습니다" height={220} />
       ) : (
         <S.CollectionMovieList>
           {movieCollectionData?.parts?.map((movie) => (

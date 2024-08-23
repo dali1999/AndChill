@@ -3,6 +3,7 @@ import { TPeopleCreditsFetchRes, TPeopleCrew } from '@api/people/people-request.
 import CarouselButton, { Button } from '@components/carousel/carousel-button';
 import MovieItem from '@pages/home/components/movie-list/movie-item';
 import { fadeIn } from '@styles/animations';
+import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 
 interface TPeopleCreditsListProps {
@@ -15,6 +16,7 @@ interface MergedCredit extends Omit<TPeopleCrew, 'job'> {
 }
 
 const PeopleCreditsList = ({ data, type }: TPeopleCreditsListProps) => {
+  const { t } = useTranslation();
   const [currentIndex, setCurrentIndex] = useState(0);
   const castData = data.cast.sort((a, b) => {
     const dateA = a.release_date ? new Date(a.release_date) : new Date(0);
@@ -41,7 +43,7 @@ const PeopleCreditsList = ({ data, type }: TPeopleCreditsListProps) => {
   }, []);
 
   const length = type === 'cast' ? castData.length : mergedData.length;
-  const title = type === 'cast' ? '연기' : '제작';
+  const title = type === 'cast' ? t('people_details.acting') : t('people_details.production');
 
   return (
     <S.CreditListWrapper>

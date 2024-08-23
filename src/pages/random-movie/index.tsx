@@ -1,15 +1,17 @@
 import { useState } from 'react';
 import infoIcon from '@assets/icons/info.svg';
+import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import CardsInfoModal from './components/cards-info-modal';
 import Shuffle from './components/movie-cards-shuffle';
 
 const RandomMovie = () => {
+  const { t } = useTranslation();
   const [hovered, setHovered] = useState(false);
   return (
     <S.Container>
       <S.TitleWrapper>
-        <S.Title>오늘 뭐 봄?</S.Title>
+        <S.Title>{t('random_movie.title')}</S.Title>
         <S.InfoIcon src={infoIcon} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)} />
         {hovered && <CardsInfoModal />}
       </S.TitleWrapper>

@@ -6,6 +6,7 @@ import { useMovieDiscoverResultsQuery } from '@hooks/react-query/use-query-disco
 import { useGenreListQuery } from '@hooks/react-query/use-query-genre';
 import { getRandomGenre } from '@pages/home/utils/get-random-genre';
 import { useRegionStore } from '@stores/region';
+import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import MovieList from './movie-list';
 
@@ -16,6 +17,7 @@ interface TMovieListSectionProps {
 }
 
 const MovieListSection = ({ title, trendingMovieData, isTrendingMovieLoading }: TMovieListSectionProps) => {
+  const { t } = useTranslation();
   const [randomGenre, setRandomGenre] = useState<TGenre[] | undefined>();
   const [page, setPage] = useState(1);
   const genreIdsStr = randomGenre?.map((genre) => genre.id).join();
@@ -53,7 +55,7 @@ const MovieListSection = ({ title, trendingMovieData, isTrendingMovieLoading }: 
       {isLoading ? (
         <MovieListSkeleton />
       ) : length === 0 ? (
-        <MovieListSkeleton text="영화 정보가 없습니다" />
+        <MovieListSkeleton text={t('home.movielist_nodata')} />
       ) : (
         <MovieList data={movieData?.results} />
       )}

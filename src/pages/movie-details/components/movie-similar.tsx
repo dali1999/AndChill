@@ -1,5 +1,6 @@
 import { TMovieListsFetchRes } from '@api/movie-lists/movie-lists-request.type';
 import MovieList from '@pages/home/components/movie-list/movie-list';
+import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import MovieDetailsSectionTemplate from './movie-details-section-template';
 
@@ -8,13 +9,14 @@ interface TMovieSimilarProps {
 }
 
 const MovieSimilar = ({ data }: TMovieSimilarProps) => {
+  const { t } = useTranslation();
   const similarMoviesData = data.results;
   return (
-    <MovieDetailsSectionTemplate title="유사한 영화">
+    <MovieDetailsSectionTemplate title={t('movie_details.similar.title')}>
       {similarMoviesData.length !== 0 ? (
         <MovieList data={similarMoviesData} />
       ) : (
-        <S.NoSimilarMoviesText>유사한 영화가 없습니다</S.NoSimilarMoviesText>
+        <S.NoSimilarMoviesText>{t('movie_details.similar.nodata')}</S.NoSimilarMoviesText>
       )}
     </MovieDetailsSectionTemplate>
   );

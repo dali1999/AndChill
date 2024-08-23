@@ -6,7 +6,7 @@ import { useRegionStore } from '@stores/region';
 import { getGenreById } from '@utils/get-genre-by-id';
 import { getImage } from '@utils/get-image';
 import { useNavigate } from 'react-router-dom';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 
 interface TMovieItemProps {
   data: TMovieListsItem;

@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { SORT_INFO, TSortItem } from '../constants/sort-info';
 
@@ -9,6 +10,8 @@ interface TSortSelectProps {
 }
 
 const SortSelect = ({ selectedSort, setSelectedSort, setSelectedSortName }: TSortSelectProps) => {
+  const { t } = useTranslation();
+
   const handleClickSort = (sort: TSortItem) => {
     setSelectedSort(sort.queryStr);
     setSelectedSortName(sort.title);
@@ -23,7 +26,7 @@ const SortSelect = ({ selectedSort, setSelectedSort, setSelectedSortName }: TSor
             onClick={() => handleClickSort(sort)}
             $isSelected={selectedSort === sort.queryStr}
           >
-            {sort.title}
+            {t(`discover.sorts.${sort.title}`)}
           </S.GenreList>
         ))}
       </S.GenreListWrapper>

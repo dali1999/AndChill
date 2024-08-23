@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import MovieListSkeleton from '@components/skeleton/movie-list-skeleton';
 import { useMovieDiscoverResultsQuery } from '@hooks/react-query/use-query-discover';
 import MovieItem from '@pages/home/components/movie-list/movie-item';
 import { useRegionStore } from '@stores/region';
 import { getLanguageByCountry } from '@utils/get-region-language';
+import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import GenreSelect from './components/genre-select';
 import RegionSelect from './components/region-select';
@@ -11,6 +12,7 @@ import SortSelect from './components/sort-select';
 import { SORT_INFO } from './constants/sort-info';
 
 const Discover = () => {
+  const { t } = useTranslation();
   const lang = useRegionStore((state) => state.language);
   const [page, setPage] = useState(1);
 
@@ -29,7 +31,11 @@ const Discover = () => {
   const [selectedSort, setSelectedSort] = useState(selectedSortTemp);
   const [selectedSortName, setSelectedSortName] = useState(SORT_INFO[0].title);
 
-  const { data: discoveredMoiveData, isFetching: isDiscoveredMoiveLoading } = useMovieDiscoverResultsQuery(
+  const {
+    data: discoveredMoiveData,
+    isFetching: isDiscoveredMoiveLoading,
+    refetch,
+  } = useMovieDiscoverResultsQuery(
     lang,
     selectedSort,
     selectedGenreId.join(','),
@@ -51,6 +57,19 @@ const Discover = () => {
     window.scrollTo(0, 0);
     setPage(page + 1);
   };
+
+  useEffect(() => {
+    refetch();
+    setPage(1);
+    setSelectedRegionTemp('');
+    setSelectedRegionName('');
+
+    setSelectedGenreIdTemp([]);
+    setSelectedGenreName([]);
+
+    setSelectedSortTemp(SORT_INFO[0].queryStr);
+    setSelectedSort(SORT_INFO[0].queryStr);
+  }, [lang]);
 
   return (
     <S.Container>
@@ -76,17 +95,21 @@ const Discover = () => {
       </S.SelectSectionWrapper>
 
       <S.DiscoverButton onClick={handleSearch}>
-        <S.GenreSummary>{selectedRegionName && `${selectedRegionName}의`}</S.GenreSummary>
+        <S.GenreSummary>{selectedRegionName && t('discover.region_ko', { selectedRegionName })}</S.GenreSummary>
         &nbsp;
-        <S.GenreSummary>{selectedGenreName.length === 0 ? '모든' : selectedGenreName.join(' • ')}</S.GenreSummary>
-        &nbsp;장르의 영화들을&nbsp;
-        <S.SortSummary>{selectedSortName}</S.SortSummary>&nbsp;으로 탐색
+        {t('discover.discover_en')}&nbsp;
+        <S.GenreSummary>
+          {selectedRegionName && t('discover.region_en', { selectedRegionName })}{' '}
+          {selectedGenreName.length === 0 ? t('discover.all') : selectedGenreName.join(' • ')}
+        </S.GenreSummary>
+        &nbsp;{t('discover.genre_movies')}&nbsp;
+        <S.SortSummary>{t(`discover.sorts.${selectedSortName}`)}</S.SortSummary>&nbsp;{t('discover.discover_ko')}
       </S.DiscoverButton>
 
       {isDiscoveredMoiveLoading ? (
         <MovieListSkeleton height={360} />
       ) : discoveredMoiveData?.total_results === 0 ? (
-        <MovieListSkeleton text={'탐색 결과가 없습니다'} height={360} />
+        <MovieListSkeleton text={t('discover.nodata')} height={360} />
       ) : (
         <S.DiscoveredListWrapper>
           {discoveredMoiveData && (

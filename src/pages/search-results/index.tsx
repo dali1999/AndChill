@@ -8,6 +8,7 @@ import {
 import MovieItem from '@pages/home/components/movie-list/movie-item';
 import { useRegionStore } from '@stores/region';
 import { fadeIn } from '@styles/animations';
+import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import CategoryNavigationButton from './components/category-navigation-button';
@@ -16,12 +17,13 @@ import PeopleItem from './components/people-item';
 import SearchResultsSection from './components/search-results-section';
 
 const SearchResults = () => {
+  const { t } = useTranslation();
   const { searchQuery } = useParams() as { searchQuery: string };
   const lang = useRegionStore((state) => state.language);
   const [moviePage, setMoviePage] = useState(1);
   const [collectionPage, setCollectionPage] = useState(1);
   const [peoplePage, setPeoplePage] = useState(1);
-  const [activeSection, setActiveSection] = useState<'Movies' | 'Collections' | 'People'>('Movies');
+  const [activeSection, setActiveSection] = useState<'movies' | 'collections' | 'people'>('movies');
 
   const {
     data: movieData,
@@ -57,13 +59,23 @@ const SearchResults = () => {
 
   useEffect(() => {
     if (!isFetching) {
-      // Check the data in order and update activeSection only if there's data and it's not already set
-      if (movieData?.total_results !== 0 && activeSection !== 'Movies') {
-        setActiveSection('Movies');
-      } else if (collectionData?.total_results !== 0 && activeSection !== 'Collections') {
-        setActiveSection('Collections');
-      } else if (peopleData?.total_results !== 0 && activeSection !== 'People') {
-        setActiveSection('People');
+      // Only set section if it matches the user’s current choice or if no choice has been made
+      if (activeSection === 'movies' && movieData?.total_results === 0) {
+        if (collectionData?.total_results !== 0) {
+          setActiveSection('collections');
+        } else if (peopleData?.total_results !== 0) {
+          setActiveSection('people');
+        } else {
+          setActiveSection('movies'); // Default to Movies if no results are found
+        }
+      } else if (activeSection === 'collections' && collectionData?.total_results === 0) {
+        if (peopleData?.total_results !== 0) {
+          setActiveSection('people');
+        } else {
+          setActiveSection('movies'); // Default to Movies if no results are found
+        }
+      } else if (activeSection === 'people' && peopleData?.total_results === 0) {
+        setActiveSection('movies'); // Default to Movies if no results are found
       }
     }
   }, [movieData, collectionData, peopleData, isFetching]);
@@ -72,15 +84,15 @@ const SearchResults = () => {
     <S.Container>
       <S.Title>
         <S.SearchQuery>{searchQuery}</S.SearchQuery>
-        <S.TitleText> 검색 결과</S.TitleText>
+        <S.TitleText> {t('search.search_results')}</S.TitleText>
       </S.Title>
 
       <CategoryNavigationButton activeSection={activeSection} setActiveSection={setActiveSection} />
 
       <S.SearchResultsWrapper>
-        {activeSection === 'Movies' && (
+        {activeSection === 'movies' && (
           <SearchResultsSection
-            title={activeSection}
+            title={t(`search.${activeSection}`)}
             isLoading={isMovieLoading}
             data={movieData}
             setPage={setMoviePage}
@@ -89,9 +101,9 @@ const SearchResults = () => {
             {movieData?.results.map((movie) => <MovieItem key={movie.id} data={movie} />)}
           </SearchResultsSection>
         )}
-        {activeSection === 'Collections' && (
+        {activeSection === 'collections' && (
           <SearchResultsSection
-            title={activeSection}
+            title={t(`search.${activeSection}`)}
             isLoading={isCollectionLoading}
             data={collectionData}
             setPage={setCollectionPage}
@@ -100,9 +112,9 @@ const SearchResults = () => {
             {collectionData?.results.map((collection) => <CollectionItem key={collection.id} data={collection} />)}
           </SearchResultsSection>
         )}
-        {activeSection === 'People' && (
+        {activeSection === 'people' && (
           <SearchResultsSection
-            title={activeSection}
+            title={t(`search.${activeSection}`)}
             isLoading={isPeopleLoading}
             data={peopleData}
             setPage={setPeoplePage}
@@ -145,8 +157,8 @@ const S = {
   SearchResultsWrapper: styled.section`
     margin-top: 24px;
     padding-bottom: 40px;
-    ul {
-      animation: ${fadeIn} 0.5s ease-in;
+    > div {
+      animation: ${fadeIn} 0.3s ease-in;
     }
   `,
 

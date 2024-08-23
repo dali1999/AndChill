@@ -1,10 +1,12 @@
 import cardsIcon from '@assets/icons/cards-stack.svg';
 import RegionSelectButton from '@pages/nav-bar/components/region-select-button';
 import { NAV_MENU } from '@pages/nav-bar/constants/nav-menu-list';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const NavBar = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const handleSearchQuerySubmit = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -25,7 +27,7 @@ const NavBar = () => {
         {NAV_MENU.map((menu) => {
           return (
             <S.MenuItem key={menu.title} onClick={() => navigate(menu.path)}>
-              {menu.title}
+              {t(`nav.${menu.title}`)}
             </S.MenuItem>
           );
         })}
@@ -33,7 +35,7 @@ const NavBar = () => {
           <img src={cardsIcon} />
         </S.MenuItem>
       </S.MenuLists>
-      <S.SearchBar type="text" onKeyUp={handleSearchQuerySubmit} placeholder="영화 또는 인물 검색" />
+      <S.SearchBar type="text" onKeyUp={handleSearchQuerySubmit} placeholder={t('nav.search_placeholder')} />
       <RegionSelectButton />
     </S.Container>
   );

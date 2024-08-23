@@ -3,6 +3,7 @@ import { TRegionConfigItem } from '@api/configuration/config-request.type';
 import { filteredRegionsBySearchQuery } from '@pages/nav-bar/utils/filterd-regions-by-search-query';
 import { useRegionStore } from '@stores/region';
 import { getLanguageByCountry } from '@utils/get-region-language';
+import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 
 interface TRegionSelectModalProps {
@@ -13,6 +14,7 @@ interface TRegionSelectModalProps {
 const RegionSelectModal = ({ regionData, handleSetIsOpen }: TRegionSelectModalProps) => {
   const [searchQuery, setSearchQuery] = useState('');
   const { lang } = useRegionStore((state) => ({ lang: state.language }));
+  const { t, i18n } = useTranslation();
 
   const { setRegion } = useRegionStore((state) => ({
     region: state.region,
@@ -20,7 +22,11 @@ const RegionSelectModal = ({ regionData, handleSetIsOpen }: TRegionSelectModalPr
   }));
 
   const handleRegionItemClick = (regionCode: string) => {
-    setRegion(regionCode, getLanguageByCountry(regionCode, lang));
+    const selectedLanguage = getLanguageByCountry(regionCode, lang);
+
+    setRegion(regionCode, selectedLanguage);
+    i18n.changeLanguage(selectedLanguage);
+    handleSetIsOpen();
   };
 
   const handleRegionSearchChange = (e: { currentTarget: { value: SetStateAction<string> } }) => {
@@ -31,7 +37,7 @@ const RegionSelectModal = ({ regionData, handleSetIsOpen }: TRegionSelectModalPr
 
   return (
     <S.Container>
-      <S.SearchBar type="text" placeholder="지금 어디에 계신가요?" onChange={handleRegionSearchChange} />
+      <S.SearchBar type="text" placeholder={t('region_modal_placeholder')} onChange={handleRegionSearchChange} />
       <S.RegionInfoContainer>
         {filteredRegionList.map((region) => {
           return (

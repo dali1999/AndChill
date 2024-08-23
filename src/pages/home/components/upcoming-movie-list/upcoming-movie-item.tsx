@@ -2,6 +2,7 @@ import { TMovieListsItem } from '@api/movie-lists/movie-lists-request.type';
 import { IMAGE_SIZE } from '@constants/image-size';
 import { calculateLeftDays } from '@pages/home/utils/calculate-left-days';
 import { getImage } from '@utils/get-image';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import ReleaseDateBar from './release-date-bar';
@@ -11,6 +12,7 @@ interface TUpcomingMovieItemProps {
 }
 
 const UpcomingMovieItem = ({ data }: TUpcomingMovieItemProps) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const daysLeft = calculateLeftDays(data.release_date);
   const backDropImageUrl = data.backdrop_path
@@ -23,7 +25,7 @@ const UpcomingMovieItem = ({ data }: TUpcomingMovieItemProps) => {
         <S.MovieImage src={backDropImageUrl} className="scale-on-hover" />
         <S.PopularityLabel>
           <S.Popularity>{Math.round(data.popularity)} </S.Popularity>
-          만큼 기대중
+          {t('home.upcoming_label')}
         </S.PopularityLabel>
         <S.MovieReleaseDate>{data.release_date}</S.MovieReleaseDate>
         <S.MovieTitle>{data.title}</S.MovieTitle>

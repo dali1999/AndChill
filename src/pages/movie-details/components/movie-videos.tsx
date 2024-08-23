@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { TMovieVideosFetchRes } from '@api/movie/movie-request.type';
 import CarouselButton, { Button } from '@components/carousel/carousel-button';
+import { useTranslation } from 'react-i18next';
 import YouTube from 'react-youtube';
 import styled from 'styled-components';
 import MovieDetailsSectionTemplate from './movie-details-section-template';
@@ -11,6 +12,7 @@ interface TMovieVideosProps {
 }
 
 const MovieVideos = ({ data }: TMovieVideosProps) => {
+  const { t } = useTranslation();
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const videoOptions = {
@@ -26,7 +28,7 @@ const MovieVideos = ({ data }: TMovieVideosProps) => {
   const videoDataLength = trailerVideos.length;
 
   return (
-    <MovieDetailsSectionTemplate title="예고편">
+    <MovieDetailsSectionTemplate title={t('movie_details.videos.title')}>
       {videoDataLength !== 0 ? (
         <S.VideoListWrapper>
           <S.VideosList $curIndex={currentIndex}>
@@ -58,7 +60,7 @@ const MovieVideos = ({ data }: TMovieVideosProps) => {
           />
         </S.VideoListWrapper>
       ) : (
-        <S.NoVideoText>영상이 없습니다</S.NoVideoText>
+        <S.NoVideoText>{t('movie_details.videos.nodata')}</S.NoVideoText>
       )}
     </MovieDetailsSectionTemplate>
   );
