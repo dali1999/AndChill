@@ -57,15 +57,16 @@ const SearchResults = () => {
 
   useEffect(() => {
     if (!isFetching) {
-      if (movieData?.total_results !== 0 && !(activeSection !== 'Movies')) {
+      // Check the data in order and update activeSection only if there's data and it's not already set
+      if (movieData?.total_results !== 0 && activeSection !== 'Movies') {
         setActiveSection('Movies');
-      } else if (collectionData?.total_results !== 0 && !(activeSection !== 'Collections')) {
+      } else if (collectionData?.total_results !== 0 && activeSection !== 'Collections') {
         setActiveSection('Collections');
-      } else if (peopleData?.total_results !== 0 && !(activeSection !== 'People')) {
+      } else if (peopleData?.total_results !== 0 && activeSection !== 'People') {
         setActiveSection('People');
       }
     }
-  }, [movieData, collectionData, peopleData, isFetching, activeSection]);
+  }, [movieData, collectionData, peopleData, isFetching]);
 
   return (
     <S.Container>
