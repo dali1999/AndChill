@@ -45,7 +45,7 @@ const MovieInfo = ({ data, directors, lang }: TMovieInfoProps) => {
       <S.MovieInfoWrapper>
         <S.Title>
           <h1>{title}</h1>
-          <span>({release_date.slice(0, 4)})</span>
+          <span>({release_date ? release_date.slice(0, 4) : ' - '})</span>
         </S.Title>
 
         <S.GenreList>
