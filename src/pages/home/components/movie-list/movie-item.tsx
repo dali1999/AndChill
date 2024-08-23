@@ -55,15 +55,6 @@ const MovieItem = ({ data }: TMovieItemProps) => {
 };
 export default MovieItem;
 
-const scrollCredits = keyframes`
-  0% {
-    top: 40%;
-  }
-  100% {
-    top: -100%;
-  }
-`;
-
 const S = {
   Container: styled.div`
     width: 200px;
@@ -136,8 +127,6 @@ const S = {
       div {
         padding: 15px;
         position: absolute;
-        animation: ${scrollCredits} 10s linear infinite;
-        animation: ${scrollCredits} ${({ $isOverview }) => ($isOverview ? 10 : 0)}s linear infinite;
       }
     }
   `,
@@ -174,5 +163,10 @@ const S = {
     word-break: break-word;
     overflow-wrap: break-word;
     hyphens: auto;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
   `,
 };
