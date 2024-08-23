@@ -46,6 +46,15 @@ const Shuffle = () => {
   } = useMovieDiscoverResultsQuery(lang, 'vote_count.desc', '', page, '');
 
   useEffect(() => {
+    if (randomMovieData?.results && randomMovieData.results.length > 0) {
+      const newMovieDeck = getRandomSixCards(randomMovieData.results);
+      if (newMovieDeck) {
+        setMovieDeck(newMovieDeck);
+      }
+    }
+  }, [randomMovieData?.results, setMovieDeck]);
+
+  useEffect(() => {
     if (clicked && randomMovieData?.results) {
       refetch();
       const newMovieDeck = getRandomSixCards(randomMovieData.results);
@@ -108,8 +117,6 @@ const Shuffle = () => {
   const handleShuffleButtonClick = () => {
     setClicked(true);
     setIsAllNotFlipped(flipped.every((value) => value === false));
-    console.log(flipped);
-    console.log(isAllNotFlipped);
     handleShuffleButtonDisable(isAllNotFlipped ? 3700 : 4280);
     setFlipped(Array(6).fill(false));
     setTimeout(() => handleStack(), isAllNotFlipped ? 0 : 580); // 카드 모으고 (만약 뒤집힌 카드 있으면 580 동안 다시 뒤집고 모으기)
