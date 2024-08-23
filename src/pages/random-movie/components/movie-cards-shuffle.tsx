@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react';
 import { TMovieListsItem } from '@api/movie-lists/movie-lists-request.type';
+import shuffleIcon from '@assets/icons/cards-shuffle.png';
 import { useMovieDiscoverResultsQuery } from '@hooks/react-query/use-query-discover';
 import MovieItem from '@pages/home/components/movie-list/movie-item';
 import { useRegionStore } from '@stores/region';
@@ -18,17 +19,13 @@ import {
   spreadAnimation,
   stackAnimation,
 } from '../style/card-animation';
-import { getRandomSixCards, getRandomText } from '../utils/get-random-cards';
-
-interface TShuffleProps {
-  setRandomText: (text: string) => void;
-}
+import { getRandomSixCards } from '../utils/get-random-cards';
 
 const SHUFFLE_TIME = 2500;
 
-const Shuffle = ({ setRandomText }: TShuffleProps) => {
+const Shuffle = () => {
   const [animate, setAnimate] = useState(false);
-  const [spreadAnimation, setSpreadAnimation] = useState(false);
+  const [spreadAnimation, setSpreadAnimation] = useState(true);
   const [stackAnimation, setStackAnimation] = useState(false);
   const [page, setPage] = useState(Math.floor(Math.random() * 500) + 1);
   const [flipped, setFlipped] = useState(Array(6).fill(false));
@@ -43,10 +40,6 @@ const Shuffle = ({ setRandomText }: TShuffleProps) => {
   const [movieDeck, setMovieDeck] = useState<TMovieListsItem[] | undefined>([]);
 
   useEffect(() => {
-    setRandomText(getRandomText());
-  }, [page]);
-
-  useEffect(() => {
     refetch();
     setMovieDeck(getRandomSixCards(randomMovieData?.results));
   }, [page, randomMovieData?.results, refetch]);
@@ -59,7 +52,7 @@ const Shuffle = ({ setRandomText }: TShuffleProps) => {
     setTimeout(() => setAnimate(false), SHUFFLE_TIME);
   };
 
-  const handleRow = () => {
+  const handleSpread = () => {
     setSpreadAnimation(true);
     setStackAnimation(false);
   };
@@ -73,18 +66,14 @@ const Shuffle = ({ setRandomText }: TShuffleProps) => {
     setFlipped((prevFlipped) => prevFlipped.map((flip, i) => (i === index ? !flip : flip)));
   };
 
-  const handleButtonClick = (time: number) => {
+  const handleShuffleButtonDisable = (time: number) => {
     setIsDisabled(true);
-
     setTimeout(() => {
       setIsDisabled(false);
     }, time);
   };
 
   const handleCardColor = (rate: number) => {
-    // if (rate >= CARD_INFO.god.rank) {
-    //   return CARD_INFO.god.color;
-    // } else
     if (rate >= CARD_INFO.legend.rank) {
       return CARD_INFO.legend.color;
     } else if (rate >= CARD_INFO.epic.rank) {
@@ -102,21 +91,22 @@ const Shuffle = ({ setRandomText }: TShuffleProps) => {
         <S.Btn
           onClick={() => {
             if (spreadAnimation) {
-              handleButtonClick(flipped.every((value) => value === false) ? 3100 : 3680);
+              handleShuffleButtonDisable(flipped.every((value) => value === false) ? 3700 : 4280);
               setFlipped(Array(6).fill(false));
               setTimeout(() => handleStack(), flipped.every((value) => value === false) ? 0 : 500);
               setTimeout(() => handleShuffle(), flipped.every((value) => value === false) ? 600 : 1180);
+              setTimeout(() => handleSpread(), flipped.every((value) => value === false) ? 800 : 1300);
             } else {
               handleShuffle();
-              handleButtonClick(2500);
+              setTimeout(() => handleSpread(), 1180);
+              handleShuffleButtonDisable(2500);
             }
           }}
           disabled={isDisabled}
           $isDiabled={isDisabled}
         >
-          셔플
+          <img src={shuffleIcon} alt="카드 셔플 아이콘" />
         </S.Btn>
-        <S.Btn onClick={handleRow}>펼치기</S.Btn>
       </S.ButtonWrapper>
 
       <S.Container>
@@ -176,30 +166,23 @@ const S = {
     margin-bottom: 0px;
     z-index: 2;
     position: relative;
-    bottom: 40px;
+    bottom: 45px;
   `,
 
   Btn: styled.button<{ $isDiabled?: boolean }>`
-    padding: 6px 12px;
+    position: relative;
+    padding: 6px 16px;
     border-radius: 5px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: ${({ $isDiabled }) => ($isDiabled ? 'var(--yellow04)' : 'var(--yellow02)')};
-    color: var(--dark01);
+    background-color: ${({ $isDiabled }) => ($isDiabled ? 'var(--indigo04)' : 'var(--indigo04)')};
+    opacity: ${({ $isDiabled }) => $isDiabled && 0.4};
     cursor: ${({ $isDiabled }) => ($isDiabled ? 'default' : 'pointer')};
-    font-weight: 900;
-    font-size: 18px;
     transition: 0.1s ease-in-out;
-  `,
-
-  NoCardText: styled.div`
-    border: 1px solid red;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    img {
+      height: 30px;
+    }
   `,
 
   Card: styled.div<{ $isRow?: boolean; $movieRate?: number; $glowColor?: string; $flipped?: boolean }>`
@@ -272,48 +255,48 @@ const S = {
 
     &.card1 {
       z-index: 6;
-      top: calc(21.5% - 5 * 0.5%);
-      left: calc(50% - 100px - 12px);
+      top: calc(22% - 5 * 0.5%);
+      left: calc(50% - 100px - 10px);
       --index: 1;
       --row: 0;
       --col: 0;
     }
     &.card2 {
       z-index: 5;
-      top: calc(21.5% - 4 * 0.5%);
-      left: calc(50% - 95px - 12px);
+      top: calc(22% - 4 * 0.5%);
+      left: calc(50% - 95px - 10px);
       --index: 2;
       --row: 0;
       --col: 1;
     }
     &.card3 {
       z-index: 4;
-      top: calc(21.5% - 3 * 0.5%);
-      left: calc(50% - 90px - 12px);
+      top: calc(22% - 3 * 0.5%);
+      left: calc(50% - 90px - 10px);
       --index: 3;
       --row: 0;
       --col: 2;
     }
     &.card4 {
       z-index: 3;
-      top: calc(21.5% - 2 * 0.5%);
-      left: calc(50% - 85px - 12px);
+      top: calc(22% - 2 * 0.5%);
+      left: calc(50% - 85px - 10px);
       --index: 4;
       --row: 1;
       --col: 0;
     }
     &.card5 {
       z-index: 2;
-      top: calc(21.5% - 1 * 0.5%);
-      left: calc(50% - 80px - 12px);
+      top: calc(22% - 1 * 0.5%);
+      left: calc(50% - 80px - 10px);
       --index: 5;
       --row: 1;
       --col: 1;
     }
     &.card6 {
       z-index: 1;
-      top: calc(21.5% - 0 * 0.5%);
-      left: calc(50% - 75px - 12px);
+      top: calc(22% - 0 * 0.5%);
+      left: calc(50% - 75px - 10px);
       --index: 6;
       --row: 1;
       --col: 2;

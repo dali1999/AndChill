@@ -5,7 +5,6 @@ import CardsInfoModal from './components/cards-info-modal';
 import Shuffle from './components/movie-cards-shuffle';
 
 const RandomMovie = () => {
-  const [randomText, setRandomText] = useState('');
   const [hovered, setHovered] = useState(false);
   return (
     <S.Container>
@@ -14,7 +13,7 @@ const RandomMovie = () => {
         <S.InfoIcon src={infoIcon} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)} />
         {hovered && <CardsInfoModal />}
       </S.TitleWrapper>
-      <Shuffle setRandomText={setRandomText} />
+      <Shuffle />
       <S.CardsBackground></S.CardsBackground>
     </S.Container>
   );
@@ -58,7 +57,7 @@ const S = {
     position: absolute;
     top: 74px;
     width: 90%;
-    height: 670px;
+    height: 700px;
     border-radius: 18px;
   `,
 };
