@@ -99,7 +99,7 @@ const S = {
     flex-shrink: 0;
     @media ${device.mobile} {
       gap: 12px;
-      font-size: 11px;
+      font-size: 12px;
       margin: 0 10px 0 4%;
     }
   `,
@@ -124,15 +124,15 @@ const S = {
     font-weight: 100;
     @media ${device.mobile} {
       margin: 6px 3% 6px 0;
-      padding: 8px 14px;
-      font-size: 11px;
+      padding: 10px 14px;
+      font-size: 12px;
     }
 
     &::placeholder {
       color: var(--gray01);
       font-weight: 400;
       @media ${device.mobile} {
-        font-size: 11px;
+        font-size: 12px;
       }
     }
   `,
