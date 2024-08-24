@@ -3,6 +3,7 @@ import { useTrendingMovieListQuery } from '@hooks/react-query/use-query-trending
 import MovieListSection from '@pages/home/components/movie-list/movie-list-section';
 import UpcomingMovieList from '@pages/home/components/upcoming-movie-list/upcoming-movie-list';
 import { useRegionStore } from '@stores/region';
+import { device } from '@styles/breakpoints';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 
@@ -34,5 +35,8 @@ const S = {
   Container: styled.div`
     padding: 0 5%;
     background-color: var(--dark09);
+    @media ${device.mobile} {
+      padding: 0 3%;
+    }
   `,
 };

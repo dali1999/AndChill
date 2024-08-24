@@ -42,7 +42,7 @@ const S = {
 
   RegionSelectButton: styled.div`
     cursor: pointer;
-    background-color: var(--indigo03);
+    background-color: var(--indigo04);
     border-radius: 5px;
     padding: 6px 8px;
     flex-shrink: 0;

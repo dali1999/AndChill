@@ -3,6 +3,7 @@ import { TMovieListsItem } from '@api/movie-lists/movie-lists-request.type';
 import { IMAGE_SIZE } from '@constants/image-size';
 import { useGenreListQuery } from '@hooks/react-query/use-query-genre';
 import { useRegionStore } from '@stores/region';
+import { device } from '@styles/breakpoints';
 import { getGenreById } from '@utils/get-genre-by-id';
 import { getImage } from '@utils/get-image';
 import { useNavigate } from 'react-router-dom';
@@ -64,9 +65,15 @@ const S = {
     overflow: hidden;
     border-radius: 7px;
     box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 18px;
+    @media ${device.mobile} {
+      width: 200px;
+    }
 
     &:hover .scale-on-hover {
       transform: scale(1.08);
+      @media ${device.mobile} {
+        transform: scale(1);
+      }
     }
   `,
 
@@ -124,6 +131,9 @@ const S = {
     &:hover {
       background-color: rgba(0, 0, 0, 0.8);
       opacity: 1;
+      @media ${device.mobile} {
+        opacity: 0;
+      }
       div {
         padding: 15px;
         position: absolute;

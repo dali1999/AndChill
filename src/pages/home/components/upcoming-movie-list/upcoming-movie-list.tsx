@@ -7,10 +7,12 @@ import UpcomingMovieItem from '@pages/home/components/upcoming-movie-list/upcomi
 import { getFlagEmoji } from '@pages/home/utils/get-flag-emoji';
 import { useRegionStore } from '@stores/region';
 import { fadeIn } from '@styles/animations';
+import { device } from '@styles/breakpoints';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 
 const UpcomingMovieList = () => {
+  console.log('1');
   const { t } = useTranslation();
   const [currentIndex, setCurrentIndex] = useState(0);
   const { region, lang } = useRegionStore((state) => ({ region: state.region, lang: state.language }));
@@ -57,12 +59,22 @@ export default UpcomingMovieList;
 const S = {
   Container: styled.section`
     padding: 30px 0;
+    @media ${device.mobile} {
+      padding: 40px 0 20px;
+    }
+    ::-webkit-scrollbar {
+      display: none;
+    }
   `,
 
   SectionTitle: styled.h2`
     height: 32px;
     position: relative;
     padding-left: 15px;
+    @media ${device.mobile} {
+      height: 26px;
+      font-size: 18px;
+    }
     &::before {
       content: '';
       background-color: var(--yellow01);
@@ -77,6 +89,10 @@ const S = {
     padding-top: 20px;
     position: relative;
     overflow: hidden;
+    @media ${device.mobile} {
+      padding-top: 14px;
+      overflow-x: auto;
+    }
     &:hover ${Button} {
       opacity: 0.8;
     }
@@ -88,6 +104,9 @@ const S = {
     animation: ${fadeIn} 0.5s ease-in;
     transform: ${({ $curIndex }) => `translateX(-${$curIndex * (360 + 20)}px)`};
     transition: 0.3s ease-in-out;
+    @media ${device.mobile} {
+      gap: 14px;
+    }
   `,
 
   NoDataContainer: styled.div``,

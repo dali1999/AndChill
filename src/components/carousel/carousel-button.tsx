@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
 import leftRight from '@assets/icons/arrow-left.svg';
 import arrowRight from '@assets/icons/arrow-right.svg';
+import { device } from '@styles/breakpoints';
 import styled from 'styled-components';
 
 interface TCarouselButtonProps {
@@ -86,6 +87,9 @@ export const Button = styled.button<{ $positionTop: number; $width: number; $hei
   img {
     width: 30px;
     height: 30px;
+  }
+  @media ${device.mobile} {
+    display: none;
   }
 `;
 

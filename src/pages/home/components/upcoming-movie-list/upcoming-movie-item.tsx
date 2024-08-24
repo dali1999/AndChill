@@ -1,6 +1,7 @@
 import { TMovieListsItem } from '@api/movie-lists/movie-lists-request.type';
 import { IMAGE_SIZE } from '@constants/image-size';
 import { calculateLeftDays } from '@pages/home/utils/calculate-left-days';
+import { device } from '@styles/breakpoints';
 import { getImage } from '@utils/get-image';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -49,6 +50,10 @@ const S = {
     &:hover .scale-on-hover {
       transform: scale(1.08);
     }
+    @media ${device.mobile} {
+      width: 320px;
+      height: 160px;
+    }
   `,
 
   PopularityLabel: styled.div`
@@ -65,6 +70,11 @@ const S = {
     justify-content: center;
     font-size: 14px;
     font-weight: 600;
+    @media ${device.mobile} {
+      padding: 0 16px;
+      height: 38px;
+      font-size: 12px;
+    }
   `,
 
   Popularity: styled.span`
@@ -72,6 +82,9 @@ const S = {
     margin-right: 4px;
     font-size: 18px;
     font-weight: 600;
+    @media ${device.mobile} {
+      font-size: 15px;
+    }
   `,
 
   MovieImage: styled.img`

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { TMovieListsItem } from '@api/movie-lists/movie-lists-request.type';
 import CarouselButton, { Button } from '@components/carousel/carousel-button';
 import { fadeIn } from '@styles/animations';
+import { device } from '@styles/breakpoints';
 import styled from 'styled-components';
 import MovieItem from './movie-item';
 
@@ -48,6 +49,13 @@ const S = {
     &:hover ${Button} {
       opacity: 0.8;
     }
+
+    @media ${device.mobile} {
+      overflow: auto;
+    }
+    ::-webkit-scrollbar {
+      display: none;
+    }
   `,
 
   MovieList: styled.ul<{ $curIndex: number }>`
@@ -55,5 +63,8 @@ const S = {
     gap: 20px;
     transform: ${({ $curIndex }) => `translateX(-${$curIndex * 220}px)`};
     transition: 0.3s ease-in-out;
+    @media ${device.mobile} {
+      gap: 14px;
+    }
   `,
 };

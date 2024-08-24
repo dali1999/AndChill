@@ -6,6 +6,7 @@ import { useMovieDiscoverResultsQuery } from '@hooks/react-query/use-query-disco
 import { useGenreListQuery } from '@hooks/react-query/use-query-genre';
 import { getRandomGenre } from '@pages/home/utils/get-random-genre';
 import { useRegionStore } from '@stores/region';
+import { device } from '@styles/breakpoints';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import MovieList from './movie-list';
@@ -69,13 +70,19 @@ const S = {
   Container: styled.section`
     position: relative;
     padding: 30px 0;
+    @media ${device.mobile} {
+      padding: 20px 0;
+    }
   `,
 
   SectionTitle: styled.h2`
     height: 32px;
     position: relative;
-
     padding-left: 15px;
+    @media ${device.mobile} {
+      height: 26px;
+      font-size: 18px;
+    }
     &::before {
       content: '';
       background-color: var(--yellow01);
