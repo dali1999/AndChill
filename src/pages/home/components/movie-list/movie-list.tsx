@@ -53,9 +53,6 @@ const S = {
     @media ${device.mobile} {
       overflow: auto;
     }
-    ::-webkit-scrollbar {
-      display: none;
-    }
   `,
 
   MovieList: styled.ul<{ $curIndex: number }>`
@@ -64,7 +61,7 @@ const S = {
     transform: ${({ $curIndex }) => `translateX(-${$curIndex * 220}px)`};
     transition: 0.3s ease-in-out;
     @media ${device.mobile} {
-      gap: 14px;
+      gap: 12px;
     }
   `,
 };

@@ -64,7 +64,7 @@ const S = {
 
     @media ${device.mobile} {
       flex-direction: column;
-      height: 90px;
+      height: 100px;
       padding: 0;
     }
   `,
@@ -78,7 +78,7 @@ const S = {
     @media ${device.mobile} {
       width: 80px;
       height: 38px;
-      margin: 6px 0 0;
+      margin: 7px 0 0;
     }
   `,
 
@@ -98,9 +98,9 @@ const S = {
     gap: 30px;
     flex-shrink: 0;
     @media ${device.mobile} {
-      gap: 12px;
-      font-size: 13px;
-      margin: 0 10px 0 4%;
+      gap: 16px;
+      font-size: 14px;
+      margin: 0 16px 0 4%;
     }
   `,
 
@@ -124,15 +124,15 @@ const S = {
     font-weight: 100;
     @media ${device.mobile} {
       margin: 6px 3% 6px 0;
-      padding: 10px 14px;
-      font-size: 13px;
+      padding: 12px 14px;
+      font-size: 14px;
     }
 
     &::placeholder {
       color: var(--gray01);
       font-weight: 400;
       @media ${device.mobile} {
-        font-size: 13px;
+        font-size: 14px;
       }
     }
   `,

@@ -51,8 +51,8 @@ const S = {
       transform: scale(1.08);
     }
     @media ${device.mobile} {
-      width: 320px;
-      height: 160px;
+      width: 300px;
+      height: 154px;
     }
   `,
 
@@ -99,6 +99,10 @@ const S = {
     top: 60px;
     left: 30px;
     font-size: 16px;
+    @media ${device.mobile} {
+      top: 48px;
+      left: 26px;
+    }
   `,
 
   MovieTitle: styled.p`
@@ -107,6 +111,10 @@ const S = {
     left: 30px;
     font-weight: 600;
     font-size: 22px;
+    @media ${device.mobile} {
+      top: 74px;
+      left: 26px;
+    }
   `,
 
   RereleaseLabel: styled.div`

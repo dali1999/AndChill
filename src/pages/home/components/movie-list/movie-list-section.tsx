@@ -73,6 +73,9 @@ const S = {
     @media ${device.mobile} {
       padding: 20px 0;
     }
+    ::-webkit-scrollbar {
+      display: none;
+    }
   `,
 
   SectionTitle: styled.h2`

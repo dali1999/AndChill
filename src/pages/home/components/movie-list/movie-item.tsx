@@ -66,7 +66,7 @@ const S = {
     border-radius: 7px;
     box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 18px;
     @media ${device.mobile} {
-      width: 200px;
+      width: 140px;
     }
 
     &:hover .scale-on-hover {

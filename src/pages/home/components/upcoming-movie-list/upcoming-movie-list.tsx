@@ -12,7 +12,6 @@ import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 
 const UpcomingMovieList = () => {
-  console.log('1');
   const { t } = useTranslation();
   const [currentIndex, setCurrentIndex] = useState(0);
   const { region, lang } = useRegionStore((state) => ({ region: state.region, lang: state.language }));
@@ -105,7 +104,7 @@ const S = {
     transform: ${({ $curIndex }) => `translateX(-${$curIndex * (360 + 20)}px)`};
     transition: 0.3s ease-in-out;
     @media ${device.mobile} {
-      gap: 14px;
+      gap: 10px;
     }
   `,
 
