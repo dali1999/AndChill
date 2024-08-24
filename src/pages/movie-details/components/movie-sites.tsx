@@ -20,7 +20,7 @@ const MovieSites = ({ data }: TMovieSitesProps) => {
   const { t } = useTranslation();
   const region = useRegionStore((state) => state.region);
   const sitesRegionData = data?.results[region];
-  
+
   return (
     <MovieDetailsSectionTemplate title={t('movie_details.sites.title')}>
       <>
@@ -41,12 +41,6 @@ const MovieSites = ({ data }: TMovieSitesProps) => {
 export default MovieSites;
 
 const S = {
-  Container: styled.div`
-    padding: 0 0 60px;
-  `,
-
-  Title: styled.h2``,
-
   NoSitesText: styled.p`
     font-size: 14px;
     color: var(--indigo08);

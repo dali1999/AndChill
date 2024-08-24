@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { TMovieCreditsFetchRes } from '@api/movie/movie-request.type';
 import CarouselButton, { Button } from '@components/carousel/carousel-button';
 import { IMAGE_SIZE } from '@constants/image-size';
+import { device } from '@styles/breakpoints';
 import { getImage } from '@utils/get-image';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -68,8 +69,14 @@ const S = {
   CastListWrapper: styled.div`
     position: relative;
     overflow: hidden;
+    @media ${device.mobile} {
+      overflow: auto;
+    }
     &:hover ${Button} {
       opacity: 0.8;
+      @media ${device.mobile} {
+        opacity: 0;
+      }
     }
   `,
 

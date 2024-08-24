@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { TMovieImagesFetchRes } from '@api/movie/movie-request.type';
 import { IMAGE_SIZE } from '@constants/image-size';
+import { device } from '@styles/breakpoints';
 import { getImage } from '@utils/get-image';
 import styled from 'styled-components';
 
@@ -55,5 +56,8 @@ const S = {
     max-width: 300px;
     aspect-ratio: ${({ $aspectRatio }) => $aspectRatio};
     margin: 50px 0;
+    @media ${device.mobile} {
+      max-width: 190px;
+    }
   `,
 };

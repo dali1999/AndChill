@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { TMovieVideosFetchRes } from '@api/movie/movie-request.type';
 import CarouselButton, { Button } from '@components/carousel/carousel-button';
+import { device } from '@styles/breakpoints';
 import { useTranslation } from 'react-i18next';
 import YouTube from 'react-youtube';
 import styled from 'styled-components';
@@ -72,6 +73,9 @@ const S = {
   VideoListWrapper: styled.div`
     position: relative;
     overflow: hidden;
+    @media ${device.mobile} {
+      overflow-x: auto;
+    }
     &:hover ${Button} {
       opacity: 0.8;
     }
@@ -83,6 +87,9 @@ const S = {
     width: 100%;
     transform: ${({ $curIndex }) => `translateX(-${$curIndex * (352 + 16)}px)`};
     transition: 0.3s ease-in-out;
+    @media ${device.mobile} {
+      gap: 10px;
+    }
   `,
 
   VideoListItem: styled.li``,

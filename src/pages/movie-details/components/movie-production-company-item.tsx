@@ -1,5 +1,6 @@
 import { TProductionCompany } from '@api/movie/movie-request.type';
 import { IMAGE_SIZE } from '@constants/image-size';
+import { device } from '@styles/breakpoints';
 import { getImage } from '@utils/get-image';
 import styled from 'styled-components';
 
@@ -36,8 +37,12 @@ const S = {
     margin: 20px 0 30px;
     gap: 8px;
     cursor: pointer;
+    width: 140px;
     &:hover .scale-on-hover {
       transform: scale(1.2);
+    }
+    @media ${device.mobile} {
+      margin: 10px 0 0 0;
     }
   `,
 
@@ -51,15 +56,28 @@ const S = {
     justify-content: center;
     background-color: var(--lightWhite);
     overflow: hidden;
+    @media ${device.mobile} {
+      width: 90px;
+      height: 70px;
+      padding: 20px;
+    }
   `,
 
   CompanyLogoImage: styled.img`
     object-fit: contain;
     width: 80px;
-    transition: transform 0.2s ease-out;
+    /* transition: transform 0.2s ease-out; */
+    @media ${device.mobile} {
+      width: 68px;
+    }
   `,
 
   CompanyName: styled.p`
     font-size: 14px;
+    color: var(--gray02);
+    text-align: center;
+    @media ${device.mobile} {
+      font-size: 13px;
+    }
   `,
 };

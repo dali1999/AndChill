@@ -1,3 +1,4 @@
+import { device } from '@styles/breakpoints';
 import { useTranslation } from 'react-i18next';
 import styled, { keyframes } from 'styled-components';
 interface TMovieRateProps {
@@ -107,6 +108,9 @@ const S = {
     font-size: 54px;
     font-weight: bold;
     color: var(--yellow01);
+    @media ${device.mobile} {
+      font-size: 48px;
+    }
   `,
 
   VoteCount: styled.div`

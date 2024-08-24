@@ -43,6 +43,7 @@ const S = {
     flex-wrap: wrap;
     gap: 20px;
     overflow-x: auto;
+    width: 100%;
     &::-webkit-scrollbar {
       display: none;
     }

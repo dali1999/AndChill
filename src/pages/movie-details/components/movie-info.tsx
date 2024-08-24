@@ -3,6 +3,7 @@ import { TMovieCrew, TMovieDetailsFetchRes } from '@api/movie/movie-request.type
 import { IMAGE_SIZE } from '@constants/image-size';
 import { claculateRuntime } from '@pages/movie-details/utils/calculate-runtime';
 import { fadeIn } from '@styles/animations';
+import { device } from '@styles/breakpoints';
 import { getImage } from '@utils/get-image';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -18,6 +19,7 @@ interface TMovieInfoProps {
 const MovieInfo = ({ data, directors, lang }: TMovieInfoProps) => {
   const { t } = useTranslation();
   const [formattedRuntime, setFormattedRuntime] = useState<number[] | undefined>([]);
+  const [isHovered, setIsHovered] = useState(false);
   const navigate = useNavigate();
 
   const { runtime, title, release_date, vote_average, genres, tagline, overview, vote_count, belongs_to_collection } =
@@ -32,8 +34,12 @@ const MovieInfo = ({ data, directors, lang }: TMovieInfoProps) => {
   return (
     <S.Container $backdropURL={backdropURL} $isImageExist={!!data.backdrop_path}>
       {belongs_to_collection && (
-        <S.CollectionLabel onClick={() => navigate(`/movie-collections/${belongs_to_collection.id}`)}>
-          {belongs_to_collection.name}
+        <S.CollectionLabel
+          onClick={() => navigate(`/movie-collections/${belongs_to_collection.id}`)}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
+          {isHovered ? belongs_to_collection.name : '다른 시리즈도 볼래요?'}
         </S.CollectionLabel>
       )}
 
@@ -44,6 +50,7 @@ const MovieInfo = ({ data, directors, lang }: TMovieInfoProps) => {
           <S.DummyImage src={'/andchill-logo-800.png'} />
         </S.DummyImageWrapper>
       )}
+
       <S.MovieInfoWrapper>
         <S.Title>
           <h1>{title}</h1>
@@ -97,12 +104,16 @@ const S = {
     gap: 40px;
     z-index: 1;
     border-bottom: ${({ $isImageExist }) => !$isImageExist && `2px solid var(--indigo04)`};
+    @media ${device.mobile} {
+      padding: 26px 4% 4%;
+    }
 
     &::before {
       content: '';
       background-image: url(${({ $backdropURL }) => $backdropURL});
       background-repeat: no-repeat;
       background-size: cover;
+      background-position: center;
       position: absolute;
       top: 0;
       left: 0;
@@ -111,6 +122,12 @@ const S = {
       opacity: 0.1;
       border-radius: 20px 20px 0 0;
       z-index: -1;
+      @media ${device.mobile} {
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+      }
     }
   `,
 
@@ -120,7 +137,7 @@ const S = {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0 30px;
+    padding: 0 24px;
     border-radius: 10px 3px 0 10px;
     right: -14px;
     top: 154px;
@@ -129,11 +146,12 @@ const S = {
     color: var(--dark04);
     background-color: var(--yellow02);
     height: 44px;
-    transition: 0.2s ease-in-out;
+    transition: width 0.2s ease-in-out;
     box-shadow: rgba(0, 0, 0, 0.4) 0px 10px 10px;
-
-    &:hover {
-      padding: 0 38px;
+    animation: ${fadeIn} 0.5s ease-in;
+    @media ${device.mobile} {
+      right: -14px;
+      top: 136px;
     }
 
     &:before {
@@ -152,6 +170,10 @@ const S = {
     animation: ${fadeIn} 0.5s ease-in;
     width: 330px;
     border-radius: 6px;
+
+    @media ${device.mobile} {
+      display: none;
+    }
   `,
 
   DummyImageWrapper: styled.div`
@@ -185,6 +207,9 @@ const S = {
     text-align: baseline;
     h1 {
       font-weight: 600;
+      @media ${device.mobile} {
+        font-size: 26px;
+      }
     }
     span {
       font-size: 25px;
@@ -197,6 +222,7 @@ const S = {
     align-items: center;
     gap: 10px;
     margin: 10px 0 30px 0;
+    flex-wrap: wrap;
   `,
 
   GenreItem: styled.li`
@@ -213,17 +239,22 @@ const S = {
     line-height: 26px;
     color: var(--gray03);
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    @media ${device.mobile} {
+      font-size: 14px;
+    }
 
     & p:first-child {
       margin-bottom: 10px;
       font-weight: 600;
       font-size: 20px;
       color: var(--gray01);
+      @media ${device.mobile} {
+        font-size: 16px;
+      }
     }
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
   `,
 
   NoOverviewText: styled.p`

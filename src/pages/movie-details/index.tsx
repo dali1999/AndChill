@@ -16,6 +16,7 @@ import MovieSites from '@pages/movie-details/components/movie-sites';
 import MovieVideos from '@pages/movie-details/components/movie-videos';
 import { useRegionStore } from '@stores/region';
 import { fadeIn } from '@styles/animations';
+import { device } from '@styles/breakpoints';
 import { getImage } from '@utils/get-image';
 import { getImageColor } from '@utils/get-image-color';
 import { useParams } from 'react-router-dom';
@@ -103,7 +104,12 @@ const S = {
     align-items: center;
     padding: 0 5%;
     width: 100%;
-    background: ${({ $backgroundColor }) => `${$backgroundColor}`};
+    background: ${({ $backgroundColor }) => ($backgroundColor ? `${$backgroundColor}` : 'var(--indigo07)')};
+
+    @media ${device.mobile} {
+      padding: 0;
+      margin-top: 100px;
+    }
   `,
 
   MovieDetails: styled.div`
@@ -117,6 +123,9 @@ const S = {
 
   BottomSection: styled.div`
     display: flex;
+    @media ${device.mobile} {
+      flex-direction: column-reverse;
+    }
   `,
 
   BottomLeftSection: styled.div`
@@ -124,5 +133,11 @@ const S = {
     flex: 1;
     overflow: hidden;
     padding: 40px 20px 10px 40px;
+    @media ${device.mobile} {
+      padding: 20px 4% 10px 4%;
+    }
+    ::-webkit-scrollbar {
+      display: none;
+    }
   `,
 };

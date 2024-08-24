@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { TMovieImagesFetchRes } from '@api/movie/movie-request.type';
 import CarouselButton, { Button } from '@components/carousel/carousel-button';
 import { IMAGE_SIZE } from '@constants/image-size';
+import { device } from '@styles/breakpoints';
 import { getImage } from '@utils/get-image';
 
 import { useTranslation } from 'react-i18next';
@@ -57,6 +58,9 @@ const S = {
   MovieImageListWrapper: styled.div`
     position: relative;
     overflow: hidden;
+    @media ${device.mobile} {
+      overflow-x: auto;
+    }
     &:hover ${Button} {
       opacity: 0.6;
     }
@@ -67,6 +71,9 @@ const S = {
     gap: 20px;
     transform: ${({ $curIndex }) => `translateX(-${$curIndex * (350 + 20)}px)`};
     transition: 0.4s ease-in-out;
+    @media ${device.mobile} {
+      gap: 10px;
+    }
   `,
 
   BackdropImage: styled.img`

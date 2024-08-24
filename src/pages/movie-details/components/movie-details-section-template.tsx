@@ -1,3 +1,4 @@
+import { device } from '@styles/breakpoints';
 import styled from 'styled-components';
 
 interface TMovieDetailsSectionTemplateProps {
@@ -18,8 +19,12 @@ const S = {
   Container: styled.div`
     padding: 0 0 50px;
   `,
+  
   Title: styled.h2`
     font-size: 22px;
     margin-bottom: 20px;
+    @media ${device.mobile} {
+      font-size: 18px;
+    }
   `,
 };
