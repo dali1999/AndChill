@@ -38,7 +38,12 @@ const RegionSelectButton = () => {
 export default RegionSelectButton;
 
 const S = {
-  Container: styled.div``,
+  Container: styled.div`
+    position: relative;
+    @media ${device.mobile} {
+      position: static;
+    }
+  `,
 
   RegionSelectButton: styled.div`
     cursor: pointer;

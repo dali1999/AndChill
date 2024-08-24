@@ -2,6 +2,7 @@ import { SetStateAction, useState } from 'react';
 import { TRegionConfigItem } from '@api/configuration/config-request.type';
 import { filteredRegionsBySearchQuery } from '@pages/nav-bar/utils/filterd-regions-by-search-query';
 import { useRegionStore } from '@stores/region';
+import { device } from '@styles/breakpoints';
 import { getLanguageByCountry } from '@utils/get-region-language';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
@@ -70,34 +71,34 @@ const S = {
     background-color: var(--indigo04);
     z-index: 100;
     box-shadow: rgba(0, 0, 0, 0.7) 0px 5px 20px;
+    width: 360px;
+    padding: 0 10px;
+    @media ${device.mobile} {
+      width: 94%;
+      top: 52px;
+      right: 3%;
+    }
   `,
 
   SearchBar: styled.input`
-    margin: 10px 10px 5px;
+    margin: 10px 20px 10px 0px;
     background-color: var(--indigo02);
     border-radius: 5px;
     padding: 10px;
-    width: 340px;
+    width: 100%;
     &::placeholder {
       color: var(--gray02);
+    }
+    @media ${device.mobile} {
+      margin: 10px 0px 5px 0px;
     }
   `,
 
   RegionInfoContainer: styled.ul`
     display: flex;
-    flex-wrap: wrap; // 2열 만들기
+    flex-wrap: wrap;
     gap: 6px;
-    padding: 10px;
     overflow-x: hidden;
-    /* max-height: 325px; */
-    /* &::-webkit-scrollbar {
-      width: 10px;
-    }
-    &::-webkit-scrollbar-thumb {
-      background-color: var(--gray01);
-      border-radius: 10px;
-      height: 130px;
-    } */
   `,
 
   RegionItem: styled.li`

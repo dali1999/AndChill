@@ -125,15 +125,11 @@ const S = {
     @media ${device.mobile} {
       margin: 6px 3% 6px 0;
       padding: 12px 14px;
-      font-size: 14px;
     }
 
     &::placeholder {
       color: var(--gray01);
       font-weight: 400;
-      @media ${device.mobile} {
-        font-size: 14px;
-      }
     }
   `,
 };
