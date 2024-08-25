@@ -67,7 +67,7 @@ const SearchResults = () => {
     setMoviePage(1);
     setCollectionPage(1);
     setPeoplePage(1);
-  }, []);
+  }, [searchQuery]);
 
   useEffect(() => {
     movieResultsRefetch();
