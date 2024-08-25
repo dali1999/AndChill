@@ -70,6 +70,7 @@ const S = {
     position: relative;
     overflow: hidden;
     padding-top: 14px;
+
     &:hover ${Button} {
       opacity: 0.6;
     }

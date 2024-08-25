@@ -105,7 +105,7 @@ const S = {
     @media ${device.mobile} {
       font-size: 16px;
       padding: 12px 0 20px;
-      margin-bottom: 20px;
+      margin-bottom: 0px;
       overflow: auto;
     }
   `,
@@ -135,8 +135,9 @@ const S = {
     transform: ${({ $curIndex }) => `translateX(-${$curIndex * 260}px)`};
     transition: 0.3s ease-in-out;
     @media ${device.mobile} {
-      padding: 10px 0 20px;
+      padding: 10px 0 40px;
       gap: 20px;
+      overflow: auto;
     }
   `,
 
