@@ -34,7 +34,7 @@ const Shuffle = () => {
     setMovieDeck: state.setMovieDeck,
   }));
   const [animate, setAnimate] = useState(false);
-  const [spreadAnimation, setSpreadAnimation] = useState(false);
+  const [spreadAnimation, setSpreadAnimation] = useState(true);
   const [stackAnimation, setStackAnimation] = useState(false);
   const [page, setPage] = useState(Math.floor(Math.random() * 500) + 1);
   const [isDisabled, setIsDisabled] = useState(false);
