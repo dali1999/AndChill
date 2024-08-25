@@ -11,6 +11,7 @@ import styled from 'styled-components';
 
 interface TMovieItemProps {
   data: TMovieListsItem;
+  isMobile?: boolean;
 }
 
 const MovieItem = ({ data }: TMovieItemProps) => {

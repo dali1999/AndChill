@@ -24,8 +24,8 @@ export default CardsInfoModal;
 const S = {
   Container: styled.div`
     position: absolute;
-    top: 48px;
-    left: 68px;
+    top: 40px;
+    right: -48px;
     z-index: 10;
   `,
 

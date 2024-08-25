@@ -5,6 +5,7 @@ import { useMovieDiscoverResultsQuery } from '@hooks/react-query/use-query-disco
 import MovieItem from '@pages/home/components/movie-list/movie-item';
 import { useCardStore } from '@stores/cards';
 import { useRegionStore } from '@stores/region';
+import { device } from '@styles/breakpoints';
 import styled from 'styled-components';
 import { CARD_INFO } from '../constants/card-info';
 import {
@@ -17,7 +18,9 @@ import {
   shuffle5,
   shuffle6,
   spreadAnimation,
+  spreadAnimationMobile,
   stackAnimation,
+  stackAnimationMobile,
 } from '../style/card-animation';
 import { getRandomSixCards } from '../utils/get-random-cards';
 
@@ -31,7 +34,7 @@ const Shuffle = () => {
     setMovieDeck: state.setMovieDeck,
   }));
   const [animate, setAnimate] = useState(false);
-  const [spreadAnimation, setSpreadAnimation] = useState(true);
+  const [spreadAnimation, setSpreadAnimation] = useState(false);
   const [stackAnimation, setStackAnimation] = useState(false);
   const [page, setPage] = useState(Math.floor(Math.random() * 500) + 1);
   const [isDisabled, setIsDisabled] = useState(false);
@@ -162,6 +165,7 @@ const Shuffle = () => {
                   <div className="front">
                     <MovieItem data={movie} />
                   </div>
+
                   <div className="back">
                     <img src="/andchill-favicon.svg" />
                   </div>
@@ -177,6 +181,7 @@ export default Shuffle;
 
 const S = {
   Container: styled.div`
+    border: 1px soild red;
     height: 800px;
     position: relative;
     display: flex;
@@ -192,7 +197,13 @@ const S = {
     margin-bottom: 0px;
     z-index: 2;
     position: relative;
-    bottom: 45px;
+    bottom: 42px;
+    @media ${device.mobile} {
+      position: absolute;
+      top: 16px;
+      right: 4%;
+      height: 46px;
+    }
   `,
 
   Btn: styled.button<{ $isDiabled?: boolean }>`
@@ -214,7 +225,7 @@ const S = {
   Card: styled.div<{ $isRow?: boolean; $movieRate?: number; $glowColor?: string; $flipped?: boolean }>`
     position: absolute;
     width: 200px;
-    height: 300px;
+    aspect-ratio: 1/1.5;
     border-radius: 5px;
     font-size: 50px;
     transition: transform 2s ease;
@@ -222,6 +233,10 @@ const S = {
     --col: 0;
     perspective: 1000px;
     cursor: pointer;
+
+    @media ${device.mobile} {
+      width: 140px;
+    }
 
     .card-container {
       position: relative;
@@ -238,7 +253,7 @@ const S = {
     /* Front face */
     .front {
       position: absolute;
-      width: 200px;
+      width: 100%;
       height: 100%;
       backface-visibility: hidden;
       animation: ${(props) =>
@@ -275,6 +290,11 @@ const S = {
         -moz-user-select: none;
         -webkit-user-select: none;
         -ms-user-select: none;
+
+        @media ${device.mobile} {
+          width: 66px;
+          height: 50px;
+        }
       }
     }
 
@@ -282,25 +302,35 @@ const S = {
       z-index: 6;
       top: calc(22% - 5 * 0.5%);
       left: calc(50% - 100px - 10px);
-
+      @media ${device.mobile} {
+        top: calc(22% + 40px);
+        left: calc(50% - 72px);
+      }
       --index: 1;
       --row: 0;
       --col: 0;
+      --col-mobile: 0;
     }
     &.card2 {
       z-index: 5;
       top: calc(22% - 4 * 0.5%);
       left: calc(50% - 95px - 10px);
-
+      @media ${device.mobile} {
+        top: calc(22% + 45px);
+        left: calc(50% - 67px);
+      }
       --index: 2;
       --row: 0;
       --col: 1;
+      --col-mobile: 1;
     }
     &.card3 {
       z-index: 4;
       top: calc(22% - 3 * 0.5%);
       left: calc(50% - 90px - 10px);
-
+      @media ${device.mobile} {
+        display: none;
+      }
       --index: 3;
       --row: 0;
       --col: 2;
@@ -309,25 +339,35 @@ const S = {
       z-index: 3;
       top: calc(22% - 2 * 0.5%);
       left: calc(50% - 85px - 10px);
-
+      @media ${device.mobile} {
+        top: calc(22% + 50px);
+        left: calc(50% - 62px);
+      }
       --index: 4;
       --row: 1;
       --col: 0;
+      --col-mobile: 0;
     }
     &.card5 {
       z-index: 2;
       top: calc(22% - 1 * 0.5%);
       left: calc(50% - 80px - 10px);
-
+      @media ${device.mobile} {
+        top: calc(22% + 55px);
+        left: calc(50% - 57px);
+      }
       --index: 5;
       --row: 1;
       --col: 1;
+      --col-mobile: 1;
     }
     &.card6 {
       z-index: 1;
       top: calc(22% - 0 * 0.5%);
       left: calc(50% - 75px - 10px);
-
+      @media ${device.mobile} {
+        display: none;
+      }
       --index: 6;
       --row: 1;
       --col: 2;
@@ -345,28 +385,46 @@ const S = {
     &.animate.card3 {
       transform-origin: 150% 0%;
       animation: ${shuffle3} 2.5s forwards;
+      @media ${device.mobile} {
+        animation: none;
+      }
     }
     &.animate.card4 {
       transform-origin: 150% 0%;
       animation: ${shuffle4} 2.5s forwards;
+      @media ${device.mobile} {
+        animation: ${shuffle3} 2.5s forwards;
+      }
     }
     &.animate.card5 {
       transform-origin: 150% 0%;
       animation: ${shuffle5} 2.5s forwards;
+      @media ${device.mobile} {
+        animation: ${shuffle4} 2.5s forwards;
+      }
     }
     &.animate.card6 {
       transform-origin: 150% 0%;
       animation: ${shuffle6} 2.5s forwards;
+      @media ${device.mobile} {
+        animation: none;
+      }
     }
 
     /* spread animation */
     &.spread {
       animation: ${spreadAnimation} 0.5s forwards;
+      @media ${device.mobile} {
+        animation: ${spreadAnimationMobile} 0.5s forwards;
+      }
     }
 
     /* Stack animation */
     &.stack {
       animation: ${stackAnimation} 0.5s forwards;
+      @media ${device.mobile} {
+        animation: ${stackAnimationMobile} 0.5s forwards;
+      }
     }
   `,
 };

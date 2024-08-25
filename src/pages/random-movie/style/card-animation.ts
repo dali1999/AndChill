@@ -1,3 +1,4 @@
+import { device } from '@styles/breakpoints';
 import { keyframes } from 'styled-components';
 
 export const shuffle1 = keyframes`
@@ -231,10 +232,27 @@ export const spreadAnimation = keyframes`
     transform: translateY(calc(var(--row) * 320px - 140px - var(--index) * 4px)) translateX(calc(var(--col) * 220px - 204px - var(--index) * 5px));
   }
 `;
-
 export const stackAnimation = keyframes`
   0% {
     transform: translateY(calc(var(--row) * 320px - 140px - var(--index) * 4px)) translateX(calc(var(--col) * 220px - 204px - var(--index) * 5px));
+  }
+  100% {
+    transform: translateY(0) translateX(0);
+  }
+  `;
+
+export const spreadAnimationMobile = keyframes`
+    0% {
+      transform: translateY(0) translateX(0);
+      
+    }
+    100% {
+      transform: translateY(calc(var(--row) * 250px - 110px - var(--index) * 3px)) translateX(calc(var(--col-mobile) * 180px - 86px - var(--index) * 3px));
+    }
+  `;
+export const stackAnimationMobile = keyframes`
+  0% {
+    transform: translateY(calc(var(--row) * 250px - 110px - var(--index) * 3px)) translateX(calc(var(--col-mobile) * 180px - 86px - var(--index) * 3px));
   }
   100% {
     transform: translateY(0) translateX(0);
