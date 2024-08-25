@@ -3,6 +3,7 @@ import { TPeopleCreditsFetchRes, TPeopleCrew } from '@api/people/people-request.
 import CarouselButton, { Button } from '@components/carousel/carousel-button';
 import MovieItem from '@pages/home/components/movie-list/movie-item';
 import { fadeIn } from '@styles/animations';
+import { device } from '@styles/breakpoints';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 
@@ -101,6 +102,12 @@ const S = {
     &:hover ${Button} {
       opacity: 0.8;
     }
+    @media ${device.mobile} {
+      font-size: 16px;
+      padding: 12px 0 20px;
+      margin-bottom: 20px;
+      overflow: auto;
+    }
   `,
 
   Title: styled.div`
@@ -108,10 +115,16 @@ const S = {
     align-items: end;
     h3 {
       color: var(--gray01);
+      @media ${device.mobile} {
+        font-size: 16px;
+      }
     }
     p {
       font-size: 15px;
       color: var(--dark06);
+      @media ${device.mobile} {
+        font-size: 14px;
+      }
     }
   `,
 
@@ -121,6 +134,10 @@ const S = {
     gap: 60px;
     transform: ${({ $curIndex }) => `translateX(-${$curIndex * 260}px)`};
     transition: 0.3s ease-in-out;
+    @media ${device.mobile} {
+      padding: 10px 0 20px;
+      gap: 20px;
+    }
   `,
 
   CreditItem: styled.li`
@@ -136,6 +153,10 @@ const S = {
     font-weight: 600;
     color: var(--indigo07);
     height: 29px;
+    @media ${device.mobile} {
+      font-size: 19px;
+      margin-bottom: 0;
+    }
   `,
 
   Character: styled.div`
@@ -157,6 +178,11 @@ const S = {
     font-weight: 400;
     &:hover {
       white-space: normal;
+    }
+    @media ${device.mobile} {
+      bottom: -46px;
+      font-size: 12px;
+      max-width: 140px;
     }
   `,
 };

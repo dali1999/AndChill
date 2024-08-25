@@ -1,6 +1,7 @@
 import { TPeopleDetailsFetchRes } from '@api/people/people-request.type';
 import displayIcon from '@assets/icons/display.svg';
 import { IMAGE_SIZE } from '@constants/image-size';
+import { device } from '@styles/breakpoints';
 import { getImage } from '@utils/get-image';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
@@ -63,6 +64,9 @@ const S = {
     justify-content: center;
     padding: 30px 0;
     background-color: var(--indigo02);
+    @media ${device.mobile} {
+      padding: 18px 0;
+    }
   `,
 
   ChildContainer: styled.section`
@@ -71,6 +75,11 @@ const S = {
     gap: 30px;
     width: 100%;
     max-width: 1000px;
+    @media ${device.mobile} {
+      flex-direction: column;
+      margin: 0 4%;
+      gap: 24px;
+    }
   `,
 
   ProfileImageWrapper: styled.div`
@@ -79,11 +88,17 @@ const S = {
     height: 210px;
     border-radius: 8px;
     position: relative;
-    box-shadow: rgba(0, 0, 0, 0.5) 0px 3px 8px;
-    display: flex;
+    @media ${device.mobile} {
+      background-color: transparent;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   `,
 
   ProfileImage: styled.img`
+    box-shadow: rgba(0, 0, 0, 0.5) 0px 3px 8px;
     border-radius: 6px;
     width: 140px;
   `,
@@ -109,6 +124,12 @@ const S = {
     padding: 7px;
     left: 10px;
     top: 10px;
+    @media ${device.mobile} {
+      left: auto;
+      right: 0;
+      top: 0px;
+    }
+
     img {
       width: 16px;
       height: 16px;
@@ -136,12 +157,18 @@ const S = {
 
   Name: styled.h1`
     font-size: 32px;
+    @media ${device.mobile} {
+      font-size: 28px;
+    }
   `,
 
   Department: styled.p`
     color: var(--gray01);
     padding-bottom: 4px;
     font-size: 18px;
+    @media ${device.mobile} {
+      font-size: 15px;
+    }
   `,
 
   VitalRecord: styled.p`
@@ -157,13 +184,17 @@ const S = {
     font-size: 15px;
     line-height: 22px;
     background-color: var(--indigo04);
-    border-radius: 10px;
-
+    border-radius: 8px;
     width: 100%;
     text-align: justify;
     word-break: break-word;
     overflow-wrap: break-word;
     hyphens: auto;
+    @media ${device.mobile} {
+      font-size: 13px;
+      padding: 8px 12px;
+      border-radius: 6px;
+    }
   `,
 
   NoBiographyText: styled.p`

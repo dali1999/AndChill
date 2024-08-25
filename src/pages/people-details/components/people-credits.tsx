@@ -1,4 +1,5 @@
 import { TPeopleCreditsFetchRes } from '@api/people/people-request.type';
+import { device } from '@styles/breakpoints';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import PeopleCreditsList from './people-credits-list';
@@ -27,9 +28,19 @@ const S = {
   Container: styled.div`
     padding: 0 5%;
     margin-top: 40px;
+    @media ${device.mobile} {
+      padding: 0 4%;
+      margin-top: 20px;
+    }
+    ::-webkit-scrollbar {
+      display: none;
+    }
   `,
 
   Title: styled.h1`
     font-size: 26px;
+    @media ${device.mobile} {
+      font-size: 22px;
+    }
   `,
 };

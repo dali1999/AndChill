@@ -3,6 +3,7 @@ import { TPeopleImagesFetchRes } from '@api/people/people-request.type';
 import CarouselButton, { Button } from '@components/carousel/carousel-button';
 import { IMAGE_SIZE } from '@constants/image-size';
 import { fadeIn } from '@styles/animations';
+import { device } from '@styles/breakpoints';
 import { getImage } from '@utils/get-image';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
@@ -57,6 +58,12 @@ export default PeopleImages;
 const S = {
   Container: styled.div`
     margin: 20px 5% 40px;
+    @media ${device.mobile} {
+      margin: 20px 4% 20px;
+    }
+    ::-webkit-scrollbar {
+      display: none;
+    }
   `,
 
   MovieImageListWrapper: styled.div`
@@ -66,6 +73,9 @@ const S = {
     &:hover ${Button} {
       opacity: 0.6;
     }
+    @media ${device.mobile} {
+      overflow: auto;
+    }
   `,
 
   MovieImageList: styled.ul<{ $curIndex: number }>`
@@ -74,11 +84,17 @@ const S = {
     transform: ${({ $curIndex }) => `translateX(-${$curIndex * (150 + 20)}px)`};
     transition: 0.4s ease-in-out;
     animation: ${fadeIn} 0.5s ease-in;
+    @media ${device.mobile} {
+      gap: 10px;
+    }
   `,
 
   BackdropImage: styled.img`
     width: 180px;
     border-radius: 4px;
+    @media ${device.mobile} {
+      width: 140px;
+    }
   `,
 
   NoImageText: styled.p`

@@ -68,6 +68,7 @@ const S = {
     box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 18px;
     @media ${device.mobile} {
       width: 140px;
+      border-radius: 5px;
     }
 
     &:hover .scale-on-hover {
@@ -82,6 +83,10 @@ const S = {
     border-radius: 7px;
     transition: transform 0.4s ease-in-out;
     background-color: var(--indigo02);
+    @media ${device.mobile} {
+      transform: scale(1);
+      border-radius: 5px;
+    }
   `,
 
   DummyImageWrapper: styled.div`

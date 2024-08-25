@@ -5,6 +5,7 @@ import {
   usePeopleImagesQuery,
 } from '@hooks/react-query/use-query-people';
 import { useRegionStore } from '@stores/region';
+import { device } from '@styles/breakpoints';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import PeopleCredits from './components/people-credits';
@@ -42,5 +43,9 @@ const S = {
   Container: styled.div`
     background-color: var(--dark09);
     padding-bottom: 40px;
+    @media ${device.mobile} {
+      margin-top: 100px;
+      padding-bottom: 16px;
+    }
   `,
 };
