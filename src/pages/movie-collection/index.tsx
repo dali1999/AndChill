@@ -5,6 +5,7 @@ import { IMAGE_SIZE } from '@constants/image-size';
 import { useMovieCollectionQuery } from '@hooks/react-query/use-query-movie-collection';
 import MovieItem from '@pages/home/components/movie-list/movie-item';
 import { useRegionStore } from '@stores/region';
+import { device } from '@styles/breakpoints';
 import { getImage } from '@utils/get-image';
 import { getImageColor } from '@utils/get-image-color';
 import { useParams } from 'react-router-dom';
@@ -115,6 +116,12 @@ const S = {
     z-index: 1;
     opacity: 0.9;
     text-align: end;
+    @media ${device.mobile} {
+      font-size: 40px;
+      top: 120px;
+      right: 5%;
+      left: 5%;
+    }
   `,
 
   CollectionImage: styled.div<{ $imageUrl: string }>`
@@ -145,6 +152,12 @@ const S = {
     flex-wrap: wrap;
     width: 100%;
     max-width: 80%;
+    @media ${device.mobile} {
+      max-width: 100%;
+      padding: 0px 4% 50px;
+      justify-content: center;
+      margin-top: -220px;
+    }
   `,
 
   MovieItemWrapper: styled.div`

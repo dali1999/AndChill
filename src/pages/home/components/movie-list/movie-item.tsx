@@ -104,10 +104,14 @@ const S = {
       font-size: 18px;
       margin-bottom: 8px;
       color: var(--gray03);
+      @media ${device.mobile} {
+        font-size: 16px;
+      }
     }
     p {
       font-size: 16px;
       color: var(--gray01);
+      font-weight: 900;
     }
   `,
 
