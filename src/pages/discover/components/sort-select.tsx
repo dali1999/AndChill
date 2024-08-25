@@ -1,35 +1,34 @@
 /* eslint-disable no-unused-vars */
+import { device } from '@styles/breakpoints';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
-import { SORT_INFO, TSortItem } from '../constants/sort-info';
+import { SORT_INFO } from '../constants/sort-info';
 
 interface TSortSelectProps {
   selectedSort: string;
   setSelectedSort: (sort: string) => void;
-  setSelectedSortName: (sort: string) => void;
 }
 
-const SortSelect = ({ selectedSort, setSelectedSort, setSelectedSortName }: TSortSelectProps) => {
+const SortSelect = ({ selectedSort, setSelectedSort }: TSortSelectProps) => {
   const { t } = useTranslation();
 
-  const handleClickSort = (sort: TSortItem) => {
-    setSelectedSort(sort.queryStr);
-    setSelectedSortName(sort.title);
+  const handleClickSort = (query: string) => {
+    setSelectedSort(query);
   };
 
   return (
     <S.Container>
-      <S.GenreListWrapper>
+      <S.SortList>
         {SORT_INFO.map((sort) => (
-          <S.GenreList
+          <S.SortItem
             key={sort.queryStr}
-            onClick={() => handleClickSort(sort)}
+            onClick={() => handleClickSort(sort.queryStr)}
             $isSelected={selectedSort === sort.queryStr}
           >
             {t(`discover.sorts.${sort.title}`)}
-          </S.GenreList>
+          </S.SortItem>
         ))}
-      </S.GenreListWrapper>
+      </S.SortList>
     </S.Container>
   );
 };
@@ -40,21 +39,23 @@ const S = {
     display: flex;
     flex-wrap: nowrap;
     gap: 10px;
-    width: 100%;
-    justify-content: end;
+    @media ${device.mobile} {
+      margin-top: 10px;
+    }
   `,
 
-  GenreListWrapper: styled.div`
+  SortList: styled.div`
+    justify-content: end;
+    width: 100%;
     display: flex;
     gap: 0px;
-    /* background-color: var(--indigo04); */
-    /* padding: 10px; */
     flex-wrap: wrap;
-    /* border-radius: 4px; */
+    @media ${device.mobile} {
+      justify-content: center;
+    }
   `,
 
-  GenreList: styled.li<{ $isSelected: boolean }>`
-    /* background-color: ${({ $isSelected }) => $isSelected && 'var(--indigo07)'}; */
+  SortItem: styled.li<{ $isSelected: boolean }>`
     display: flex;
     align-items: center;
     justify-content: center;
@@ -62,8 +63,10 @@ const S = {
     color: ${({ $isSelected }) => ($isSelected ? 'var(--yellow02)' : 'var(--gray01)')};
     border-bottom: ${({ $isSelected }) => $isSelected && '1px solid var(--yellow02)'};
     font-weight: ${({ $isSelected }) => ($isSelected ? 400 : 100)};
-    /* border-radius: 4px; */
     cursor: pointer;
     font-size: 15px;
+    @media ${device.mobile} {
+      font-size: 13px;
+    }
   `,
 };

@@ -3,6 +3,7 @@ import MovieListSkeleton from '@components/skeleton/movie-list-skeleton';
 import { useMovieDiscoverResultsQuery } from '@hooks/react-query/use-query-discover';
 import MovieItem from '@pages/home/components/movie-list/movie-item';
 import { useRegionStore } from '@stores/region';
+import { device } from '@styles/breakpoints';
 import { getLanguageByCountry } from '@utils/get-region-language';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
@@ -19,18 +20,12 @@ const Discover = () => {
   // 국가
   const [selectedRegionTemp, setSelectedRegionTemp] = useState('');
   const [selectedRegion, setSelectedRegion] = useState(selectedRegionTemp);
-  const [selectedRegionName, setSelectedRegionName] = useState('');
-
   // 장르
   const [selectedGenreIdTemp, setSelectedGenreIdTemp] = useState<number[]>([]);
   const [selectedGenreId, setSelectedGenreId] = useState<number[]>(selectedGenreIdTemp);
-  const [selectedGenreName, setSelectedGenreName] = useState<string[]>([]);
-
   // 정렬
   const [selectedSortTemp, setSelectedSortTemp] = useState(SORT_INFO[0].queryStr);
   const [selectedSort, setSelectedSort] = useState(selectedSortTemp);
-  const [selectedSortName, setSelectedSortName] = useState(SORT_INFO[0].title);
-
   const {
     data: discoveredMoiveData,
     isFetching: isDiscoveredMoiveLoading,
@@ -62,11 +57,7 @@ const Discover = () => {
     refetch();
     setPage(1);
     setSelectedRegionTemp('');
-    setSelectedRegionName('');
-
     setSelectedGenreIdTemp([]);
-    setSelectedGenreName([]);
-
     setSelectedSortTemp(SORT_INFO[0].queryStr);
     setSelectedSort(SORT_INFO[0].queryStr);
   }, [lang]);
@@ -74,37 +65,12 @@ const Discover = () => {
   return (
     <S.Container>
       <S.SelectSectionWrapper>
-        <RegionSelect
-          lang={lang}
-          selectedRegion={selectedRegionTemp}
-          setSelectedRegion={setSelectedRegionTemp}
-          setSelectedRegionName={setSelectedRegionName}
-        />
-        <GenreSelect
-          lang={lang}
-          selectedGenreId={selectedGenreIdTemp}
-          setSelectedGenreId={setSelectedGenreIdTemp}
-          selectedGenreName={selectedGenreName}
-          setSelectedGenreName={setSelectedGenreName}
-        />
-        <SortSelect
-          selectedSort={selectedSortTemp}
-          setSelectedSort={setSelectedSortTemp}
-          setSelectedSortName={setSelectedSortName}
-        />
+        <RegionSelect lang={lang} selectedRegion={selectedRegionTemp} setSelectedRegion={setSelectedRegionTemp} />
+        <GenreSelect lang={lang} selectedGenreId={selectedGenreIdTemp} setSelectedGenreId={setSelectedGenreIdTemp} />
+        <SortSelect selectedSort={selectedSortTemp} setSelectedSort={setSelectedSortTemp} />
       </S.SelectSectionWrapper>
 
-      <S.DiscoverButton onClick={handleSearch}>
-        <S.GenreSummary>{selectedRegionName && t('discover.region_ko', { selectedRegionName })}</S.GenreSummary>
-        &nbsp;
-        {t('discover.discover_en')}&nbsp;
-        <S.GenreSummary>
-          {selectedRegionName && t('discover.region_en', { selectedRegionName })}{' '}
-          {selectedGenreName.length === 0 ? t('discover.all') : selectedGenreName.join(' • ')}
-        </S.GenreSummary>
-        &nbsp;{t('discover.genre_movies')}&nbsp;
-        <S.SortSummary>{t(`discover.sorts.${selectedSortName}`)}</S.SortSummary>&nbsp;{t('discover.discover_ko')}
-      </S.DiscoverButton>
+      <S.DiscoverButton onClick={handleSearch}>{t('discover.button_text')}</S.DiscoverButton>
 
       {isDiscoveredMoiveLoading ? (
         <MovieListSkeleton height={360} />
@@ -138,6 +104,9 @@ const S = {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    @media ${device.mobile} {
+      margin-top: 100px;
+    }
   `,
 
   SelectSectionWrapper: styled.div`
@@ -146,38 +115,40 @@ const S = {
     display: flex;
     flex-direction: column;
     gap: 18px;
-  `,
-
-  DiscoveredListWrapper: styled.div`
-    padding: 40px 5%;
+    @media ${device.mobile} {
+      padding: 14px 4%;
+      gap: 6px;
+    }
   `,
 
   DiscoverButton: styled.button`
     background-color: var(--indigo04);
-    display: flex;
     align-items: center;
     justify-content: center;
-    padding: 30px 5% 26px;
-    font-size: 16px;
+    padding: 28px 5%;
+    font-size: 20px;
+    font-weight: 600;
     color: var(--gray02);
     transition: 0.1s ease-in;
-    span {
-      padding-bottom: 3px;
-      font-size: 20px;
-      color: var(--yellow02);
-      font-weight: 900;
+    @media ${device.mobile} {
+      font-size: 16px;
+      padding: 24px 4%;
     }
+
     &:hover {
       background-color: var(--indigo03);
     }
   `,
 
-  GenreSummary: styled.span``,
-
-  SortSummary: styled.span``,
-
   Title: styled.h2`
     margin: 60px 0 30px;
+  `,
+
+  DiscoveredListWrapper: styled.div`
+    padding: 40px 5%;
+    @media ${device.mobile} {
+      padding: 30px 4%;
+    }
   `,
 
   DiscoveredList: styled.ul`
@@ -186,12 +157,16 @@ const S = {
     gap: 30px 20px;
     flex-wrap: wrap;
     width: 100%;
+    @media ${device.mobile} {
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 20px 10px;
+    }
   `,
 
   PagenationButtonWrapper: styled.span<{ $page?: number }>`
     display: flex;
     justify-content: center;
-    margin-bottom: 60px;
+    margin: 40px 0 60px;
     gap: 20px;
 
     button {

@@ -1,19 +1,21 @@
 /* eslint-disable no-unused-vars */
+import { useState } from 'react';
 import { TRegionConfigItem } from '@api/configuration/config-request.type';
 import { useRegionConfigQuery } from '@hooks/react-query/use-query-config';
 import { addFlagIcons } from '@pages/nav-bar/utils/add-flag-icons';
 import { filteredRegionsBySearchQuery } from '@pages/nav-bar/utils/filterd-regions-by-search-query';
+import { device } from '@styles/breakpoints';
 import styled from 'styled-components';
 
 interface TRegionSelectProps {
   lang: string;
   selectedRegion: string;
   setSelectedRegion: (regionArr: string) => void;
-  setSelectedRegionName: (regionArr: string) => void;
 }
 
-const RegionSelect = ({ lang, selectedRegion, setSelectedRegion, setSelectedRegionName }: TRegionSelectProps) => {
-  const { data: regionData, isLoading, refetch } = useRegionConfigQuery(lang);
+const RegionSelect = ({ lang, selectedRegion, setSelectedRegion }: TRegionSelectProps) => {
+  const [selectedRegionName, setSelectedRegionName] = useState('');
+  const { data: regionData } = useRegionConfigQuery(lang);
   const filteredRegionList = regionData && filteredRegionsBySearchQuery(regionData, '');
   const regionsWithFlags = filteredRegionList && addFlagIcons(filteredRegionList);
 
@@ -29,7 +31,10 @@ const RegionSelect = ({ lang, selectedRegion, setSelectedRegion, setSelectedRegi
 
   return (
     <S.Container>
-      <S.Title>국가</S.Title>
+      <S.TitleWrapper>
+        <S.Title>국가</S.Title>
+        <S.RegionName>{selectedRegionName ? selectedRegionName : '전체'}</S.RegionName>
+      </S.TitleWrapper>
       <S.RegionList>
         {regionsWithFlags?.map((region) => {
           return (
@@ -40,7 +45,6 @@ const RegionSelect = ({ lang, selectedRegion, setSelectedRegion, setSelectedRegi
             >
               <S.FlagIconSkeleton></S.FlagIconSkeleton>
               <S.FlagIcon src={region.flag_icon} />
-              {/* <S.RegionName>{region.native_name}</S.RegionName> */}
             </S.RegionItem>
           );
         })}
@@ -53,18 +57,31 @@ export default RegionSelect;
 
 const S = {
   Container: styled.div`
-    display: flex;
     align-items: center;
     gap: 12px;
-    height: 45px;
+    @media ${device.mobile} {
+      gap: 6px;
+    }
+  `,
+
+  TitleWrapper: styled.div`
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    color: var(--gray01);
+    @media ${device.mobile} {
+      margin-bottom: 8px;
+    }
   `,
 
   Title: styled.h3`
-    padding-top: 11px;
     font-size: 16px;
-    margin-bottom: 12px;
     width: 40px;
-    color: var(--gray01);
+  `,
+
+  RegionName: styled.span`
+    font-size: 14px;
+    color: var(--yellow02);
   `,
 
   RegionList: styled.ul`
@@ -72,6 +89,9 @@ const S = {
     gap: 4px;
     width: 100%;
     flex-wrap: wrap;
+    @media ${device.mobile} {
+      gap: 0px;
+    }
   `,
 
   RegionItem: styled.li<{ $isSelected: boolean }>`
@@ -79,10 +99,12 @@ const S = {
     position: relative;
     display: flex;
     align-items: center;
-    gap: 10px;
     border-radius: 4px;
-    padding: 6px 8px;
-    border: 3px solid ${({ $isSelected }) => ($isSelected ? 'var(--yellow03)' : 'transparent')};
+    padding: 4px 5px;
+    border: 2px solid ${({ $isSelected }) => ($isSelected ? 'var(--yellow03)' : 'transparent')};
+    @media ${device.mobile} {
+      padding: 2px;
+    }
   `,
 
   FlagIconSkeleton: styled.div`
@@ -91,6 +113,10 @@ const S = {
     background-color: rgba(0, 0, 0, 0.4);
     border-radius: 2px;
     z-index: 0;
+    @media ${device.mobile} {
+      width: 30px;
+      height: calc(30px * 3 / 4);
+    }
   `,
 
   FlagIcon: styled.img`
@@ -100,10 +126,9 @@ const S = {
     border-radius: 2px;
     z-index: 1;
     opacity: 0.8;
-  `,
-
-  RegionName: styled.span`
-    font-size: 12px;
-    width: 90px;
+    @media ${device.mobile} {
+      width: 30px;
+      height: calc(30px * 3 / 4);
+    }
   `,
 };

@@ -38,6 +38,7 @@ i18n
             people: '인물',
           },
           discover: {
+            button_text: '탐색하기',
             discover_en: '',
             genre_movies: '영화들을',
             all: '모든',
@@ -127,6 +128,7 @@ i18n
             people: 'People',
           },
           discover: {
+            button_text: 'Find',
             discover_en: 'Find',
             genre_movies: 'movies by',
             all: 'All',

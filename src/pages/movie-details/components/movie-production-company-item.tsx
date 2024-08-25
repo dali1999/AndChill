@@ -38,6 +38,7 @@ const S = {
     gap: 8px;
     cursor: pointer;
     width: 140px;
+    height: 110px;
     &:hover .scale-on-hover {
       transform: scale(1.2);
     }
