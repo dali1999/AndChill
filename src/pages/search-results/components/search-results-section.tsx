@@ -6,6 +6,7 @@ import {
   TPeopleSearchResultsFetchRes,
 } from '@api/movie-search/movie-search-request.type';
 import MovieListSkeleton from '@components/skeleton/movie-list-skeleton';
+import { device } from '@styles/breakpoints';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 
@@ -136,7 +137,10 @@ const S = {
 
   PageButtonWrapper: styled.div`
     display: flex;
-    gap: 10px;
+    gap: 8px;
+    @media ${device.mobile} {
+      gap: 6px;
+    }
   `,
 
   PageButton: styled.li<{ $isSelected: boolean }>`
@@ -151,5 +155,11 @@ const S = {
     color: ${({ $isSelected }) => ($isSelected ? 'var(--lightWhite)' : 'var(--gray01)')};
     cursor: pointer;
     font-weight: ${({ $isSelected }) => ($isSelected ? 600 : 100)};
+    @media ${device.mobile} {
+      font-size: 11px;
+      padding: 4px 0;
+      width: 20px;
+      border-radius: 3px;
+    }
   `,
 };

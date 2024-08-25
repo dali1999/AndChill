@@ -8,6 +8,7 @@ import {
 import MovieItem from '@pages/home/components/movie-list/movie-item';
 import { useRegionStore } from '@stores/region';
 import { fadeIn } from '@styles/animations';
+import { device, size } from '@styles/breakpoints';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
@@ -24,7 +25,24 @@ const SearchResults = () => {
   const [collectionPage, setCollectionPage] = useState(1);
   const [peoplePage, setPeoplePage] = useState(1);
   const [activeSection, setActiveSection] = useState<'movies' | 'collections' | 'people'>('movies');
+  const [movieItemWidth, setMovieItemWidth] = useState(200);
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= size.mobile) {
+        setMovieItemWidth(140);
+      } else {
+        setMovieItemWidth(200);
+      }
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
   const {
     data: movieData,
     isFetching: isMovieLoading,
@@ -96,7 +114,7 @@ const SearchResults = () => {
             isLoading={isMovieLoading}
             data={movieData}
             setPage={setMoviePage}
-            itemWidth={200}
+            itemWidth={movieItemWidth}
           >
             {movieData?.results.map((movie) => <MovieItem key={movie.id} data={movie} />)}
           </SearchResultsSection>
@@ -135,16 +153,26 @@ const S = {
     position: relative;
     padding: 40px 5%;
     background-color: var(--dark09);
+    @media ${device.mobile} {
+      margin-top: 100px;
+      padding: 20px 4%;
+    }
   `,
 
-  Title: styled.h1`
+  Title: styled.div`
     margin-bottom: 46px;
+    @media ${device.mobile} {
+      margin-bottom: 34px;
+    }
   `,
 
   SearchQuery: styled.span`
     font-size: 40px;
     font-weight: 600;
     color: var(--gray03);
+    @media ${device.mobile} {
+      font-size: 30px;
+    }
   `,
 
   TitleText: styled.span`
@@ -152,6 +180,9 @@ const S = {
     font-size: 26px;
     font-weight: 400;
     color: var(--gray02);
+    @media ${device.mobile} {
+      font-size: 22px;
+    }
   `,
 
   SearchResultsWrapper: styled.section`

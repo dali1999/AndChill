@@ -1,4 +1,3 @@
-import { device } from '@styles/breakpoints';
 import { keyframes } from 'styled-components';
 
 export const shuffle1 = keyframes`

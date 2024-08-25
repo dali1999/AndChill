@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+import { device } from '@styles/breakpoints';
 import styled from 'styled-components';
 import { CATEGORY_INFO } from '../constants/category-info';
 
@@ -28,14 +29,24 @@ const S = {
     top: 122px;
     display: flex;
     gap: 10px;
+    @media ${device.mobile} {
+      top: 80px;
+      right: 4%;
+    }
     button {
       background-color: var(--indigo06);
       padding: 8px 14px;
       border-radius: 4px;
       cursor: pointer;
       transition: 0.05s ease-in;
+      @media ${device.mobile} {
+        padding: 6px 12px;
+      }
       img {
         width: 20px;
+        @media ${device.mobile} {
+          width: 18px;
+        }
       }
 
       &:hover {

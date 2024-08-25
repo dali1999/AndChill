@@ -1,5 +1,6 @@
 import { TCollectionSearchItem } from '@api/movie-search/movie-search-request.type';
 import { IMAGE_SIZE } from '@constants/image-size';
+import { device } from '@styles/breakpoints';
 import { getImage } from '@utils/get-image';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -37,14 +38,15 @@ const S = {
     width: 350px;
     border-radius: 5px;
     display: flex;
-    gap: 16px;
     overflow: hidden;
     cursor: pointer;
     transition: 0.1s ease-in;
     background-color: var(--indigo02);
-    padding-right: 18px;
     &:hover {
       background-color: var(--indigo03);
+    }
+    @media ${device.mobile} {
+      width: 100%;
     }
   `,
 
@@ -56,6 +58,10 @@ const S = {
     width: 120px;
     height: 180px;
     border-radius: 5px;
+    @media ${device.mobile} {
+      width: 100px;
+      height: calc(100px * 3 / 2);
+    }
   `,
 
   DummyImgageWrapper: styled.div`
@@ -67,6 +73,10 @@ const S = {
     align-items: center;
     justify-content: center;
     box-shadow: inset 0px 3px 13px rgba(0, 0, 0, 0.3);
+    @media ${device.mobile} {
+      width: 128px;
+      height: calc(100px * 3 / 2);
+    }
   `,
 
   DummyImage: styled.img`
@@ -76,8 +86,15 @@ const S = {
   `,
 
   CollectionInfo: styled.div`
-    padding: 20px 0;
-    width: 196px;
+    padding: 18px 16px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    @media ${device.mobile} {
+      padding: 14px;
+      margin-bottom: 20px;
+    }
   `,
 
   Name: styled.p`
