@@ -49,7 +49,7 @@ const Shuffle = () => {
   } = useMovieDiscoverResultsQuery(lang, 'vote_count.desc', '', page, '');
 
   useEffect(() => {
-    if (randomMovieData?.results && randomMovieData.results.length > 0 && movieDeck === []) {
+    if (randomMovieData?.results && randomMovieData.results.length > 0 && movieDeck?.length === 0) {
       const newMovieDeck = getRandomSixCards(randomMovieData.results);
       if (newMovieDeck) {
         setMovieDeck(newMovieDeck);
