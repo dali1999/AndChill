@@ -87,7 +87,7 @@ const SearchResultsSection = ({ title, isLoading, data, setPage, itemWidth, chil
         <>
           <S.SearchResultList $itemWidth={itemWidth}>{children}</S.SearchResultList>
           <S.PagenationButtonWrapper>
-            <button onClick={handleClickPrev}>{t('search.page_prev')}</button>
+            <button onClick={handleClickPrev}>{'<'}</button>
             <S.PageButtonWrapper>
               {pageArr.map((page) => (
                 <S.PageButton key={page} onClick={() => handlePageClick(page)} $isSelected={page === selectedPage}>
@@ -95,7 +95,7 @@ const SearchResultsSection = ({ title, isLoading, data, setPage, itemWidth, chil
                 </S.PageButton>
               ))}
             </S.PageButtonWrapper>
-            <button onClick={handleClickNext}>{t('search.page_next')}</button>
+            <button onClick={handleClickNext}>{'>'}</button>
           </S.PagenationButtonWrapper>
         </>
       )}
@@ -122,6 +122,7 @@ const S = {
 
   SearchResultList: styled.ul<{ $itemWidth: number }>`
     display: grid;
+    place-items: center;
     grid-template-columns: repeat(auto-fill, minmax(${({ $itemWidth }) => $itemWidth}px, 1fr));
     gap: 40px 20px;
     flex-wrap: wrap;
@@ -133,6 +134,11 @@ const S = {
     display: flex;
     justify-content: center;
     gap: 10px;
+    button {
+      font-size: 16px;
+      font-weight: 900;
+      color: var(--indigo08);
+    }
   `,
 
   PageButtonWrapper: styled.div`

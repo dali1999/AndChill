@@ -146,12 +146,14 @@ const S = {
 
   DiscoveredListWrapper: styled.div`
     padding: 40px 5%;
+
     @media ${device.mobile} {
       padding: 30px 4%;
     }
   `,
 
   DiscoveredList: styled.ul`
+    place-items: center;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 30px 20px;
