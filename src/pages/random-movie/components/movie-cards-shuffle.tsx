@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react';
+import { TMovieListsItem } from '@api/movie-lists/movie-lists-request.type';
 import shuffleIcon from '@assets/icons/cards-shuffle.png';
 import { useMovieDiscoverResultsQuery } from '@hooks/react-query/use-query-discover';
 import MovieItem from '@pages/home/components/movie-list/movie-item';
@@ -33,14 +34,16 @@ const Shuffle = () => {
     setFlipped: state.setFlipped,
     setMovieDeck: state.setMovieDeck,
   }));
+
+  const { lang } = useRegionStore((state) => ({ lang: state.language }));
+
   const [animate, setAnimate] = useState(false);
-  const [spreadAnimation, setSpreadAnimation] = useState(true);
-  const [stackAnimation, setStackAnimation] = useState(false);
   const [page, setPage] = useState(Math.floor(Math.random() * 500) + 1);
   const [isDisabled, setIsDisabled] = useState(false);
-  const { lang } = useRegionStore((state) => ({ lang: state.language }));
   const [clicked, setClicked] = useState(false);
   const [isAllNotFlipped, setIsAllNotFlipped] = useState(true);
+  const [spread, setSpread] = useState(true);
+  const [stack, setStack] = useState(false);
 
   const {
     data: randomMovieData,
@@ -48,61 +51,67 @@ const Shuffle = () => {
     refetch,
   } = useMovieDiscoverResultsQuery(lang, 'vote_count.desc', '', page, '');
 
-  useEffect(() => {
-    if (randomMovieData?.results && randomMovieData.results.length > 0 && movieDeck?.length === 0) {
-      const newMovieDeck = getRandomSixCards(randomMovieData.results);
-      if (newMovieDeck) {
-        setMovieDeck(newMovieDeck);
-      }
+  const updateMovieDeck = (newMovies: TMovieListsItem[]) => {
+    if (newMovies?.length) {
+      setMovieDeck(getRandomSixCards(newMovies));
     }
-  }, [randomMovieData?.results, setMovieDeck]);
+  };
 
+  // 초기 접속 시 최초 movieDeck 덥데이트
+  useEffect(() => {
+    if (randomMovieData?.results && !movieDeck?.length) {
+      updateMovieDeck(randomMovieData.results);
+    }
+  }, [randomMovieData?.results]);
+
+  // Shuffle 버튼 클릭 시 movieDeck 업데이트
   useEffect(() => {
     if (clicked && randomMovieData?.results) {
       refetch();
-      const newMovieDeck = getRandomSixCards(randomMovieData.results);
-      setMovieDeck(newMovieDeck);
+      updateMovieDeck(randomMovieData.results);
     }
-  }, [clicked, randomMovieData?.results, setMovieDeck]);
-
-  useEffect(() => {
-    if (!clicked) {
-      refetch();
-      setMovieDeck(movieDeck);
-    }
-  }, [clicked, movieDeck, setMovieDeck]);
+  }, [clicked, randomMovieData?.results]);
 
   const handleShuffle = () => {
-    setPage(Math.floor(Math.random() * 500) + 1); // 랜덤 뽑기
-    setSpreadAnimation(false); // 펼친거 접기
-    setAnimate(true);
+    setPage(Math.floor(Math.random() * 500) + 1); // 랜덤 카드 페이지 선택
+    setAnimate(true); // 셔플 애니메이션 진행
     setTimeout(() => setAnimate(false), SHUFFLE_TIME);
     setFlipped(Array(6).fill(false));
   };
 
-  const handleSpread = () => {
-    setSpreadAnimation(true);
-    setStackAnimation(false);
-  };
-
-  const handleStack = () => {
-    setSpreadAnimation(false);
-    setStackAnimation(true);
-  };
-
   const handleCardClick = (index: number) => {
     // 이미 클릭된 상태면 변경 안함
-    if (!flipped[index]) {
+    if (!flipped[index] && !animate) {
       const newFlipped = flipped.map((flip, i) => (i === index ? !flip : flip));
       setFlipped(newFlipped);
     }
   };
 
-  const handleShuffleButtonDisable = (time: number) => {
+  const handleShuffleSequence = () => {
+    setClicked(true);
+    setIsAllNotFlipped(flipped.every((flip) => !flip));
     setIsDisabled(true);
-    setTimeout(() => {
-      setIsDisabled(false);
-    }, time);
+    setFlipped(Array(6).fill(false));
+
+    const DELAY = isAllNotFlipped ? 3700 : 4280;
+    const STACK_TIMEOUT = isAllNotFlipped ? 0 : 580;
+    const SHUFFLE_TIMEOUT = isAllNotFlipped ? 600 : 1180;
+    const SPREAD_TIMEOUT = isAllNotFlipped ? 800 : 1380;
+
+    setTimeout(() => setIsDisabled(false), DELAY);
+    setTimeout(() => handleStack(), STACK_TIMEOUT);
+    setTimeout(() => handleShuffle(), SHUFFLE_TIMEOUT);
+    setTimeout(() => handleSpread(), SPREAD_TIMEOUT);
+  };
+
+  const handleSpread = () => {
+    setSpread(true);
+    setStack(false);
+  };
+
+  const handleStack = () => {
+    setSpread(false);
+    setStack(true);
   };
 
   const handleCardColor = (rate: number) => {
@@ -117,49 +126,35 @@ const Shuffle = () => {
     }
   };
 
-  const handleShuffleButtonClick = () => {
-    setClicked(true);
-    setIsAllNotFlipped(flipped.every((value) => value === false));
-    handleShuffleButtonDisable(isAllNotFlipped ? 3700 : 4280);
-    setFlipped(Array(6).fill(false));
-    setTimeout(() => handleStack(), isAllNotFlipped ? 0 : 580); // 카드 모으고 (만약 뒤집힌 카드 있으면 580 동안 다시 뒤집고 모으기)
-    setTimeout(() => handleShuffle(), isAllNotFlipped ? 600 : 1180); // 카드 셔플
-    setTimeout(() => handleSpread(), isAllNotFlipped ? 800 : 1380); // 펼치기
-  };
-  // handleShuffle();
-  // setTimeout(() => handleSpread(), 1180);
-  // handleShuffleButtonDisable(2500);
-
   return (
     <>
       <S.ButtonWrapper>
-        <S.Btn onClick={handleShuffleButtonClick} disabled={isDisabled} $isDiabled={isDisabled}>
+        <S.Btn onClick={handleShuffleSequence} disabled={isDisabled} $isDiabled={isDisabled}>
           <img src={shuffleIcon} alt="카드 셔플 아이콘" />
         </S.Btn>
       </S.ButtonWrapper>
 
       <S.Container>
         {isRandomMovieLoading
-          ? [...Array(6)]
-              .map((_, i) => i)
-              .map((_, i) => (
-                <S.Card key={i} className={`card${i + 1}`}>
-                  <div className="card-container">
-                    <div className="back noData">
-                      <img src="/andchill-favicon.svg" />
-                    </div>
+          ? [...Array(6)].map((_, i) => (
+              <S.Card key={i} className={`card${i + 1}`} $isDisabled={isDisabled}>
+                <div className="card-container">
+                  <div className="back noData">
+                    <img src="/andchill-favicon.svg" />
                   </div>
-                </S.Card>
-              ))
+                </div>
+              </S.Card>
+            ))
           : movieDeck?.map((movie, i) => (
               <S.Card
                 key={movie.id}
-                className={`card${i + 1} ${animate ? 'animate' : ''} ${spreadAnimation ? 'spread' : ''} ${stackAnimation ? 'stack' : ''}`}
-                $isRow={spreadAnimation}
+                className={`card${i + 1} ${animate ? 'animate' : ''} ${spread ? 'spread' : ''} ${stack ? 'stack' : ''}`}
+                $isRow={spread}
                 $flipped={flipped[i]}
                 $movieRate={movie.vote_average}
                 $glowColor={handleCardColor(movie.vote_average)}
-                onClick={() => spreadAnimation && handleCardClick(i)}
+                $isDisabled={isDisabled}
+                onClick={() => spread && handleCardClick(i)}
               >
                 <div className="card-container">
                   <div className="front">
@@ -222,7 +217,13 @@ const S = {
     }
   `,
 
-  Card: styled.div<{ $isRow?: boolean; $movieRate?: number; $glowColor?: string; $flipped?: boolean }>`
+  Card: styled.div<{
+    $isRow?: boolean;
+    $movieRate?: number;
+    $glowColor?: string;
+    $flipped?: boolean;
+    $isDisabled?: boolean;
+  }>`
     position: absolute;
     width: 200px;
     aspect-ratio: 1/1.5;
@@ -232,7 +233,6 @@ const S = {
     --row: 0;
     --col: 0;
     perspective: 1000px;
-    cursor: pointer;
 
     @media ${device.mobile} {
       width: 140px;
@@ -244,13 +244,12 @@ const S = {
       height: 100%;
       transition: transform 0.5s;
       transform-style: preserve-3d;
-      cursor: pointer;
+      cursor: ${(props) => (props.$isDisabled ? 'default' : 'pointer')};
       transform: rotateY(180deg);
       transform: rotateY(${(props) => (props.$flipped ? '0deg' : '180deg')});
       box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 18px;
     }
 
-    /* Front face */
     .front {
       position: absolute;
       width: 100%;
@@ -263,7 +262,6 @@ const S = {
         1.8s infinite;
     }
 
-    /* Back face */
     .back {
       width: 100%;
       height: 100%;
