@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import MovieListSkeleton from '@components/skeleton/movie-list-skeleton';
-import { useMovieDiscoverResultsQuery } from '@hooks/react-query/use-query-discover';
+import { useMovieDiscoverResultsInfiniteQuery } from '@hooks/react-query/use-query-discover';
 import MovieItem from '@pages/home/components/movie-list/movie-item';
 import { useRegionStore } from '@stores/region';
 import { device } from '@styles/breakpoints';
@@ -15,7 +15,6 @@ import { SORT_INFO } from './constants/sort-info';
 const Discover = () => {
   const { t } = useTranslation();
   const lang = useRegionStore((state) => state.language);
-  const [page, setPage] = useState(1);
 
   // 국가
   const [selectedRegionTemp, setSelectedRegionTemp] = useState('');
@@ -26,17 +25,42 @@ const Discover = () => {
   // 정렬
   const [selectedSortTemp, setSelectedSortTemp] = useState(SORT_INFO[0].queryStr);
   const [selectedSort, setSelectedSort] = useState(selectedSortTemp);
+
   const {
-    data: discoveredMoiveData,
-    isFetching: isDiscoveredMoiveLoading,
+    data: discoveredMovieData,
+    isFetchingNextPage,
+    fetchNextPage,
+    hasNextPage,
+    isLoading,
     refetch,
-  } = useMovieDiscoverResultsQuery(
+  } = useMovieDiscoverResultsInfiniteQuery(
     lang,
     selectedSort,
     selectedGenreId.join(','),
-    page,
     getLanguageByCountry(selectedRegion, lang),
   );
+
+  // IntersectionObserver를 사용해 무한 스크롤 구현
+  const loadMoreRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasNextPage) {
+          fetchNextPage();
+        }
+      },
+      { threshold: 1 },
+    );
+
+    if (loadMoreRef.current) {
+      observer.observe(loadMoreRef.current);
+    }
+
+    return () => {
+      if (loadMoreRef.current) observer.unobserve(loadMoreRef.current);
+    };
+  }, [hasNextPage, fetchNextPage]);
 
   const handleSearch = () => {
     setSelectedRegion(selectedRegionTemp);
@@ -44,18 +68,8 @@ const Discover = () => {
     setSelectedSort(selectedSortTemp);
   };
 
-  const handleClickPrev = () => {
-    window.scrollTo(0, 0);
-    if (page > 1) setPage(page - 1);
-  };
-  const handleClickNext = () => {
-    window.scrollTo(0, 0);
-    setPage(page + 1);
-  };
-
   useEffect(() => {
     refetch();
-    setPage(1);
     setSelectedRegionTemp('');
     setSelectedGenreIdTemp([]);
     setSelectedSortTemp(SORT_INFO[0].queryStr);
@@ -72,26 +86,22 @@ const Discover = () => {
 
       <S.DiscoverButton onClick={handleSearch}>{t('discover.button_text')}</S.DiscoverButton>
 
-      {isDiscoveredMoiveLoading ? (
+      {isLoading ? (
         <MovieListSkeleton height={360} />
-      ) : discoveredMoiveData?.total_results === 0 ? (
+      ) : discoveredMovieData?.pages[0].total_results === 0 ? (
         <MovieListSkeleton text={t('discover.nodata')} height={360} />
       ) : (
         <S.DiscoveredListWrapper>
-          {discoveredMoiveData && (
-            <S.DiscoveredList>
-              {discoveredMoiveData?.results.map((movie) => <MovieItem key={movie.id} data={movie} />)}
-            </S.DiscoveredList>
-          )}
+          <S.DiscoveredList>
+            {discoveredMovieData?.pages.flatMap((page) =>
+              page.results.map((movie) => <MovieItem key={movie.id} data={movie} />),
+            )}
+          </S.DiscoveredList>
         </S.DiscoveredListWrapper>
       )}
 
-      <S.PagenationButtonWrapper $page={page}>
-        <button onClick={handleClickPrev} disabled={page === 1 && true}>
-          이전
-        </button>
-        <button onClick={handleClickNext}>다음</button>
-      </S.PagenationButtonWrapper>
+      <div ref={loadMoreRef} />
+      {isFetchingNextPage && <MovieListSkeleton height={160} />}
     </S.Container>
   );
 };
@@ -101,6 +111,7 @@ export default Discover;
 const S = {
   Container: styled.div`
     background-color: var(--dark09);
+    padding-bottom: 100px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -145,7 +156,7 @@ const S = {
   `,
 
   DiscoveredListWrapper: styled.div`
-    padding: 40px 5%;
+    padding: 40px 5% 0;
 
     @media ${device.mobile} {
       padding: 30px 4%;
