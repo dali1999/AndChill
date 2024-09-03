@@ -91,6 +91,7 @@ const S = {
     position: relative;
     overflow: hidden;
     animation: ${fadeIn} 0.5s ease-in;
+
     &:hover ${Button} {
       opacity: 0.8;
     }
@@ -100,7 +101,6 @@ const S = {
   `,
 
   MovieList: styled.ul<{ $curIndex: number; $groups: number; $perSlide: number; $test: number }>`
-    height: 300px;
     display: flex;
     gap: 20px;
     transform: ${({ $curIndex, $groups, $perSlide, $test }) =>
