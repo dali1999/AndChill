@@ -24,7 +24,7 @@ const Community = () => {
   const [updateUI, setUpdateUI] = useState(false);
   const [pickerClicked, setPickerClicked] = useState(false);
   const pageWidth = usePageWidth();
-  const masonryColumn = pageWidth <= size.mobile ? 1 : 2;
+  const masonryColumn = pageWidth <= size.mobile ? 1 : pageWidth <= size.tablet ? 2 : 3;
 
   useEffect(() => {
     axios.get(`${baseURL}/get`).then((res) => {
@@ -49,6 +49,7 @@ const Community = () => {
           <S.NameInput type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="닉네임" />
           {/* <S.PasswordInput type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="비밀번호" /> */}
         </S.FormHeader>
+        <S.Description>🎞 영화 상세정보 링크를 복사해 영화를 공유해 보세요 🎞</S.Description>
         <S.TextInputWrapper>
           <S.TextInput value={input} onChange={(e) => setInput(e.target.value)} placeholder="내용을 입력해 주세요" />
           <S.SubmitButton onClick={addTask} disabled={!input || !name}>
@@ -58,11 +59,11 @@ const Community = () => {
       </S.Form>
 
       <S.MasonryWrapper>
-        {/* <S.StyledMasonry gap={14} column={masonryColumn}> */}
-        {contents.map((content) => (
-          <List key={content._id} data={content} setUpdateUI={setUpdateUI} />
-        ))}
-        {/* </S.StyledMasonry> */}
+        <S.StyledMasonry gap={14} column={masonryColumn}>
+          {contents.map((content) => (
+            <List key={content._id} data={content} setUpdateUI={setUpdateUI} />
+          ))}
+        </S.StyledMasonry>
       </S.MasonryWrapper>
     </S.Container>
   );
@@ -103,7 +104,7 @@ const S = {
     right: 0;
     padding: 20px 5%;
     background-color: var(--indigo04);
-    gap: 16px;
+    gap: 8px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     z-index: 190;
     @media ${device.mobile} {
@@ -135,6 +136,11 @@ const S = {
     ${Input}
     height: 40px;
     width: 150px;
+  `,
+
+  Description: styled.p`
+    font-size: 14px;
+    color: var(--gray02);
   `,
 
   TextInputWrapper: styled.div`
@@ -182,7 +188,7 @@ const S = {
     gap: 10px;
 
     @media ${device.mobile} {
-      top: 180px;
+      top: 190px;
       padding: 30px 3%;
     }
   `,

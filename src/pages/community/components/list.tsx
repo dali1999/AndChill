@@ -5,6 +5,7 @@ import axios from 'axios';
 import styled, { css } from 'styled-components';
 import { TGuestBook } from '..';
 import { baseURL } from '../utils/constant';
+import { formatContentWithLinks } from '../utils/format-content-with-links';
 
 interface TListPops {
   data: TGuestBook;
@@ -36,6 +37,8 @@ const List = ({ data, setUpdateUI }: TListPops) => {
     setUpdateId(id);
   };
 
+  console.log(formatContentWithLinks(data.content));
+
   return (
     <S.Container>
       <></>
@@ -48,7 +51,21 @@ const List = ({ data, setUpdateUI }: TListPops) => {
             ) : (
               <S.Name>{name}</S.Name>
             )}
-            <S.TimeStamp>{createdAt.slice(0, 10)}</S.TimeStamp>
+            {/* <S.TimeStamp>{createdAt.slice(0, 10)}</S.TimeStamp> */}
+            <S.TimeStamp>
+              {new Date(data.createdAt)
+                .toLocaleString('ko-KR', {
+                  year: 'numeric',
+                  month: 'numeric',
+                  day: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit',
+                  hour12: false,
+                })
+                .replace(/(\d{4})\/(\d{1,2})\/(\d{1,2})/, '$1.$2.$3')
+                .replace(',', ' ')
+                .replace(/(\d{2}):(\d{2})/, ' $1:$2')}
+            </S.TimeStamp>
           </div>
         </S.NameWrapper>
 
@@ -67,7 +84,7 @@ const List = ({ data, setUpdateUI }: TListPops) => {
         {updateId === _id ? (
           <S.ContentInput value={contentInput} onChange={(e) => setContentInput(e.target.value)} />
         ) : (
-          content
+          formatContentWithLinks(data.content)
         )}
       </S.Content>
     </S.Container>
@@ -96,9 +113,15 @@ const S = {
     padding: 20px;
     background-color: var(--indigo04);
     border-radius: 5px;
-    /* width: calc(100% / 2); */
+    width: calc(100% / 3);
+    @media ${device.tablet} {
+      width: calc(100% / 2);
+    }
     @media ${device.mobile} {
       width: calc(100%);
+    }
+    ::-webkit-scrollbar {
+      display: none;
     }
   `,
 
@@ -141,18 +164,22 @@ const S = {
     }
   `,
 
-  Content: styled.p`
+  Content: styled.div`
     white-space: pre-wrap;
     line-height: 150%;
     height: fit-content;
     font-size: 14px;
     font-weight: 100;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   `,
+
   ContentInput: styled.textarea`
     ${Input}
     font-size: 14px;
     padding: 10px;
-    height: 100px;
+    height: 56px;
     width: 100%;
   `,
 };

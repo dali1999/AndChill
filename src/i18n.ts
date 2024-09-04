@@ -19,7 +19,7 @@ i18n
           nav: {
             home: '홈',
             discover: '탐색',
-            guestbook: '방명록',
+            forum: '광장',
             search_placeholder: '영화 또는 인물 검색',
           },
           home: {
@@ -110,7 +110,7 @@ i18n
           nav: {
             home: 'Home',
             discover: 'Discover',
-            guestbook: 'GuestBook',
+            forum: 'forum',
             search_placeholder: 'Search movies or people',
           },
           home: {
