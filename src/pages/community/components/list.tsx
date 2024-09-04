@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { SetStateAction, useState } from 'react';
+import axios from '@api/forumAxios';
 import { device } from '@styles/breakpoints';
-import axios from 'axios';
 import styled, { css } from 'styled-components';
 import { TGuestBook } from '..';
 import { formatContentWithLinks } from '../utils/format-content-with-links';

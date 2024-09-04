@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const forumInstance = axios.create({
-  baseURL: 'https://7ce0-175-117-199-226.ngrok-free.app/api',
+  baseURL: import.meta.env.VITE_FORUM_API_BASE_URL,
   headers: {
     'Access-Control-Allow-Credentials': true,
     'ngrok-skip-browser-warning': true,
