@@ -4,7 +4,6 @@ import { device } from '@styles/breakpoints';
 import axios from 'axios';
 import styled, { css } from 'styled-components';
 import { TGuestBook } from '..';
-import { baseURL } from '../utils/constant';
 import { formatContentWithLinks } from '../utils/format-content-with-links';
 
 interface TListPops {
@@ -19,13 +18,13 @@ const List = ({ data, setUpdateUI }: TListPops) => {
   const [updateId, setUpdateId] = useState<string | null>(null);
 
   const removeTask = () => {
-    axios.delete(`${baseURL}/delete/${_id}`).then(() => {
+    axios.delete(`/delete/${_id}`).then(() => {
       setUpdateUI((prev) => !prev);
     });
   };
 
   const updateTask = () => {
-    axios.put(`${baseURL}/update/${updateId}`, { content: contentInput, name: nameInput }).then(() => {
+    axios.put(`/update/${updateId}`, { content: contentInput, name: nameInput }).then(() => {
       setUpdateUI((prev) => !prev);
       setUpdateId(null);
     });
@@ -36,8 +35,6 @@ const List = ({ data, setUpdateUI }: TListPops) => {
     setContentInput(content);
     setUpdateId(id);
   };
-
-  console.log(formatContentWithLinks(data.content));
 
   return (
     <S.Container>
@@ -51,9 +48,8 @@ const List = ({ data, setUpdateUI }: TListPops) => {
             ) : (
               <S.Name>{name}</S.Name>
             )}
-            {/* <S.TimeStamp>{createdAt.slice(0, 10)}</S.TimeStamp> */}
             <S.TimeStamp>
-              {new Date(data.createdAt)
+              {new Date(createdAt)
                 .toLocaleString('ko-KR', {
                   year: 'numeric',
                   month: 'numeric',

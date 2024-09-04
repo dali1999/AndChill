@@ -9,7 +9,6 @@ export interface TAxiosError {
 const instance = axios.create({
   baseURL: 'https://api.themoviedb.org/3/',
   timeout: 5000,
-  //   withCredentials: true,
 });
 
 instance.interceptors.request.use(

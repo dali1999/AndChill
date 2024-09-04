@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
+import axios from '@api/forumAxios';
 import { MasonryGrid } from '@egjs/react-grid';
 import usePageWidth from '@hooks/use-page-width';
 import { device, size } from '@styles/breakpoints';
-import axios from 'axios';
 import styled, { css } from 'styled-components';
 import List from './components/list';
 import ProfilePicker from './components/profile-picker';
-import { baseURL, dicebearURL } from './utils/constant';
+import { dicebearURL } from './utils/constant';
 
 export interface TGuestBook {
   _id: string;
@@ -19,7 +19,7 @@ export interface TGuestBook {
 const Community = () => {
   const [input, setInput] = useState('');
   const [name, setName] = useState('');
-  const [contents, setTasks] = useState<TGuestBook[]>([]);
+  const [contents, setContents] = useState<TGuestBook[]>([]);
   const [profile, setProfile] = useState(`${dicebearURL}?seed=Trigger&backgroundColor=b6e3f4`);
   const [updateUI, setUpdateUI] = useState(false);
   const [pickerClicked, setPickerClicked] = useState(false);
@@ -27,13 +27,13 @@ const Community = () => {
   const masonryColumn = pageWidth <= size.mobile ? 1 : pageWidth <= size.tablet ? 2 : 3;
 
   useEffect(() => {
-    axios.get(`${baseURL}/get`).then((res) => {
-      setTasks(res.data);
+    axios.get('/get').then((res) => {
+      setContents(res.data);
     });
   }, [updateUI]);
 
   const addTask = () => {
-    axios.post(`${baseURL}/save`, { content: input, name: name, profileImage: profile }).then(() => {
+    axios.post('/save', { content: input, name: name, profileImage: profile }).then(() => {
       setUpdateUI((prev) => !prev);
       setInput('');
       setName('');
