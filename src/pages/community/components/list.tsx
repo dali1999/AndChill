@@ -5,6 +5,7 @@ import { device } from '@styles/breakpoints';
 import styled, { css } from 'styled-components';
 import { TGuestBook } from '..';
 import { formatContentWithLinks } from '../utils/format-content-with-links';
+import { getFormattedTimeStamp } from '../utils/get-formatted-timestamp';
 
 interface TListPops {
   data: TGuestBook;
@@ -14,70 +15,103 @@ interface TListPops {
 const List = ({ data, setUpdateUI }: TListPops) => {
   const { _id, name, content, createdAt, profileImage } = data;
   const [nameInput, setNameInput] = useState('');
+  const [passwordInput, setPasswordInput] = useState('');
   const [contentInput, setContentInput] = useState('');
   const [updateId, setUpdateId] = useState<string | null>(null);
+  const [passwordCheck, setPasswordCheck] = useState(false);
+  const [deleteModeActive, setDeleteModeActive] = useState(false);
 
-  const removeTask = () => {
+  const removeBook = () => {
     axios.delete(`/delete/${_id}`).then(() => {
       setUpdateUI((prev) => !prev);
+      setPasswordCheck(false);
+      setDeleteModeActive(false);
     });
   };
 
-  const updateTask = () => {
+  const updateBook = () => {
     axios.put(`/update/${updateId}`, { content: contentInput, name: nameInput }).then(() => {
       setUpdateUI((prev) => !prev);
       setUpdateId(null);
+      setPasswordCheck(false);
     });
   };
 
+  const checkPassword = () => {
+    axios
+      .post(`/checkpassword/${updateId}`, { password: passwordInput })
+      .then(() => {
+        if (deleteModeActive) {
+          removeBook();
+        } else {
+          setPasswordCheck(true);
+        }
+      })
+      .catch(() => {
+        alert('비밀번호가 일치하지 않습니다!');
+        setPasswordCheck(false);
+      });
+  };
+
   const updateMode = (id: string, name: string) => {
+    setUpdateId(id);
     setNameInput(name);
     setContentInput(content);
+    setDeleteModeActive(false);
+  };
+
+  const initiateDelete = (id: string) => {
     setUpdateId(id);
+    setDeleteModeActive(true);
+    setPasswordCheck(false);
   };
 
   return (
     <S.Container>
-      <></>
       <S.Header>
         <S.NameWrapper>
           <S.ProfileImage src={profileImage} />
           <div>
-            {updateId === _id ? (
+            {updateId === _id && passwordCheck ? (
               <S.NameInput value={nameInput} onChange={(e) => setNameInput(e.target.value)} />
             ) : (
               <S.Name>{name}</S.Name>
             )}
-            <S.TimeStamp>
-              {new Date(createdAt)
-                .toLocaleString('ko-KR', {
-                  year: 'numeric',
-                  month: 'numeric',
-                  day: 'numeric',
-                  hour: '2-digit',
-                  minute: '2-digit',
-                  hour12: false,
-                })
-                .replace(/(\d{4})\/(\d{1,2})\/(\d{1,2})/, '$1.$2.$3')
-                .replace(',', ' ')
-                .replace(/(\d{2}):(\d{2})/, ' $1:$2')}
-            </S.TimeStamp>
+            <S.TimeStamp>{getFormattedTimeStamp(createdAt)}</S.TimeStamp>
           </div>
         </S.NameWrapper>
 
         <S.ButtonWrapper>
           {updateId === _id ? (
-            <button onClick={updateTask}>완료</button>
+            passwordCheck ? (
+              <>
+                <button onClick={updateBook}>완료</button> / <button onClick={() => setUpdateId(null)}>취소</button>
+              </>
+            ) : (
+              <S.PasswordCheckWrapper>
+                <input
+                  type="password"
+                  value={passwordInput}
+                  onChange={(e) => setPasswordInput(e.target.value)}
+                  placeholder="비밀번호 입력"
+                />
+                <div>
+                  <button onClick={checkPassword}>확인</button> /{' '}
+                  <button onClick={() => setUpdateId(null)}>취소</button>
+                </div>
+              </S.PasswordCheckWrapper>
+            )
           ) : (
             <>
-              <button onClick={() => updateMode(_id, name)}>수정</button> / <button onClick={removeTask}>삭제</button>
+              <button onClick={() => updateMode(_id, name)}>수정</button> /{' '}
+              <button onClick={() => initiateDelete(_id)}>삭제</button>
             </>
           )}
         </S.ButtonWrapper>
       </S.Header>
 
       <S.Content>
-        {updateId === _id ? (
+        {updateId === _id && passwordCheck ? (
           <S.ContentInput value={contentInput} onChange={(e) => setContentInput(e.target.value)} />
         ) : (
           formatContentWithLinks(data.content)
@@ -102,6 +136,7 @@ export const Input = css`
 
 const S = {
   Container: styled.li`
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: 16px;
@@ -157,6 +192,21 @@ const S = {
       &:hover {
         color: var(--gray02);
       }
+    }
+  `,
+
+  PasswordCheckWrapper: styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    position: absolute;
+    gap: 4px;
+    top: 20px;
+    right: 20px;
+    input {
+      ${Input}
+      width: 130px;
+      height: 24px;
     }
   `,
 

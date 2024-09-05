@@ -12,17 +12,21 @@ export interface TGuestBook {
   _id: string;
   content: string;
   name: string;
+  password: string;
   profileImage: string;
   createdAt: string;
 }
 
 const Community = () => {
-  const [input, setInput] = useState('');
+  const [content, setContent] = useState('');
   const [name, setName] = useState('');
-  const [contents, setContents] = useState<TGuestBook[]>([]);
+  const [password, setPassword] = useState('');
   const [profile, setProfile] = useState(`${dicebearURL}?seed=Trigger&backgroundColor=b6e3f4`);
+
+  const [contents, setContents] = useState<TGuestBook[]>([]);
   const [updateUI, setUpdateUI] = useState(false);
   const [pickerClicked, setPickerClicked] = useState(false);
+
   const pageWidth = usePageWidth();
   const masonryColumn = pageWidth <= size.mobile ? 1 : pageWidth <= size.tablet ? 2 : 3;
 
@@ -32,11 +36,12 @@ const Community = () => {
     });
   }, [updateUI]);
 
-  const addTask = () => {
-    axios.post('/save', { content: input, name: name, profileImage: profile }).then(() => {
+  const addBook = () => {
+    axios.post('/save', { content: content, name: name, password: password, profileImage: profile }).then(() => {
       setUpdateUI((prev) => !prev);
-      setInput('');
+      setContent('');
       setName('');
+      setPassword('');
     });
   };
 
@@ -47,12 +52,23 @@ const Community = () => {
         <S.FormHeader>
           <S.ProfileImage src={profile} onClick={() => setPickerClicked((prev) => !prev)} />
           <S.NameInput type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="닉네임" />
-          {/* <S.PasswordInput type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="비밀번호" /> */}
+          <S.PasswordInput
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="비밀번호"
+          />
         </S.FormHeader>
+
         <S.Description>🎞 영화 상세정보 링크를 복사해 영화를 공유해 보세요 🎞</S.Description>
+
         <S.TextInputWrapper>
-          <S.TextInput value={input} onChange={(e) => setInput(e.target.value)} placeholder="내용을 입력해 주세요" />
-          <S.SubmitButton onClick={addTask} disabled={!input || !name}>
+          <S.TextInput
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            placeholder="내용을 입력해 주세요"
+          />
+          <S.SubmitButton onClick={addBook} disabled={!content || !name || !password}>
             완료
           </S.SubmitButton>
         </S.TextInputWrapper>
@@ -164,6 +180,10 @@ const S = {
     font-size: 15px;
     border-radius: 5px;
     width: 60px;
+    &:disabled {
+      opacity: 0.4;
+      cursor: default;
+    }
   `,
 
   GuestBookList: styled.ul`

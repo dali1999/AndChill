@@ -51,8 +51,8 @@ export default ProfilePicker;
 
 const S = {
   Container: styled.div`
-    position: absolute;
-    top: 80px;
+    position: fixed;
+    top: 146px;
     left: 4%;
     z-index: 200;
     width: 240px;
@@ -67,7 +67,7 @@ const S = {
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 
     @media ${device.mobile} {
-      top: 100px;
+      top: 170px;
       left: 2%;
     }
   `,
