@@ -6,6 +6,7 @@ import {
   usePeopleSearchResultsQuery,
 } from '@hooks/react-query/use-query-movie-search';
 import MovieItem from '@pages/home/components/movie-list/movie-item';
+import MetaTag from '@pages/SEOMetaTag';
 import { useRegionStore } from '@stores/region';
 import { fadeIn } from '@styles/animations';
 import { device, size } from '@styles/breakpoints';
@@ -99,50 +100,56 @@ const SearchResults = () => {
   }, [movieData, collectionData, peopleData, isFetching]);
 
   return (
-    <S.Container>
-      <S.Title>
-        <S.SearchQuery>{searchQuery}</S.SearchQuery>
-        <S.TitleText> {t('search.search_results')}</S.TitleText>
-      </S.Title>
+    <>
+      <MetaTag
+        title={`'${searchQuery}' 검색 결과`}
+        description="검색어를 통해 영화, 시리즈, 영화 관련 인물들을 검색할 수 있습니다."
+      />
+      <S.Container>
+        <S.Title>
+          <S.SearchQuery>{searchQuery}</S.SearchQuery>
+          <S.TitleText> {t('search.search_results')}</S.TitleText>
+        </S.Title>
 
-      <CategoryNavigationButton activeSection={activeSection} setActiveSection={setActiveSection} />
+        <CategoryNavigationButton activeSection={activeSection} setActiveSection={setActiveSection} />
 
-      <S.SearchResultsWrapper>
-        {activeSection === 'movies' && (
-          <SearchResultsSection
-            title={t(`search.${activeSection}`)}
-            isLoading={isMovieLoading}
-            data={movieData}
-            setPage={setMoviePage}
-            itemWidth={movieItemWidth}
-          >
-            {movieData?.results.map((movie) => <MovieItem key={movie.id} data={movie} />)}
-          </SearchResultsSection>
-        )}
-        {activeSection === 'collections' && (
-          <SearchResultsSection
-            title={t(`search.${activeSection}`)}
-            isLoading={isCollectionLoading}
-            data={collectionData}
-            setPage={setCollectionPage}
-            itemWidth={350}
-          >
-            {collectionData?.results.map((collection) => <CollectionItem key={collection.id} data={collection} />)}
-          </SearchResultsSection>
-        )}
-        {activeSection === 'people' && (
-          <SearchResultsSection
-            title={t(`search.${activeSection}`)}
-            isLoading={isPeopleLoading}
-            data={peopleData}
-            setPage={setPeoplePage}
-            itemWidth={230}
-          >
-            {peopleData?.results.map((people) => <PeopleItem key={people.id} data={people} />)}
-          </SearchResultsSection>
-        )}
-      </S.SearchResultsWrapper>
-    </S.Container>
+        <S.SearchResultsWrapper>
+          {activeSection === 'movies' && (
+            <SearchResultsSection
+              title={t(`search.${activeSection}`)}
+              isLoading={isMovieLoading}
+              data={movieData}
+              setPage={setMoviePage}
+              itemWidth={movieItemWidth}
+            >
+              {movieData?.results.map((movie) => <MovieItem key={movie.id} data={movie} />)}
+            </SearchResultsSection>
+          )}
+          {activeSection === 'collections' && (
+            <SearchResultsSection
+              title={t(`search.${activeSection}`)}
+              isLoading={isCollectionLoading}
+              data={collectionData}
+              setPage={setCollectionPage}
+              itemWidth={350}
+            >
+              {collectionData?.results.map((collection) => <CollectionItem key={collection.id} data={collection} />)}
+            </SearchResultsSection>
+          )}
+          {activeSection === 'people' && (
+            <SearchResultsSection
+              title={t(`search.${activeSection}`)}
+              isLoading={isPeopleLoading}
+              data={peopleData}
+              setPage={setPeoplePage}
+              itemWidth={230}
+            >
+              {peopleData?.results.map((people) => <PeopleItem key={people.id} data={people} />)}
+            </SearchResultsSection>
+          )}
+        </S.SearchResultsWrapper>
+      </S.Container>
+    </>
   );
 };
 

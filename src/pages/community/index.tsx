@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from '@api/forumAxios';
 import { MasonryGrid } from '@egjs/react-grid';
 import usePageWidth from '@hooks/use-page-width';
+import MetaTag from '@pages/SEOMetaTag';
 import { device, size } from '@styles/breakpoints';
 import styled, { css } from 'styled-components';
 import List from './components/list';
@@ -46,42 +47,48 @@ const Community = () => {
   };
 
   return (
-    <S.Container>
-      {pickerClicked && <ProfilePicker setProfile={setProfile} setPickerClicked={setPickerClicked} />}
-      <S.Form>
-        <S.FormHeader>
-          <S.ProfileImage src={profile} onClick={() => setPickerClicked((prev) => !prev)} />
-          <S.NameInput type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="닉네임" />
-          <S.PasswordInput
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="비밀번호"
-          />
-        </S.FormHeader>
+    <>
+      <MetaTag
+        title="Andchil - 광장"
+        description="자유롭게 글을 남겨보세요. 영화 상세정보 링크를 복사해서 여러 사람들에게 영화를 공유할 수도 있습니다."
+      />
+      <S.Container>
+        {pickerClicked && <ProfilePicker setProfile={setProfile} setPickerClicked={setPickerClicked} />}
+        <S.Form>
+          <S.FormHeader>
+            <S.ProfileImage src={profile} onClick={() => setPickerClicked((prev) => !prev)} />
+            <S.NameInput type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="닉네임" />
+            <S.PasswordInput
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="비밀번호"
+            />
+          </S.FormHeader>
 
-        <S.Description>🎞 영화 상세정보 링크를 복사해 영화를 공유해 보세요 🎞</S.Description>
+          <S.Description>🎞 영화 상세정보 링크를 복사해 영화를 공유해 보세요 🎞</S.Description>
 
-        <S.TextInputWrapper>
-          <S.TextInput
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            placeholder="내용을 입력해 주세요"
-          />
-          <S.SubmitButton onClick={addBook} disabled={!content || !name || !password}>
-            완료
-          </S.SubmitButton>
-        </S.TextInputWrapper>
-      </S.Form>
+          <S.TextInputWrapper>
+            <S.TextInput
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              placeholder="내용을 입력해 주세요"
+            />
+            <S.SubmitButton onClick={addBook} disabled={!content || !name || !password}>
+              완료
+            </S.SubmitButton>
+          </S.TextInputWrapper>
+        </S.Form>
 
-      <S.MasonryWrapper>
-        <S.StyledMasonry gap={14} column={masonryColumn}>
-          {contents.map((content) => (
-            <List key={content._id} data={content} setUpdateUI={setUpdateUI} />
-          ))}
-        </S.StyledMasonry>
-      </S.MasonryWrapper>
-    </S.Container>
+        <S.MasonryWrapper>
+          <S.StyledMasonry gap={14} column={masonryColumn}>
+            {contents.map((content) => (
+              <List key={content._id} data={content} setUpdateUI={setUpdateUI} />
+            ))}
+          </S.StyledMasonry>
+        </S.MasonryWrapper>
+      </S.Container>
+    </>
   );
 };
 

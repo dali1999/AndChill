@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import MovieListSkeleton from '@components/skeleton/movie-list-skeleton';
 import { useMovieDiscoverResultsInfiniteQuery } from '@hooks/react-query/use-query-discover';
 import MovieItem from '@pages/home/components/movie-list/movie-item';
+import MetaTag from '@pages/SEOMetaTag';
 import { useRegionStore } from '@stores/region';
 import { device } from '@styles/breakpoints';
 import { getLanguageByCountry } from '@utils/get-region-language';
@@ -77,32 +78,38 @@ const Discover = () => {
   }, [lang]);
 
   return (
-    <S.Container>
-      <S.SelectSectionWrapper>
-        <RegionSelect lang={lang} selectedRegion={selectedRegionTemp} setSelectedRegion={setSelectedRegionTemp} />
-        <GenreSelect lang={lang} selectedGenreId={selectedGenreIdTemp} setSelectedGenreId={setSelectedGenreIdTemp} />
-        <SortSelect selectedSort={selectedSortTemp} setSelectedSort={setSelectedSortTemp} />
-      </S.SelectSectionWrapper>
+    <>
+      <MetaTag
+        title="Andchil - 영화 탐색"
+        description="국가, 장르 별 영화들을 원하는 정렬 방식에 따라 탐색해 보세요."
+      />
+      <S.Container>
+        <S.SelectSectionWrapper>
+          <RegionSelect lang={lang} selectedRegion={selectedRegionTemp} setSelectedRegion={setSelectedRegionTemp} />
+          <GenreSelect lang={lang} selectedGenreId={selectedGenreIdTemp} setSelectedGenreId={setSelectedGenreIdTemp} />
+          <SortSelect selectedSort={selectedSortTemp} setSelectedSort={setSelectedSortTemp} />
+        </S.SelectSectionWrapper>
 
-      <S.DiscoverButton onClick={handleSearch}>{t('discover.button_text')}</S.DiscoverButton>
+        <S.DiscoverButton onClick={handleSearch}>{t('discover.button_text')}</S.DiscoverButton>
 
-      {isLoading ? (
-        <MovieListSkeleton height={360} />
-      ) : discoveredMovieData?.pages[0].total_results === 0 ? (
-        <MovieListSkeleton text={t('discover.nodata')} height={360} />
-      ) : (
-        <S.DiscoveredListWrapper>
-          <S.DiscoveredList>
-            {discoveredMovieData?.pages.flatMap((page) =>
-              page.results.map((movie) => <MovieItem key={movie.id} data={movie} />),
-            )}
-          </S.DiscoveredList>
-        </S.DiscoveredListWrapper>
-      )}
+        {isLoading ? (
+          <MovieListSkeleton height={360} />
+        ) : discoveredMovieData?.pages[0].total_results === 0 ? (
+          <MovieListSkeleton text={t('discover.nodata')} height={360} />
+        ) : (
+          <S.DiscoveredListWrapper>
+            <S.DiscoveredList>
+              {discoveredMovieData?.pages.flatMap((page) =>
+                page.results.map((movie) => <MovieItem key={movie.id} data={movie} />),
+              )}
+            </S.DiscoveredList>
+          </S.DiscoveredListWrapper>
+        )}
 
-      <div ref={loadMoreRef} />
-      {isFetchingNextPage && <MovieListSkeleton height={160} />}
-    </S.Container>
+        <div ref={loadMoreRef} />
+        {isFetchingNextPage && <MovieListSkeleton height={160} />}
+      </S.Container>
+    </>
   );
 };
 

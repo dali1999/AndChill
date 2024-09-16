@@ -14,6 +14,7 @@ import MovieLogoImage from '@pages/movie-details/components/movie-logo-image';
 import MovieSecondaryDetails from '@pages/movie-details/components/movie-secondary-info';
 import MovieSites from '@pages/movie-details/components/movie-sites';
 import MovieVideos from '@pages/movie-details/components/movie-videos';
+import MetaTag from '@pages/SEOMetaTag';
 import { useRegionStore } from '@stores/region';
 import { fadeIn } from '@styles/animations';
 import { device } from '@styles/breakpoints';
@@ -68,28 +69,36 @@ const MovieDetails = () => {
   }, [colorImageURL, movieImage?.file_path]);
 
   return (
-    <S.Container $backgroundColor={backgroundColor}>
-      {isFetching ? (
-        <MovieDetailsSkeleton />
-      ) : (
-        <>
-          {movieImagesData && <MovieLogoImage data={movieImagesData} />}
-          <S.MovieDetails>
-            {movieDetailsData && directors && <MovieInfo data={movieDetailsData} directors={directors} lang={lang} />}
-            <S.BottomSection>
-              <S.BottomLeftSection>
-                {movieCreditsData && <MovieCredits data={movieCreditsData} />}
-                {movieSitesData && <MovieSites data={movieSitesData} />}
-                {movieVideosData && <MovieVideos data={movieVideosData} />}
-                {movieImagesData && <MovieImages data={movieImagesData} />}
-                {movieRecommendationsData && <MovieSimilar data={movieRecommendationsData} />}
-              </S.BottomLeftSection>
-              {movieDetailsData && <MovieSecondaryDetails data={movieDetailsData} />}
-            </S.BottomSection>
-          </S.MovieDetails>
-        </>
+    <>
+      {movieDetailsData && (
+        <MetaTag
+          title={`${movieDetailsData.title}`}
+          description={`'${movieDetailsData.title}' 영화 상세 정보 페이지 입니다. 상세: ${movieDetailsData.overview}`}
+        />
       )}
-    </S.Container>
+      <S.Container $backgroundColor={backgroundColor}>
+        {isFetching ? (
+          <MovieDetailsSkeleton />
+        ) : (
+          <>
+            {movieImagesData && <MovieLogoImage data={movieImagesData} />}
+            <S.MovieDetails>
+              {movieDetailsData && directors && <MovieInfo data={movieDetailsData} directors={directors} lang={lang} />}
+              <S.BottomSection>
+                <S.BottomLeftSection>
+                  {movieCreditsData && <MovieCredits data={movieCreditsData} />}
+                  {movieSitesData && <MovieSites data={movieSitesData} />}
+                  {movieVideosData && <MovieVideos data={movieVideosData} />}
+                  {movieImagesData && <MovieImages data={movieImagesData} />}
+                  {movieRecommendationsData && <MovieSimilar data={movieRecommendationsData} />}
+                </S.BottomLeftSection>
+                {movieDetailsData && <MovieSecondaryDetails data={movieDetailsData} />}
+              </S.BottomSection>
+            </S.MovieDetails>
+          </>
+        )}
+      </S.Container>
+    </>
   );
 };
 
