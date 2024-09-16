@@ -53,13 +53,13 @@ const MovieListSection = ({ title, trendingMovieData, isTrendingMovieLoading }: 
   return (
     <S.Container>
       <S.SectionTitle>{title || genreNamesStr}</S.SectionTitle>
-      {/* {isLoading ? (
+      {isLoading ? (
         <MovieListSkeleton />
       ) : length === 0 ? (
         <MovieListSkeleton text={t('home.movielist_nodata')} />
-      ) : ( */}
-      <MovieList data={movieData?.results} />
-      {/* )} */}
+      ) : (
+        <MovieList data={movieData?.results} />
+      )}
     </S.Container>
   );
 };
