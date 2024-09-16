@@ -4,6 +4,7 @@ import {
   usePeopleDetailsQuery,
   usePeopleImagesQuery,
 } from '@hooks/react-query/use-query-people';
+import MetaTag from '@pages/SEOMetaTag';
 import { useRegionStore } from '@stores/region';
 import { device } from '@styles/breakpoints';
 import { useParams } from 'react-router-dom';
@@ -23,17 +24,22 @@ const PeopleDetails = () => {
 
   const isFetching = isDetailsLoading || isImagesLoading || isCreditsLoading;
   return (
-    <S.Container>
-      {isFetching ? (
-        <MovieListSkeleton />
-      ) : (
-        <>
-          {detailsData && <PeopleInfo data={detailsData} lang={lang} />}
-          {creditsData && <PeopleCredits data={creditsData} />}
-          {imagesData && <PeopleImages data={imagesData} />}
-        </>
+    <>
+      {detailsData && (
+        <MetaTag title={`${detailsData.name}`} description={`'${detailsData.name}' 인물의 상세 정보 페이지 입니다. `} />
       )}
-    </S.Container>
+      <S.Container>
+        {isFetching ? (
+          <MovieListSkeleton />
+        ) : (
+          <>
+            {detailsData && <PeopleInfo data={detailsData} lang={lang} />}
+            {creditsData && <PeopleCredits data={creditsData} />}
+            {imagesData && <PeopleImages data={imagesData} />}
+          </>
+        )}
+      </S.Container>
+    </>
   );
 };
 

@@ -1,8 +1,21 @@
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
+import compression from 'vite-plugin-compression';
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), compression({ algorithm: 'gzip' }), compression({ algorithm: 'brotliCompress', ext: '.br' })],
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: (id) => {
+          if (id.indexOf('node_modules') !== -1) {
+            const module = id.split('node_modules/').pop().split('/')[0];
+            return `vendor-${module}`;
+          }
+        },
+      },
+    },
+  },
   resolve: {
     alias: [
       { find: '@api', replacement: '/src/api' },

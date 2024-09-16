@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { TMovieListsItem } from '@api/movie-lists/movie-lists-request.type';
 import CarouselButton, { Button } from '@components/carousel/carousel-button';
 import { calculateGroups } from '@pages/home/utils/calculate-groups';
@@ -21,7 +21,7 @@ const MovieList = ({ data }: TMovieListProps) => {
   const movieListRef = useRef<HTMLUListElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const length = data?.length || 0;
-  const groups = calculateGroups(length, perSlide);
+  const groups = useMemo(() => calculateGroups(length, perSlide), [length, perSlide]);
 
   useEffect(() => {
     setCurrentIndex(0);

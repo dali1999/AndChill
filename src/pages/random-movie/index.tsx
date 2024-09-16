@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import infoIcon from '@assets/icons/info.svg';
+import MetaTag from '@pages/SEOMetaTag';
 import { device } from '@styles/breakpoints';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
@@ -10,17 +11,23 @@ const RandomMovie = () => {
   const { t } = useTranslation();
   const [hovered, setHovered] = useState(false);
   return (
-    <S.Container>
-      <S.TitleWrapper>
-        <S.Title>{t('random_movie.title')}</S.Title>
-        <S.InfoWrapper>
-          <S.InfoIcon src={infoIcon} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)} />
-          {hovered && <CardsInfoModal />}
-        </S.InfoWrapper>
-      </S.TitleWrapper>
-      <Shuffle />
-      <S.CardsBackground></S.CardsBackground>
-    </S.Container>
+    <>
+      <MetaTag
+        title="AndChill - 랜덤 영화"
+        description="랜덤 영화를 뽑아 평소 접하지 못했던 다양한 영화들을 접해 보세요. 영화 평점에 따라 다른 등급의 카드들이 나옵니다."
+      />
+      <S.Container>
+        <S.TitleWrapper>
+          <S.Title>{t('random_movie.title')}</S.Title>
+          <S.InfoWrapper>
+            <S.InfoIcon src={infoIcon} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)} />
+            {hovered && <CardsInfoModal />}
+          </S.InfoWrapper>
+        </S.TitleWrapper>
+        <Shuffle />
+        <S.CardsBackground></S.CardsBackground>
+      </S.Container>
+    </>
   );
 };
 

@@ -29,14 +29,24 @@ const MovieItem = ({ data }: TMovieItemProps) => {
       onMouseLeave={() => setHovered(false)}
     >
       {data.poster_path ? (
-        <S.MovieImage src={getImage(IMAGE_SIZE.poster_sizes.size04, data.poster_path)} className="scale-on-hover" />
+        <S.MovieImage
+          loading="lazy"
+          src={getImage(IMAGE_SIZE.poster_sizes.size03, data.poster_path)}
+          className="scale-on-hover"
+          alt="movie poster image"
+        />
       ) : (
         <S.DummyImageWrapper>
           <S.NoPosterMovieTitle>
             <h3>{data.title}</h3>
             <p>{data.release_date?.slice(0, 4)}</p>
           </S.NoPosterMovieTitle>
-          <S.DummyImage src="/andchill-logo-300.png" className="scale-on-hover" />
+          <S.DummyImage
+            loading="lazy"
+            src="/andchill-logo-300.png"
+            className="scale-on-hover"
+            alt="no poster movie's image"
+          />
         </S.DummyImageWrapper>
       )}
       <S.MovieLightInfo $isOverview={!!data.overview}>

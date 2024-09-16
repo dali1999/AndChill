@@ -1,0 +1,3 @@
+Sitemap: https://andchill.netlify.app
+User-agent: *
+Allow: /

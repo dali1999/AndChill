@@ -4,6 +4,7 @@ import MovieListSkeleton from '@components/skeleton/movie-list-skeleton';
 import { IMAGE_SIZE } from '@constants/image-size';
 import { useMovieCollectionQuery } from '@hooks/react-query/use-query-movie-collection';
 import MovieItem from '@pages/home/components/movie-list/movie-item';
+import MetaTag from '@pages/SEOMetaTag';
 import { useRegionStore } from '@stores/region';
 import { device } from '@styles/breakpoints';
 import { getImage } from '@utils/get-image';
@@ -63,30 +64,38 @@ const MovieCollection = () => {
   }, [lang, movieCollectionData?.parts, refetch]);
 
   return (
-    <S.Container $backgroundColor={backgroundColor}>
-      <S.CollectionBanner style={{ transform: `translateY(${scrollY * 0.8}px)` }}>
-        <S.Title>{movieCollectionData?.name}</S.Title>
-        <S.CollectionImage $imageUrl={backdropURL} />
-        <S.BlurContainer $backgroundColor={backgroundColor}></S.BlurContainer>
-      </S.CollectionBanner>
-
-      {isMovieCollectionLoading ? (
-        <MovieListSkeleton height={220} />
-      ) : (
-        <S.CollectionMovieList>
-          {movieCollectionData?.parts?.map((movie) => (
-            <S.MovieItemWrapper key={movie.id}>
-              <MovieItem data={movie} />
-              {movie.id === bestMovieId && (
-                <S.BestMovieLabel>
-                  <img src={thumbIcon} alt="시리즈 베스트 영화 라벨 아이콘" />
-                </S.BestMovieLabel>
-              )}
-            </S.MovieItemWrapper>
-          ))}
-        </S.CollectionMovieList>
+    <>
+      {movieCollectionData && (
+        <MetaTag
+          title={`${movieCollectionData.name}`}
+          description={`${movieCollectionData.name}의 영화들을 모아볼 수 있는 페이지 입니다. 상세: ${movieCollectionData.overview}`}
+        />
       )}
-    </S.Container>
+      <S.Container $backgroundColor={backgroundColor}>
+        <S.CollectionBanner style={{ transform: `translateY(${scrollY * 0.8}px)` }}>
+          <S.Title>{movieCollectionData?.name}</S.Title>
+          <S.CollectionImage $imageUrl={backdropURL} />
+          <S.BlurContainer $backgroundColor={backgroundColor}></S.BlurContainer>
+        </S.CollectionBanner>
+
+        {isMovieCollectionLoading ? (
+          <MovieListSkeleton height={220} />
+        ) : (
+          <S.CollectionMovieList>
+            {movieCollectionData?.parts?.map((movie) => (
+              <S.MovieItemWrapper key={movie.id}>
+                <MovieItem data={movie} />
+                {movie.id === bestMovieId && (
+                  <S.BestMovieLabel>
+                    <img src={thumbIcon} alt="시리즈 베스트 영화 라벨 아이콘" />
+                  </S.BestMovieLabel>
+                )}
+              </S.MovieItemWrapper>
+            ))}
+          </S.CollectionMovieList>
+        )}
+      </S.Container>
+    </>
   );
 };
 

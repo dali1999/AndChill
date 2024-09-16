@@ -17,13 +17,18 @@ const UpcomingMovieItem = ({ data }: TUpcomingMovieItemProps) => {
   const navigate = useNavigate();
   const daysLeft = calculateLeftDays(data.release_date);
   const backDropImageUrl = data.backdrop_path
-    ? getImage(IMAGE_SIZE.backdrop_sizes.size02, data.backdrop_path)
+    ? getImage(IMAGE_SIZE.backdrop_sizes.size01, data.backdrop_path)
     : '/andchill-logo.png';
 
   return (
     <li onClick={() => navigate(`/movie-details/${data.id}`)}>
       <S.Container>
-        <S.MovieImage src={backDropImageUrl} className="scale-on-hover" />
+        <S.MovieImage
+          loading="lazy"
+          src={backDropImageUrl}
+          className="scale-on-hover"
+          alt="upcoming movie backdrop image"
+        />
         <S.PopularityLabel>
           <S.Popularity>{Math.round(data.popularity)} </S.Popularity>
           {t('home.upcoming_label')}
