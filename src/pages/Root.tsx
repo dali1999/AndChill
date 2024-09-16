@@ -9,7 +9,7 @@ const Root = () => {
   return (
     <S.Container>
       <ScrollToTop />
-      <GlobalStyle />
+
       <NavBar />
       <S.Main>
         <Outlet />

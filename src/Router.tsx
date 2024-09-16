@@ -1,14 +1,15 @@
 import { Suspense } from 'react';
 import * as Page from '@pages/index';
+import GlobalStyle from '@styles/global';
 import { HelmetProvider } from 'react-helmet-async';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import styled from 'styled-components';
 
-const LoadingFallback = () => <S.Container>Loading...</S.Container>;
+const LoadingFallback = () => <div />;
 
 const Router = () => {
   return (
     <BrowserRouter>
+      <GlobalStyle />
       <HelmetProvider>
         <Suspense fallback={<LoadingFallback />}>
           <Routes>
@@ -30,13 +31,3 @@ const Router = () => {
 };
 
 export default Router;
-
-const S = {
-  Container: styled.div`
-    box-sizing: border-box;
-    background-color: #07080f;
-    padding: 0;
-    margin: 0;
-    height: 100vh;
-  `,
-};
