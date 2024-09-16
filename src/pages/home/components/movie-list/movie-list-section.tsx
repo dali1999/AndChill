@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { TGenre } from '@api/genre/genre-request.type';
 import { TMovieListsFetchRes } from '@api/movie-lists/movie-lists-request.type';
 import MovieListSkeleton from '@components/skeleton/movie-list-skeleton';
@@ -46,7 +46,7 @@ const MovieListSection = ({ title, trendingMovieData, isTrendingMovieLoading }: 
     '',
   );
 
-  const movieData = trendingMovieData || randomMovieData;
+  const movieData = useMemo(() => trendingMovieData || randomMovieData, [trendingMovieData, randomMovieData]);
   const isLoading = isTrendingMovieLoading || isRandomMovieLoading;
   const length = movieData?.results.length || 0;
 

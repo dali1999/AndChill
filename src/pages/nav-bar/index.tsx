@@ -22,7 +22,7 @@ const NavBar = () => {
 
   return (
     <S.Container>
-      <S.LogoImg src="/andchill-logo-300.png" alt="로고 이미지" onClick={() => navigate('/')} />
+      <S.LogoImg src="/andchill-logo-130.png" alt="로고 이미지" onClick={() => navigate('/')} />
       <S.MenuWrapper>
         <S.MenuLists>
           {NAV_MENU.map((menu) => {
