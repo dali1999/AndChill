@@ -17,7 +17,7 @@ const UpcomingMovieItem = ({ data }: TUpcomingMovieItemProps) => {
   const navigate = useNavigate();
   const daysLeft = calculateLeftDays(data.release_date);
   const backDropImageUrl = data.backdrop_path
-    ? getImage(IMAGE_SIZE.backdrop_sizes.size02, data.backdrop_path)
+    ? getImage(IMAGE_SIZE.backdrop_sizes.size01, data.backdrop_path)
     : '/andchill-logo.png';
 
   return (

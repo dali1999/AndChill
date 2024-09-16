@@ -31,7 +31,7 @@ const MovieItem = ({ data }: TMovieItemProps) => {
       {data.poster_path ? (
         <S.MovieImage
           loading="lazy"
-          src={getImage(IMAGE_SIZE.poster_sizes.size04, data.poster_path)}
+          src={getImage(IMAGE_SIZE.poster_sizes.size03, data.poster_path)}
           className="scale-on-hover"
           alt="movie poster image"
         />
