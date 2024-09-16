@@ -28,7 +28,7 @@ const RegionSelectButton = () => {
   return (
     <S.Container>
       <S.RegionSelectButton onClick={handleSetIsOpen}>
-        <S.SelectedRegionIcon src={selectedRegionIcon} />
+        <S.SelectedRegionIcon src={selectedRegionIcon} alt="current region flag" />
       </S.RegionSelectButton>
       {isOpen && <RegionSelectModal regionData={regionsWithFlags} handleSetIsOpen={handleSetIsOpen} />}
     </S.Container>

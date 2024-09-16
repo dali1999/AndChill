@@ -34,7 +34,7 @@ const NavBar = () => {
             );
           })}
           <S.MenuItem onClick={() => navigate('/random-movie')}>
-            <img src={cardsIcon} />
+            <img src={cardsIcon} alt="랜덤 카드 페이지 링크 아이콘" />
           </S.MenuItem>
         </S.MenuLists>
         <S.SearchBar type="text" onKeyUp={handleSearchQuerySubmit} placeholder={t('nav.search_placeholder')} />

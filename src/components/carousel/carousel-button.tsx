@@ -49,8 +49,9 @@ const CarouselButton = ({
         $width={width}
         $height={height}
         $bgColor={backgroundColor}
+        title="Title"
       >
-        <img src={leftRight} />
+        <img src={leftRight} alt="carousel left icon" />
       </S.PrevButton>
       <S.NextButton
         onClick={handleNext}
@@ -62,8 +63,9 @@ const CarouselButton = ({
         $width={width}
         $height={height}
         $bgColor={backgroundColor}
+        title="Title"
       >
-        <img src={arrowRight} />
+        <img src={arrowRight} alt="carousel right icon" />
       </S.NextButton>
     </>
   );
