@@ -26,30 +26,30 @@ const UpcomingMovieList = () => {
   return (
     <S.Container>
       <S.SectionTitle>{t('home.upcoming', { flagEmoji })}</S.SectionTitle>
-      {/* {isFetching ? (
+      {isFetching ? (
         <MovieListSkeleton height={180} />
       ) : upcomingMovieData?.total_results === 0 ? (
         <MovieListSkeleton text={t('home.upcoming_nodata', { region })} height={180} />
-      ) : ( */}
-      <S.UpcomingMovieListWrapper>
-        <S.UpcomingMovieList $curIndex={currentIndex}>
-          {upcomingMovieData?.results.map((movie: TMovieListsItem) => (
-            <UpcomingMovieItem data={movie} key={movie.id} />
-          ))}
-        </S.UpcomingMovieList>
-        <CarouselButton
-          length={length}
-          currentIndex={currentIndex}
-          setCurrentIndex={setCurrentIndex}
-          perSlide={2}
-          positionTop={20}
-          positionLR={-22}
-          width={60}
-          height={180}
-          backgroundColor="var(--dark09)"
-        />
-      </S.UpcomingMovieListWrapper>
-      {/* )} */}
+      ) : (
+        <S.UpcomingMovieListWrapper>
+          <S.UpcomingMovieList $curIndex={currentIndex}>
+            {upcomingMovieData?.results.map((movie: TMovieListsItem) => (
+              <UpcomingMovieItem data={movie} key={movie.id} />
+            ))}
+          </S.UpcomingMovieList>
+          <CarouselButton
+            length={length}
+            currentIndex={currentIndex}
+            setCurrentIndex={setCurrentIndex}
+            perSlide={2}
+            positionTop={20}
+            positionLR={-22}
+            width={60}
+            height={180}
+            backgroundColor="var(--dark09)"
+          />
+        </S.UpcomingMovieListWrapper>
+      )}
     </S.Container>
   );
 };
