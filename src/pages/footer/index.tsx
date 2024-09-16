@@ -11,7 +11,7 @@ const Footer = () => {
         >
           Blog
         </a>
-        <S.GitHubLink href="https://github.com/dali1999/AndChill" target="_blank">
+        <S.GitHubLink href="https://github.com/dali1999/AndChill" target="_blank" rel="noopener noreferrer">
           <img src={githubLogo} alt="깃허브 로고" />
           GitHub
         </S.GitHubLink>

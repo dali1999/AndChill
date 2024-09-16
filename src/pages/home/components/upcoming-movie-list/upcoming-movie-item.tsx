@@ -23,7 +23,7 @@ const UpcomingMovieItem = ({ data }: TUpcomingMovieItemProps) => {
   return (
     <li onClick={() => navigate(`/movie-details/${data.id}`)}>
       <S.Container>
-        <S.MovieImage src={backDropImageUrl} className="scale-on-hover" />
+        <S.MovieImage loading="lazy" src={backDropImageUrl} className="scale-on-hover" />
         <S.PopularityLabel>
           <S.Popularity>{Math.round(data.popularity)} </S.Popularity>
           {t('home.upcoming_label')}
